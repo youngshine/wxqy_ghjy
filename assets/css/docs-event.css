@@ -1,0 +1,357 @@
+/*  msg box */
+#m {
+	filter: alpha(opacity=30);
+	-moz-opacity: 0.3; 
+	opacity: 0.3;
+	position:absolute;
+	z-index:10000;
+	background-color:none;
+}
+#lo {
+	position:absolute;
+	width:150px;
+	height:45px;
+	line-height:45px;
+	background-color:#000;
+	color:#fff;
+	text-align:center;
+	z-index:9999;
+	
+	filter: alpha(opacity=70);
+	-moz-opacity: 0.7; 
+	opacity: 0.7;
+}
+/* ends - msg box */
+
+/* float menu options */
+#selectmenu {
+	position:absolute;
+	width:120px;
+	top:60px;left:60px;
+	background-color:#000;
+	color:#fff;
+	text-align:center;
+	z-index:9999;
+}
+#selectmenu *{
+	line-height:30px;
+}
+#selectmenu ul{ 
+	text-align:left; 
+	padding:10px; 
+	margin:0px;
+	list-style:none;
+}
+
+.app-title {		
+	/* background: #9AC0CD; */
+}
+
+/* 有权限，才能新建 display:none */
+.app-page[data-page=home] .new {
+	display:block;
+}
+
+.ok {
+	color:green;
+}
+
+/* 滑动、长按删除 */
+.removeItem {
+	background:red;
+	color:#fff;
+	float:right;
+	width:60px;
+	text-align:center;
+	display:none;
+	z-index:100;
+	position:relative;
+}
+
+/* 公告、文档用 ul > li  */
+ul li span.title {
+	
+}
+ul li span.date {
+	color:#888;
+	float:right;
+} 
+
+.app-page[data-page=detail] .detail-page {
+	background: #fff;
+	max-width: 480px;
+	padding:15px 20px;
+	margin: 0px auto;
+	text-align:center;
+}
+
+
+.form-wrapper {
+	margin-top:10px;
+} 
+
+.form-wrapper .form-text {
+	margin:1px 0;
+	padding:0 15px;
+	height: 45px;
+	background:#fff;
+}
+.form-wrapper .form-text .label {
+	float: left;
+	color: #888;
+	width:50px;
+	line-height: 45px;
+}
+.form-wrapper .form-text .edit {
+	line-height: 45px;
+	display:block;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.form-wrapper .form-textarea {
+	margin:1px 0;
+	padding:10px 15px;
+	height: 80px;
+	background:#fff;
+}
+.form-wrapper .form-textarea .label {
+	float: left;
+	width: 50px;
+	color: #888;
+}
+.form-wrapper .form-textarea .edit {
+	height: 80px;
+	overflow: hidden;
+}
+
+/* 图片微信上传 */
+.form-wrapper .form-photo {
+	background:#fff;
+	padding:0px 15px;
+}
+.form-wrapper .form-photo .label {
+	//float: left;
+	line-height:45px;
+	color: #888;
+}
+/*
+.form-wrapper .photos-wrapper {
+	min-height:45px;
+	padding:0 15px;
+}
+.form-wrapper .photos-wrapper img {
+	height:45px;
+	width:45px;
+	margin:5px 5px 0 0;
+} */
+.photos-wrapper {
+	min-height:100px;
+	padding:0 15px;
+	position:relative;
+}
+
+.imgContainer,.imgUpload,.imgMinus{
+    padding:0px;
+    margin:0px;  
+}
+.imgContainer{
+	position:relative;
+	float:left;
+	height:100px;
+	width:100px;
+	margin:2px; 
+}
+.imgUpload{
+    height:100px;
+    width:100px;
+	position:relative;
+}
+/* 删除图片 */
+.imgMinus {
+	height:33px;
+    width:33px;
+    top:0px;
+    left:0px;
+    z-index:2;
+	position:absolute;
+	//display:block;
+}
+.imgPlus{
+    padding:0px;
+    margin:0px;
+    height:100px;
+    width:100px;
+	position:relative;
+}
+
+.form-wrapper .form-button {
+	padding:10px 15px;
+	background:#fff;
+}
+/*
+.form-wrapper .draft {
+	margin:10px 15px 0;
+	border:1px solid #ddd;
+}
+.form-wrapper .delete  {
+	margin:10px 15px 0;
+	border:1px solid #ddd;
+	color:red;
+}
+*/
+.form-wrapper .button-group {
+	margin:10px 15px 0;
+}
+.form-wrapper .button-group .submit {
+	float:left;
+	width:50%;
+}
+.form-wrapper .button-group .saveAsDraft {
+	width:50%;
+}
+.form-wrapper .button-group .delete {
+	width:50%;
+}
+
+
+/* 图片旋转
+<div class="polaroid rotate_left">
+<img src="/i/ballade_dream.jpg" alt="郁金香" width="284" height="213" />
+<p class="caption">上海鲜花港的郁金香，花名：Ballade Dream。</p>
+</div>
+
+<div class="polaroid rotate_right">
+<img src="/i/china_pavilion.jpg" alt="世博中国馆" width="284" height="213" />
+<p class="caption">2010年上海世博会，中国馆。</p>
+</div>
+
+body
+{
+	margin:30px;
+	background-color:#E9E9E9;
+} */
+
+div.polaroid
+{
+	width:320px;
+	height:480px;
+	padding:10px 10px 20px 10px;
+	border:1px solid #BFBFBF;
+	background-color:white;
+	/* Add box-shadow */
+	box-shadow:2px 2px 3px #aaaaaa;
+	
+	display:-webkit-box; /*使用CSS3的盒模型之流式布局*/
+	display:-moz-box;
+	display:box;
+}
+
+div.rotate_left
+{
+	float:left;
+	-ms-transform:rotate(7deg); /* IE 9 */
+	-moz-transform:rotate(7deg); /* Firefox */
+	-webkit-transform:rotate(7deg); /* Safari and Chrome */
+	-o-transform:rotate(7deg); /* Opera */
+	transform:rotate(7deg);
+}
+
+div.rotate_right
+{
+	float:left;
+	-ms-transform:rotate(-8deg); /* IE 9 */
+	-moz-transform:rotate(-8deg); /* Firefox */
+	-webkit-transform:rotate(-8deg); /* Safari and Chrome */
+	-o-transform:rotate(-8deg); /* Opera */
+	transform:rotate(-8deg);
+}
+
+
+/* css3流式布局的照片墙 
+二、给照片墙实现样式photo_wall，应用背景图片，设置照片墙的外边距，
+同时设置使用CSS3的流式布局来显示照片墙上的照片。
+如果你对CSS3的流式布局不太了解或不太熟悉，请阅读我的另一篇博文，
+相信你会精通这个特性《CSS3实战开发: 弹性盒模型之响应式WEB界面设计》
+*/
+.photo_wall{
+	background:url(bg.jpg); /*定义照片墙的默认背景*/
+	background-size:cover; /*使照片墙的背景填充照片墙*/
+ 
+	width:1200px; /*设置照片墙的宽高*/
+	height:800px;
+ 
+	margin:40px auto; /*设置照片墙的外边距*/
+ 
+	display:-webkit-box; /*使用CSS3的盒模型之流式布局*/
+	display:-moz-box;
+	display:box;
+ 
+	-webkit-box-align:center; /*定义盒模型内部元素在垂直方向上居于中间位置*/
+	-moz-box-align:center;
+	box-align:center;
+ 
+	-webkit-box-pack:center; /*定义盒模型内部元素在水平方向上居于中间位置*/
+	-moz-box-pack:center;
+	box-pack:center;
+}
+/*
+三、给照片应用样式photo_frame，设置照片的留白，同时这只照片内文字的大小，以及给照片增加阴影效果。
+复制代码 */
+.photo_wall .photo_frame{
+	text-align:center; /*照片内的文字都是居中显示*/
+ 
+	padding:10px 10px 30px 10px; /*定义照片的内补白*/
+ 
+	/*设置照片的背景颜色*/
+	font-size:.8em; /*照片内文字的大小*/
+ 
+	box-shadow:.2em .2em .8em #130c0e; /*给照片添加阴影效果，富有立体感*/
+}
+ 
+.photo_frame p{
+	margin-top:10px; /*设置照片内显示文字段落的外上边距*/
+}
+/*
+到目前为止，照片的基本样子已经出来了，接着应用我们今天所学的内容，给照片添加旋转效果吧，这样将使照片更富层次感，且更加个性化。
+ 
+四、分别给照片应用样式photo01，photo02，photo03，每张照片以自己设定的旋转基点进行旋转操作。代码如下：
+ */
+.photo01{
+	-webkit-transform-origin:right bottom; /*定义照片1的旋转基点为 右下角*/
+	-moz-transform-origin:right bottom;
+	transform-origin:right bottom;
+ 
+	-webkit-transform:rotate(10deg); /*以基点为轴，在2D空间内顺时针旋转10度*/
+	-moz-transform:rotate(10deg);
+	-o-transform:rotate(10deg);
+	transform:rotate(10deg);
+}
+ 
+.photo02{
+	-webkit-transform-origin:right bottom; /*定义照片2的旋转基点为 右下角*/
+	-moz-transform-origin:right bottom;
+	transform-origin:right bottom;
+ 
+	-webkit-transform:rotate(-20deg); /*以基点为轴，在2D空间内逆时针旋转20度*/
+	-moz-transform:rotate(-20deg);
+	-o-transform:rotate(-20deg);
+	transform:rotate(-20deg);
+}
+ 
+.photo03{
+	-webkit-transform-origin:left top; /*定义照片3的旋转基点为 左上角*/
+	-moz-transform-origin:left top;
+	transform-origin:left top;
+ 
+	-webkit-transform:rotate(40deg); /*以基点为轴，在2D空间内顺时针旋转40度*/
+	-moz-transform:rotate(40deg);
+	-o-transform:rotate(40deg);
+	transform:rotate(40deg);
+}
+
+
+
+
+

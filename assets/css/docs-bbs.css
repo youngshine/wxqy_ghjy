@@ -1,0 +1,120 @@
+/*  msg box */
+#m {
+	filter: alpha(opacity=30);
+	-moz-opacity: 0.3; 
+	opacity: 0.3;
+	position:absolute;
+	z-index:10000;
+	background-color:none;
+}
+#lo {
+	position:absolute;
+	width:150px;
+	height:45px;
+	line-height:45px;
+	background-color:#000;
+	color:#fff;
+	text-align:center;
+	z-index:9999;
+}
+/* ends - msg box */
+
+/* 删除列表项  */
+.removeItem {
+	background:red;
+	color:#fff;
+	float:right;
+	width:60px;
+	line-height:30px;
+	text-align:center;
+	display:none;
+	z-index:100;
+	position:relative;
+}
+
+.app-page[data-page=home] .list .listItem {
+	background: #fff;
+	padding: 10px 15px;
+	border-bottom: 1px solid #ddd;
+
+}
+.app-page[data-page=home] .list .listItem .title {
+	 display:block;
+	 text-overflow:ellipsis;
+	 overflow:hidden;
+	 white-space:nowrap;
+}
+.app-page[data-page=home] .list .listItem .subtitle{
+	 color: #888;
+	 font-size:0.9em;
+}
+
+.app-page[data-page=detail] .title-wrapper {
+	background:none;
+	padding:15px;
+	border-top:2px solid #fff;
+	border-bottom:2px solid #fff;
+	text-align:center;
+/*
+    -webkit-box-shadow: 3px 3px 3px;
+    -moz-box-shadow: 3px 3px 3px;
+    box-shadow: 3px 3px 3px; */
+}
+.app-page[data-page=detail] .list {
+	margin:5px 0;
+}
+.app-page[data-page=detail] .list .listItem {
+	background: #fcfcfc;
+	padding: 10px 15px;
+	border: 0px solid #fff;
+	margin:5px;
+	border-radius:15px;
+	-moz-border-radius:15px; /* Old Firefox */
+}
+.app-page[data-page=detail] .list .listItem .subtitle{
+	 color: #888;
+	 font-size:0.9em;
+	 text-align:left;
+}
+
+/* 滑动删除 */
+.app-page[data-page=detail] .list .listItem .removeItem {
+	background:red;
+	color:#fff;
+	float:right;
+	width:60px;
+	text-align:center;
+	display:none;
+	z-index:100;
+	position:relative;
+}
+
+/* div用contenteditable=true模拟textarea，根据内容自动撑开高度  */
+.textarea{
+	background:#fff;
+	min-height: 35px; 
+	max-height: 300px;
+	line-height: 35px;
+	padding:5px;
+	word-wrap: break-word;
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	/* width: 100%; 
+	//margin:20px;
+	//_height: 120px; 
+	//margin-left: auto; 
+	//margin-right: auto; 
+	//padding: 3px; 
+	//outline: 0; 
+	//border: 1px solid #a0b3d6; 
+	//font-size: 12px; 
+	//padding: 2px;
+
+	//border-color: rgba(82, 168, 236, 0.8);
+	//box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+	*/
+}
+
+
+
