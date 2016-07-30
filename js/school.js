@@ -1,27 +1,25 @@
-// 创建点名 
-// 或者已经点名过（按当天日子判断）可以补点名刚才没来的迟到
-// 下课，给点过名的发通知 
+// 管理联盟学校
 App.controller('home', function (page) {
 	var $list = $(page).find('.list'),
 		$listItem = $(page).find('.listItem').remove()	
 	
 	var params = { 
-		"teacherID": gUserID
+		"hq": 1
 	}
 	//loadData(params); 
 	//function loadData(obj){		
 		readData(function(data){
 			populateData(data)	
 			handleData( $list )
-			//records = data;
+			records = data; // all for search
 		}, params );
 	//}
 
 	function readData(callback, obj){
-		showPrompt('加载班级...');		
+		showPrompt('加载学校...');		
 		$.ajax({
-	    	url: gDataUrl + 'readClassesListByTeacher.php',
-			data: obj,
+	    	url: gDataUrl + 'readSchoolList.php',
+			//data: obj,
 			dataType: "json",
 			success: function(result){
 				hidePrompt()
@@ -29,6 +27,9 @@ App.controller('home', function (page) {
 			    //populateData(result.data)
 				callback(result.data)
 			},
+			error: function(xhr, type){
+				showPrompt('读取学校出错');	
+			}
 		});
 	}
 
@@ -38,10 +39,10 @@ App.controller('home', function (page) {
 		}
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
-			$node.find('.title').text(item.title); 
-			$node.find('.weekday').text(item.weekday);
+			$node.find('.title').text(item.schoolName); 
+			$node.find('.addr').text(item.addr);
 			//display:none
-			$node.find('.id').text(item.classID);			
+			$node.find('.id').text(item.schoolID);			
 			$list.append($node);
 		});
 	}	
@@ -49,19 +50,58 @@ App.controller('home', function (page) {
 	function handleData(list){	
 		list.find('.listItem').on({
 			click: function (e) {
-				doShow( $(this) )
+				//doShow( $(this) )
 			},	
 		})
 	}
 
 	function doShow(selectedLi){
+		//var obj = {
 		var item = {	
 			"classID": selectedLi.find('.id').text(),
+			//"teacherName": selectedLi.find('.name').text(),
 		}
 		console.log(item)
 		// 如果下面存在删除记录，用pick，否则用load
 		App.load('attendee',item) 
 	}
+	
+	// search
+	//console.log($(page).find('.app-input').text)
+    // Get HTML elements
+    var form = page.querySelector('form');
+    var input = page.querySelector('form .app-input');
+    // Updates the search parameter in web storage when a new character is added
+    // to the search input
+    input.addEventListener('keyup', function () {
+		console.log(input.value)
+		//localStorage[INPUT_KEY] = input.value;
+    });
+    // Updates the search parameter in web storage when the value of the search
+    // input is changed
+    input.addEventListener('change', function () {
+		console.log(input.value)
+		//localStorage[INPUT_KEY] = input.value;
+    });
+    // Performs search when the search input is submitted
+    form.addEventListener('submit', function (e) {
+		e.preventDefault();
+		doSearch(input.value);
+    });
+
+    function doSearch (query) {
+        // Clean up spaces from the search query
+        query = query.trim();
+  	    // Unfocus search input
+  	    input.blur();
+  	    form.blur();
+
+		var filter = records.filter(function(ele,pos){
+		    return ele.schoolName.indexOf(query) >= 0  ;
+		});
+		console.log(filter)
+		populateData(filter)
+	} 
 }); // ends controller
 
 
@@ -86,9 +126,7 @@ App.controller('attendee', function (page,request) {
 			var obj = {
 				studentName: item.studentName,
 				studentID  : item.studentID,
-				wxID       : item.wxID,
-				flag       : 1, //默认1出勤，2迟到，3旷课（请假）
-				classID    : request.classID
+				wxID       : item.wxID
 			}
 			selPeople.push(obj);
 		})
@@ -135,7 +173,7 @@ App.controller('attendee', function (page,request) {
 			"studentName": clicked.find('.id').text(),
 			"studentID": clicked.find('.id').text(), // e.target.id,
 			"wxID": clicked.find('.wxID').text() //e.target.innerText
-		} 
+		}
 		
 		var $checked = clicked.find('.checked')
 		
@@ -143,13 +181,7 @@ App.controller('attendee', function (page,request) {
 			$checked.text('✔'); //选择打勾、变色
 			clicked.css('color','#000'); //$,js this.style.color 
 			//添加选择人员到已选数组
-			//selPeople.push(obj);
-			for(var i in selPeople){
-				if(selPeople[i].studentID == obj.studentID){
-					selPeople[i].flag = 1 //出勤
-					break;  
-				}
-			}
+			selPeople.push(obj);
 		}else{
 			$checked.text('')
 			clicked.css('color','orange');
@@ -158,15 +190,14 @@ App.controller('attendee', function (page,request) {
 				//if(selected[i].name == obj.name){
 				if(selPeople[i].studentID == obj.studentID){
 					//reutrn i;//i就是下标
-					//selPeople.splice(i, 1); 
-					selPeople[i].flag = 0 //还没来上课
+					selPeople.splice(i, 1); 
 					break;  // 中断循环
 				}
 			} 
 		}
-		console.log(selPeople);
 		// 按钮状态
-		// selPeople.length > 0 ? btnOk.show() : btnOk.hide()
+		//setBtnOk(selPeople.length)
+		selPeople.length > 0 ? btnOk.show() : btnOk.hide()
 	}
 	
 	btnOk.bind('click', function () {		
@@ -202,8 +233,7 @@ App.controller('attendee', function (page,request) {
 			        var text = response.responseText;
 			        // process server response here
 					console.log(response)//JSON.parse
-					toast('班级上课点名完毕')
-					App.back('home')
+					toast('点名完毕，退出')
 			    }
 			});
 		}

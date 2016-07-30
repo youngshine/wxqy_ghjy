@@ -1,26 +1,8 @@
 
-<?php
-/*
-	require_once "script/weixinJS/jssdk-userinfo.php";
-
-	$code = $_GET["code"];
-
-	$corpid = "wx09e87ee7559bb52f";
-	$corpsecret = "PejuuyVL8COKUOWfSfaEOFnxzV9mz3yd5hQsQr2z9UmHmlXLsA2SR8ChV9Zf0-00";
-
-	$jssdk = new JSSDK($corpid, $corpsecret,$code);
-	$userId = $jssdk->getUserInfo();
-*/
-	//setcookie("userId",'ys');
-	//$userId = $_COOKIE["userId"];
-	//echo $userId;
-	//$userId = $_GET["userId"];
-?>
-
 <!DOCTYPE html>
 <html>
   <head>
-    <title>大小班级上课</title>
+    <title>联盟学校</title>
 	<meta charset="utf-8" />
 	<meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">	
@@ -58,15 +40,19 @@
 			-moz-border-radius:10px; /* Old Firefox */
 		} /* ends - msg box */
 		.list {
-			margin:5px 0;
+			margin:0px 0;
 		}
 		.list .listItem {
 			background: #fcfcfc;
 			padding: 10px 15px;
-			border: 0px solid #fff;
-			margin:5px;
-			border-radius:10px;
-			-moz-border-radius:10px; /* Old Firefox */
+			border: 1px solid #eee;
+			margin:0px;
+			border-radius:0px;
+			-moz-border-radius:0px; /* Old Firefox */
+		}
+		.list .listItem .subtitle{
+			 color: #888;
+			 font-size:0.9em;
 		}
 	</style>
   </head>
@@ -75,18 +61,21 @@
 	  
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-          <div class="app-title">大小班上课</div>
+          <div class="app-title">联盟学校</div>
       </div>
       <div class="app-content">
-    	<div class="list">
+	  <form action="">
+	    <input class="app-input no-icon-android" type="search" placeholder="Search...">
+	    <input type="submit" style="display:none">
+	  </form>
+		<div class="list">
     	  <div class="listItem">
     	    <div class="title"></div>
   			<div class="subtitle">
-  				<span>上课周期：</span>
-  				<span class="weekday"></span>
+  				<span>地址：</span>
+  				<span class="addr"></span>
     		</div>
 			<!-- 隐藏id -->
-  			<div class="userId" style="display:none;"></div>
   			<div class="id" style="display:none;"></div>		
     	  </div>
     	</div>
@@ -123,16 +112,12 @@
     <script src="src/app.min.js"></script>
 	
 	<script src="js/main.js"></script>		
-	<script src="js/teacher_class.js"></script>
-	
-	<!-- js-sdk wxSig 签名 -->
-	<script type="text/javascript" src = "http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="js/school.js"></script>
 
 	<script>
 		// 中文参数，解决乱码。location.search就无效
 		var url = decodeURI(window.location);
-		//alert(url)
-
+	
 		//采用正则表达式获取地址栏参数
 		function getQueryString(param){
 		     var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)");
@@ -146,8 +131,7 @@
 		gUserID = getQueryString("userId");
 		gUserName = getQueryString("userName")
 		gSchoolID = getQueryString("schoolID");// 扩展属性
-		//alert("学校："+gSchoolID);
-	
+
 		App.load('home');
 
 	</script>

@@ -64,8 +64,9 @@
     	  <div class="listItem">
     	    <div class="title"></div>
   			<div class="subtitle" style="color:#888;">
-  				<span>上课：</span>
-  				<span class="weekday"></span>
+  				<span>时间：</span>
+				<span class="weekday"></span>
+				<span class="endClass" style="float:right;color:red;">下课</span>
     		</div>
 			<!-- 隐藏id -->
   			<div class="userId" style="display:none;"></div>
@@ -106,9 +107,6 @@
 	
 	<script src="js/main.js"></script>		
 	<script src="js/teacher_class.js"></script>
-	
-	<!-- js-sdk wxSig 签名 -->
-	<script type="text/javascript" src = "http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 
 	<script>
 		// 中文参数，解决乱码。location.search就无效
@@ -128,8 +126,7 @@
 		gUserID = getQueryString("userId");
 		gUserName = getQueryString("userName")
 		gSchoolID = getQueryString("schoolID");// 扩展属性
-		//alert("学校："+gSchoolID);
-	
+
 		App.load('home');
 
 	</script>

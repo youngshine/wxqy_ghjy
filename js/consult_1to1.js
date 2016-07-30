@@ -1,28 +1,10 @@
-// 问题反馈论坛bbs
+// 一对一学生
 App.controller('home', function (page) {
-	// 离开页面、隐藏删除按钮if any
-	/*
-	$(page).on('appForward', function () {
-		$('.removeItem').hide();
-	}); */
-	/* 工具栏向下滑动，清零刷新, android不行？
-	$(page).find('.app-title').swipeDown(function(){
-		search.val('');	
-		//$list.empty();			
-		readData(callback??,params)
-	}); */
-	
 	var $list = $(page).find('.app-list'),
 		$listItem = $(page).find('.app-list li').remove()	
-	/*
-	search.bind('click', function () {
-		selectOptions(records)
-	});	 */
-
-	//var records = []; // 全局表量，列表
 
 	var params = { 
-		"schoolID": gSchoolID //7 //USER_SCHOOL_ID,
+		"consultID": gUserID 
 	}
 	//loadData(params); 
 	
@@ -35,9 +17,9 @@ App.controller('home', function (page) {
 	//}
 
 	function readData(callback, obj){
-		showPrompt('加载中...');		
+		showPrompt('读取学生...'); console.log(obj)		
 		$.ajax({
-	    	url: gDataUrl + 'readStudentListByUn.php',
+	    	url: gDataUrl + 'readStudentListByConsultOne2one.php',
 			data: obj,
 			dataType: "json",
 			success: function(result){
@@ -58,17 +40,19 @@ App.controller('home', function (page) {
 		}
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
-			$node.find('.name').text(item.studentName); //studentName = ''
+			$node.find('.name').text(item.studentName); 
+			$node.find('.gender').text('['+item.gender+'•');
+			$node.find('.grade').text(item.grade+']');
 			$node.find('.phone').text(item.phone);
 			//display:none
-			$node.find('.schoolID').text(item.schoolID);
 			$node.find('.created').text(item.created.substr(0,10));
 			$node.find('.id').text(item.studentID);			
 			$list.append($node);
 		});
 	}	
 	function handleData(list){
-		//var removeItem = null; //当前行删除按钮		
+		//var removeItem = null; //当前行删除按钮	
+		return	
 		list.find('li').on({
 			click: function () {
 				var selected = $(this)
@@ -79,7 +63,7 @@ App.controller('home', function (page) {
 					"schoolName": $(this).find('.school').text(),
 					"schoolID": $(this).find('.schoolID').text(),
 				}
-				console.log(item)
+				console.log(item); 
 				//App.load('detail', obj);
 				App.pick('select-member', item, function (data) {
 					if(data){ 	
@@ -98,7 +82,7 @@ App.controller('home', function (page) {
 								selected.remove()
 							},
 							error: function(xhr, type){
-								showPrompt('归属学生出错');	
+								showPrompt('更新学生出错');	
 							}
 						});
 						
@@ -121,11 +105,11 @@ App.controller('select-member', function (page,request) {
 		consultID = 0
 
 	var params = {
-		"schoolID": request.schoolID //gSchoolID
+		"schoolID": gSchoolID
 	}	
-	readData(params); 
+	readMemberList(params); 
 	
-	function readData(obj){
+	function readMemberList(obj){
 		showPrompt('读取咨询师...');		
 		$.ajax({
 	    	url: gDataUrl + 'readConsultList.php',
@@ -166,16 +150,7 @@ App.controller('select-member', function (page,request) {
 				"consultID": consultID,
 				"studentID": request.studentID
 			}
-			App.dialog({
-			  title	       : '归属学生给该咨询师？', //'删除当前公告？',
-			  okButton     : '确定',
-			  cancelButton : '取消'
-			}, function (choice) {
-				if(choice){
-					me.reply(objRet);
-				}
-			});
-			
+			me.reply(objRet);
 		})	
 	}
 }); // select-member	

@@ -8,6 +8,9 @@ if(isset($_SESSION['user'])){
 $url = 'http://www.xzpt.org/wxqy/ghjy/script/weixinJS/'; //redirect
 $menuitem = $_GET["menuitem"];
 switch($menuitem){
+	case "school":
+		$url = $url . "oAuth2-school.php";
+		break;
 	case "student":
 		$url = $url . "oAuth2-student.php";
 		break;
@@ -20,6 +23,12 @@ switch($menuitem){
 	case "teacher_class":
 		$url = $url . "oAuth2-teacher_class.php";
 		break;
+	case "consult_class":
+		$url = $url . "oAuth2-consult_class.php";
+		break;	
+	case "consult_1to1":
+		$url = $url . "oAuth2-consult_1to1.php";
+		break;	
 }
 
 $APPID = 'wx09e87ee7559bb52f';

@@ -1,5 +1,4 @@
 <?php 
-// code + accesstoken 获得userid，通过userid+accesstoken获得成员资料
 // 通过扩展属性，获得学校id
 require_once "jssdk-userinfo.php";
 
@@ -19,7 +18,7 @@ $schoolID = $userInfo->extattr->attrs[0]->value; //name:schoolID
 //echo json_encode($userInfo->extattr->attrs[0]->value);
 //die();
 
-$url = "../../teacher.html?userId=". $userId . 
+$url = "../../consult_1to1.html?userId=". $userId . 
 	"&userName=" . $userName . 
 	"&schoolID=" . $schoolID;
 header("Location:".$url);
