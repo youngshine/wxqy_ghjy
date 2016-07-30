@@ -60,13 +60,90 @@ App.controller('home', function (page) {
 		}
 		console.log(item)
 		// 如果下面存在删除记录，用pick，否则用load
-		App.load('attendee',item) 
+		App.load('classcourse',item) 
 	}
 }); // ends controller
 
+// 课时
+App.controller('classcourse', function (page,request) {
+	var me = this;
+	var $list = $(page).find('.app-list'),
+		$listItem = $(page).find('.app-list li').remove()	
+
+	var params = {
+		"classID": request.classID
+	}	
+	readData(function(data){
+		//records = data;
+		populateData(data)	
+		handleData( $list ) // 才能处理动态添加列表项
+	}, params );
+	
+	function readData(callback,obj){
+		showPrompt('读取上课课时...'); // 
+		$.ajax({
+			url: gDataUrl + 'readClasscourseList.php',
+			dataType: "json", 
+			data: obj,
+			//timeout: 6000,
+			success: function(result){
+				hidePrompt();	
+				console.log(result)
+				callback(result.data)
+			},
+		});
+  	}
+
+	function populateData(items){
+		items.forEach(function (item) {
+			var $node = $listItem.clone(true);
+			$node.find('.courseDate').text(item.beginTime,0,10);
+			$node.find('.id').text(item.classcourseID);
+			$list.append($node);
+		});	
+	}
+	
+	function handleData(list){
+		list.find('li').bind('click', function (e){
+			doShow($(this));
+		})
+	}
+	function doShow(selectedLi){
+		var item = {	
+			"classcourseID": selectedLi.find('.id').text(),
+		}
+		console.log(item)
+		// 如果下面存在删除记录，用pick，否则用load
+		App.load('attendee',item) 
+	}
+	
+	var btnRollcall = $(page).find('.rollcall')
+	btnRollcall.on('click',function(){
+		App.pick('rollcall', {'classID':request.classID}, function (data) {
+			if(data){ 
+				console.log(data)
+				var obj = {
+					arrStudent: data
+				}
+				// 保存新增,ajax，这里data是数组（全部学生）
+				$.ajax({
+					url: gDataUrl + 'createClasscourse.php',
+					data: obj,
+					dataType: 'json',
+					success: function(result){
+						console.log(result)
+						toast('上课点名成功')
+						App.back('home')
+					},
+				});
+			}
+		});
+	})
+}); 
+
 
 // 多选学生，点名，并发送模版消息－》公众号
-App.controller('attendee', function (page,request) {
+App.controller('rollcall', function (page,request) {
 	var me = this;
 	var $list = $(page).find('.app-list'),
 		$listItem = $(page).find('.app-list li').remove()	
@@ -180,9 +257,11 @@ App.controller('attendee', function (page,request) {
 				// selPeople, classID 添加到数据库
 				//createData(classID,selPeople)
 				selPeople.forEach(function(person){
-					wxTpl(person) // 一个个发模版消息，通知学生家长
+					// 一个个出勤发模版消息，通知学生家长
+					if(person.flag==1) wxTpl(person) 
 				})
-				
+				// 2. 添加到数据库
+				me.reply(selPeople)
 			}
 		});
 		
@@ -202,8 +281,6 @@ App.controller('attendee', function (page,request) {
 			        var text = response.responseText;
 			        // process server response here
 					console.log(response)//JSON.parse
-					toast('班级上课点名完毕')
-					App.back('home')
 			    }
 			});
 		}

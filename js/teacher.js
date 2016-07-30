@@ -29,7 +29,7 @@ App.controller('home', function (page) {
 						console.log(result)
 						// 前端添加显示记录，不刷新服务器数据库
 						var $node = $listItem.clone(true);
-						// 返回新插入记录id，删除用
+						// 返回新插入记录id，删除用，无法马上操作li??，没绑定handledata?
 						$node.find('.id').text(result.data.teacherID);
 						$node.find('.name').text(data.username); 
 						$node.find('.subject').text(data.subjectName); 

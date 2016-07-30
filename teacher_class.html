@@ -66,7 +66,6 @@
   			<div class="subtitle" style="color:#888;">
   				<span>时间：</span>
 				<span class="weekday"></span>
-				<span class="endClass" style="float:right;color:red;">下课</span>
     		</div>
 			<!-- 隐藏id -->
   			<div class="userId" style="display:none;"></div>
@@ -75,12 +74,44 @@
     	</div>
 	  </div>	  
     </div>
-	  
+
+    <div class="app-page" data-page="classcourse">
+      <div class="app-topbar">
+        <div class="app-button left" data-back data-autotitle></div>
+        <div class="app-title">上课课时</div>
+		<div class="right app-button rollcall">上课点名</div>
+      </div>
+      <div class="app-content">
+		  <ul class="app-list">
+		    <li>
+				<span class="courseDate"></span>
+				<!-- 学生微信，用于发送模版消息 classcourseID -->
+				<span class="id" style="display:block;"></span>
+		    </li>
+		  </ul>
+		</div>	
+    </div>
+	
     <div class="app-page" data-page="attendee">
       <div class="app-topbar">
         <div class="app-button left" data-back data-autotitle></div>
-        <div class="app-title">点名</div>
-		<div class="right app-button ok">点名</div>
+        <div class="app-title">上课学生</div>
+      </div>
+      <div class="app-content">
+		  <ul class="app-list">
+		    <li>
+				<span class="studentName"></span>
+				<span class="flag" style="float:right;color:#888;"></span>
+		    </li>
+		  </ul>
+		</div>	
+    </div>
+		  
+    <div class="app-page" data-page="rollcall">
+      <div class="app-topbar">
+        <div class="app-button left" data-back data-autotitle></div>
+        <div class="app-title">选择上课学生</div>
+		<div class="right app-button ok">确定</div>
       </div>
       <div class="app-content">
 		  <ul class="app-list">
