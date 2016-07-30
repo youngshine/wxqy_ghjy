@@ -2,7 +2,8 @@
 App.controller('home', function (page) {
 	var $list = $(page).find('.app-list'),
 		$listItem = $(page).find('.app-list li').remove()	
-
+	var records = []; //all for search
+	
 	var params = { 
 		"consultID": gUserID 
 	}
@@ -12,7 +13,7 @@ App.controller('home', function (page) {
 		readData(function(data){
 			populateData(data)	
 			handleData( $list )
-			//records = data;
+			records = data;
 		}, params );
 	//}
 
@@ -41,8 +42,8 @@ App.controller('home', function (page) {
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
 			$node.find('.name').text(item.studentName); 
-			$node.find('.gender').text('['+item.gender+'•');
-			$node.find('.grade').text(item.grade+']');
+			$node.find('.gender').text('［'+item.gender+'•');
+			$node.find('.grade').text(item.grade+'］');
 			$node.find('.phone').text(item.phone);
 			//display:none
 			$node.find('.created').text(item.created.substr(0,10));
@@ -64,33 +65,47 @@ App.controller('home', function (page) {
 					"schoolID": $(this).find('.schoolID').text(),
 				}
 				console.log(item); 
-				//App.load('detail', obj);
-				App.pick('select-member', item, function (data) {
-					if(data){ 	
-						// 后台更新资料 updateStudent.php
-						console.log(data.consultID)
-						showPrompt('正在更新...');		
-						$.ajax({
-					    	url: gDataUrl + 'updateStudent.php',
-							data: data,
-							dataType: "json",
-							success: function(result){
-								hidePrompt()
-								console.log(result)
-								toast('学生归属咨询师成功')
-								// 结贴，相应的列表项listItem 移除消失
-								selected.remove()
-							},
-							error: function(xhr, type){
-								showPrompt('更新学生出错');	
-							}
-						});
-						
-					}
-				});
+				App.load('orders', obj);
 			},	
 		})
 	}
+	
+	// search
+    // Get HTML elements
+    var form = page.querySelector('form');
+    var input = page.querySelector('form .app-input');
+    // Updates the search parameter in web storage when a new character is added
+    // to the search input
+    input.addEventListener('keyup', function () {
+		console.log(input.value)
+		//localStorage[INPUT_KEY] = input.value;
+    });
+    // Updates the search parameter in web storage when the value of the search
+    // input is changed
+    input.addEventListener('change', function () {
+		console.log(input.value)
+		//localStorage[INPUT_KEY] = input.value;
+    });
+    // Performs search when the search input is submitted
+    form.addEventListener('submit', function (e) {
+		e.preventDefault();
+		doSearch(input.value);
+    });
+
+    function doSearch (query) {
+        // Clean up spaces from the search query
+        query = query.trim();
+  	    // Unfocus search input
+  	    input.blur();
+  	    form.blur();
+
+		var filter = records.filter(function(ele,pos){
+		    return (ele.studentName+ele.phone).indexOf(query) >= 0  ;
+		});
+		console.log(filter)
+		populateData(filter)
+		handleData( $list )
+	} 
 
 }); // ends controller
 

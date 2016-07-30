@@ -1,19 +1,17 @@
 <?php
-// 读取大小班上课课时列表（group by classcourse)
+// 读取校区咨询师创建的大小班级
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
 //header('Access-Control-Allow-Headers: X-Requested-With');
 
 require_once('db/database_connection.php');
 
-$classID = $_REQUEST['classID'];
+$consultID = $_REQUEST['consultID'];
 
-$sql = " SELECT * From `ghjy_class_course` 
-	Where classID = $classID 
-	Group By classID ";
+$sql = " SELECT * From `ghjy_class` Where teacherID > 0 ";
     
 $result = mysql_query($sql) 
-	or die("Invalid query: readClasscourse" . mysql_error());
+	or die("Invalid query: readClassList by consult" . mysql_error());
 
 	$query_array = array();
 	$i = 0;
@@ -26,7 +24,7 @@ $result = mysql_query($sql)
 
 	echo json_encode(array(
 		"success" => true,
-		"message" => "读取班级上课课时成功",
+		"message" => "读取班级列表成功",
 		"data"	  => $query_array
 	));
 ?>

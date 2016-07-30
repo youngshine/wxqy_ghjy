@@ -25,10 +25,16 @@ switch($menuitem){
 		break;
 	case "consult_class":
 		$url = $url . "oAuth2-consult_class.php";
+		break;
+	case "consult_class_student":
+		$url = $url . "oAuth2-consult_class_student.php";
 		break;	
-	case "consult_1to1":
-		$url = $url . "oAuth2-consult_1to1.php";
-		break;	
+	case "consult_class_student_absent":
+		$url = $url . "oAuth2-consult_class_student_absent.php";
+		break;
+	case "consult_1to1_student":
+		$url = $url . "oAuth2-consult_1to1_student.php";
+		break;		
 }
 
 $APPID = 'wx09e87ee7559bb52f';

@@ -18,7 +18,7 @@ $schoolID = $userInfo->extattr->attrs[0]->value; //name:schoolID
 //echo json_encode($userInfo->extattr->attrs[0]->value);
 //die();
 
-$url = "../../consult_1to1.html?userId=". $userId . 
+$url = "../../consult_class_student_absent.html?userId=". $userId . 
 	"&userName=" . $userName . 
 	"&schoolID=" . $schoolID;
 header("Location:".$url);

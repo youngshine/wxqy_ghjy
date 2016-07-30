@@ -82,21 +82,22 @@
 
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-          <div class="app-title">大小班级</div>
+          <div class="app-title">今天班级学生缺课</div>
       </div>
       <div class="app-content">
-		  
-		    <input class="app-input no-icon-android" type="search" placeholder="查找科目..." readOnly=true>
-		
+		  <form action="">
+		    <input class="app-input no-icon-android" type="search" placeholder="Search...">
+		    <input type="submit" style="display:none">
+		  </form>
   		<div class="list">
       	  <div class="listItem">
       	    <div>
-      	    	<span class="title"></span>
+      	    	<span class="name"></span>
+				<span class="phone" style="float:right;"></span>
       	    </div>
     		<div class="subtitle">
-				<span>上课：</span>
-				<span class="weekday"></span>
-				<span class="timespan"></span>
+				<span class="class_title"></span>
+				<span class="gender" style="float:right;"></span>
       		</div>
   			<!-- 隐藏id -->
     			<div class="id" style="display:none;"></div>		
@@ -110,7 +111,7 @@
 
 	<script src="js/main.js"></script>
 	
-	<script src="js/consult_class.js"></script>
+	<script src="js/consult_class_student_absent.js"></script>
 	
     <script>  
 		// 中文参数，解决乱码。location.search就无效

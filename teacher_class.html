@@ -85,8 +85,9 @@
 		  <ul class="app-list">
 		    <li>
 				<span class="courseDate"></span>
+				<span class="endClass" style="float:right;color:red;">下课</span>
 				<!-- 学生微信，用于发送模版消息 classcourseID -->
-				<span class="id" style="display:block;"></span>
+				<span class="id" style="display:none;"></span>
 		    </li>
 		  </ul>
 		</div>	
@@ -95,13 +96,19 @@
     <div class="app-page" data-page="attendee">
       <div class="app-topbar">
         <div class="app-button left" data-back data-autotitle></div>
-        <div class="app-title">上课学生</div>
+        <div class="app-title">学生出勤</div>
+		<div class="right app-button endClass">下课</div>
       </div>
       <div class="app-content">
 		  <ul class="app-list">
 		    <li>
 				<span class="studentName"></span>
 				<span class="flag" style="float:right;color:#888;"></span>
+				
+				<!-- 学生微信，用于发送模版消息 classcourseID -->
+				<span class="studentID" style="display:none;"></span>
+				<span class="wxID" style="display:none;"></span>
+				<span class="id" style="display:none;"></span>
 		    </li>
 		  </ul>
 		</div>	
@@ -120,8 +127,8 @@
 				<!-- 默认选中，不隐藏display:none-->
 				<span class="checked" style="float:right;">✔</span>
 				<!-- 学生微信，用于发送模版消息 -->
-				<span class="wxID" style="display:block;"></span>
-				<span class="id" style="display:block;"></span>
+				<span class="wxID" style="display:none;"></span>
+				<span class="id" style="display:none;"></span>
 		    </li>
 		  </ul>
 
