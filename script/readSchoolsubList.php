@@ -1,6 +1,6 @@
 <?php
 /*
- * 7-27 归属我咨询师的学生
+  * 读取某个学校的分校区 if any
 */
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
@@ -8,15 +8,11 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 
 require_once('db/database_connection.php');
 
-$consult = addslashes($_REQUEST['consultID']); //userId
-
-$sql = "SELECT a.studentID,b.studentName,b.gender,b.phone,b.grade   
-	From `ghjy_class_student` a 
-	Join `ghjy_student` b On a.studentID=b.studentID 
-	WHERE b.consultID >= 0 
-	Group By a.studentID ";   
-$result = mysql_query($sql) 
-	or die("Invalid query: readStudentByConsultClass " . mysql_error());
+$schoolID = addslashes($_REQUEST['schoolID']);
+$query = "SELECT * From `ghjy_school_sub` Where schoolID=$schoolID ";
+    
+$result = mysql_query($query) 
+	or die("Invalid query: readSchoolsubList" . mysql_error());
 
 $query_array = array();
 $i = 0;
@@ -29,8 +25,8 @@ while($row = mysql_fetch_array($result))
 	
 echo json_encode(array(
 	"success" => true,
-	"message" => "读取班级学生成功",
+	"message" => "读取分校区成功",
 	"data"	  => $query_array
 ));
-
+	
 ?>

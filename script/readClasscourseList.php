@@ -1,5 +1,5 @@
 <?php
-// 读取大小班上课课时列表（group by classcourse)
+// 读取大小班上课课时列表（group by beginDate(time))
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
 //header('Access-Control-Allow-Headers: X-Requested-With');
@@ -8,9 +8,11 @@ require_once('db/database_connection.php');
 
 $classID = $_REQUEST['classID'];
 
-$sql = " SELECT * From `ghjy_class_course` 
+$sql = " SELECT classID,beginTime,endTime,flag,
+	DATE_FORMAT(beginTime,'%Y-%m-%d') As courseDate 
+	From `ghjy_class_course` 
 	Where classID = $classID 
-	Group By classID ";
+	Group By DATE_FORMAT(beginTime,'%Y-%m-%d') ";
     
 $result = mysql_query($sql) 
 	or die("Invalid query: readClasscourse" . mysql_error());

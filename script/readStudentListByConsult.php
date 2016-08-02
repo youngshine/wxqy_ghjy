@@ -1,6 +1,6 @@
 <?php
 /*
- * 7-27 归属我咨询师的学生
+ * 7-27 归属我咨询师的学生，可能报读大小班，也可能报读一对一
 */
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
@@ -10,13 +10,12 @@ require_once('db/database_connection.php');
 
 $consult = addslashes($_REQUEST['consultID']); //userId
 
-$sql = "SELECT a.studentID,b.studentName,b.gender,b.phone,b.grade   
-	From `ghjy_class_student` a 
-	Join `ghjy_student` b On a.studentID=b.studentID 
-	WHERE b.consultID >= 0 
-	Group By a.studentID ";   
+$sql = "SELECT a.*,b.consultName   
+	From `ghjy_student` a 
+	Join `ghjy_consult` b On a.consultID=b.consultID 
+	WHERE b.userId = '$consult' ";   
 $result = mysql_query($sql) 
-	or die("Invalid query: readStudentByConsultClass " . mysql_error());
+	or die("Invalid query: readStudentByConsult " . mysql_error());
 
 $query_array = array();
 $i = 0;
@@ -29,7 +28,7 @@ while($row = mysql_fetch_array($result))
 	
 echo json_encode(array(
 	"success" => true,
-	"message" => "读取班级学生成功",
+	"message" => "读取归属我的学生成功",
 	"data"	  => $query_array
 ));
 

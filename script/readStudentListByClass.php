@@ -1,5 +1,5 @@
 <?php
-// 读取校区某个大小版任课教师的班级列表
+// 读取某个班级的学生
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
 //header('Access-Control-Allow-Headers: X-Requested-With');
@@ -8,9 +8,11 @@ require_once('db/database_connection.php');
 
 $classID = $_REQUEST['classID'];
 
-$sql = " SELECT a.*,b.studentName,b.wxID   
+$sql = " SELECT a.*,b.studentName,b.wxID,c.schoolName,d.fullname    
 	From `ghjy_class_student` a 
-	Join `ghjy_student` b On a.studentID=b.studentID 
+	Join `ghjy_student` b On b.studentID=a.studentID 
+	Join `ghjy_school` c On c.schoolID=b.schoolID 
+	Join `ghjy_school_sub` d On d.schoolID=c.schoolID
 	WHERE a.classID = $classID ";  
     
 $result = mysql_query($sql) 

@@ -62,6 +62,8 @@
     <div class="app-page" data-page="home">
       <div class="app-topbar">
           <div class="app-title">联盟学校</div>
+  		  <div class="app-button right addnew" style="font-size:1.5em;
+  		font-weight:bolder;">╋</div>
       </div>
       <div class="app-content">
 	  <form action="">
@@ -82,29 +84,25 @@
 	  </div>	  
     </div>
 	  
-    <div class="app-page" data-page="attendee">
+    <div class="app-page" data-page="subschool">
       <div class="app-topbar">
         <div class="app-button left" data-back data-autotitle></div>
-        <div class="app-title">点名</div>
-		<div class="right app-button hist" style="font-size:2.5em;">历史记录</div>
+        <div class="app-title">分校区</div>
+		<div class="right app-button addnew">＋添加分校</div>
       </div>
       <div class="app-content">
-		  <ul class="app-list">
-		    <li>
-				<span class="name"></span>
-				<!-- 默认选中，不隐藏display:none-->
-				<span class="checked" style="float:right;">✔</span>
-				<!-- 学生微信，用于发送模版消息 -->
-				<span class="wxID" style="display:block;"></span>
-				<span class="id" style="display:block;"></span>
-		    </li>
-		  </ul>
-
-			<div style="margin:10px">
-				<div class="app-button finish" style="display:none;color:red;">选择学生，点名</div>	 
-			</div>	
-		</div>
-	
+  		<div class="list">
+      	  <div class="listItem">
+      	    <div class="fullname"></div>
+    		<div class="subtitle">
+				<span class="addr"></span>
+				<span class="phone" style="float:right;"></span>
+      		</div>
+  			<!-- 隐藏id -->
+    		<div class="id" style="display:none;"></div>		
+      	  </div>
+      	</div>
+	  </div>	
     </div>
 	
 

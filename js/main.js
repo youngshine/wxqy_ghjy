@@ -35,7 +35,7 @@
 	}
 	
 	// 微信图文news通知人员
-	wxNotifyByNews = function(userId,type,msg,link,agentid){
+	wxMsgNews = function(userId,type,msg,link,agentid){
 		$.ajax({
 			url: 'script/weixinJS/wx_msgByNews.php',
 			data: {userId:userId, type:type, msg:msg, link:link,agentid:agentid},
@@ -43,13 +43,12 @@
 			success: function(result){},
 		});
 	} 
-	// 发送微信文字消息
-	wxNotifyByText = function(userId,type,msg,link,agengid){
+	// 发送企业号文字消息 ajax
+	wxMsgText = function(obj){
 		$.ajax({
-			url: 'script/weixinJS/wx_msgByText.php',
-			data: {userId:userId, type:type, msg:msg, link:link,agentid:agentid},
+			url: 'script/weixinJS/wx_msg_text.php',
+			data: obj,
 			dataType: "json",
-			//jsonp: 'callback',
 			success: function(result){},
 		});
 	}

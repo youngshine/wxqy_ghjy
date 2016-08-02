@@ -43,7 +43,7 @@ function httpPost($data,$access_token){
 $wxID = addslashes($_REQUEST['wxID']);
 $studentName = addslashes($_REQUEST['studentName']);
 $msg = addslashes($_REQUEST['msg']);
-$classDate = date('Y-m-d G:i:s');
+$classDate = date('Y-m-d');
 //$wxID = 'oMEqkuMUKNmxtAxWGrjeOWPRFO20';
 //$student = $_REQUEST['student'];
 //$teacher = $_REQUEST['teacher'];

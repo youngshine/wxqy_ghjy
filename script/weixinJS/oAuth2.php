@@ -26,8 +26,8 @@ switch($menuitem){
 	case "consult_class":
 		$url = $url . "oAuth2-consult_class.php";
 		break;
-	case "consult_class_student":
-		$url = $url . "oAuth2-consult_class_student.php";
+	case "consult_student":
+		$url = $url . "oAuth2-consult_student.php";
 		break;	
 	case "consult_class_student_absent":
 		$url = $url . "oAuth2-consult_class_student_absent.php";

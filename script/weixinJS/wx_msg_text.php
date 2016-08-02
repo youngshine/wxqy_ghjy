@@ -1,12 +1,12 @@
 <?php
 /*
-  * 发送微信通知：应用agentid=5
+  * 根号教育企业号发送微信通知：应用agentid=5
 */
 $userId = $_REQUEST['userId'];
 $type = $_REQUEST['type'];
 $msg = $_REQUEST['msg'];
 $link = $_REQUEST['link'];
-$agentid = $_REQUEST['agentid'];
+$agentId = $_REQUEST['agentId'];
 
 //$content = addslashes($content);
 // 接收人id（数组）转换为 符合微信touser格式  a | b | c
@@ -43,7 +43,7 @@ function httpPost($url,$data){
     return $tmpInfo;
 }
 
-$link = "<a href='" . $link . "'>查看</a>";
+//$link = "<a href='" . $link . "'>查看</a>";
 $content = $type . " \n" . $msg ; //. " \n" . $link;
 
 $data = '{
@@ -51,7 +51,7 @@ $data = '{
    "toparty": "",
    "totag": "",
    "msgtype": "text",
-   "agentid": "' . $agentid  . '",
+   "agentid": "' . $agentId  . '",
    "text": {
        "content": "' . $content  . '"
    },

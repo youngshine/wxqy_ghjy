@@ -5,12 +5,6 @@ App.controller('home', function (page) {
 	$(page).on('appForward', function () {
 		$('.removeItem').hide();
 	}); */
-	/* 工具栏向下滑动，清零刷新, android不行？
-	$(page).find('.app-title').swipeDown(function(){
-		search.val('');	
-		//$list.empty();			
-		readData(callback??,params)
-	}); */
 	
 	var $list = $(page).find('.app-list'),
 		$listItem = $(page).find('.app-list li').remove()	
@@ -93,19 +87,30 @@ App.controller('home', function (page) {
 							success: function(result){
 								hidePrompt()
 								console.log(result)
-								toast('学生归属咨询师成功')
+								toast('学生归属成功')
 								// 结贴，相应的列表项listItem 移除消失
 								selected.remove()
+								
+								// 微信通知咨询师, result返回咨询师userId
+								//doWxMsgText(result.userId)
 							},
-							error: function(xhr, type){
-								showPrompt('归属学生出错');	
-							}
-						});
-						
+						});					
 					}
 				});
 			},	
 		})
+	}
+	
+	// 微信文本通知咨询师有新的学生，全局函数公用
+	function doWxMsgText(userId){		
+		var objMsg = {
+			userId : userId, // all = '@all
+			type : "归属学生",
+			msg : '你有新的学生',
+			agentId : 9, // 9=咨询模块，0系统小助手
+			link : '' //'news-notify-zepto.php?id=' + result.data.news_id // 刚新增的公文id
+		}
+		wxMsgText(objMsg)
 	}
 
 }); // ends controller

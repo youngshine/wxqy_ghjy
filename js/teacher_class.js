@@ -101,7 +101,7 @@ App.controller('classcourse', function (page,request) {
 	function populateData(items){
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
-			$node.find('.courseDate').text(item.beginTime.substr(0,16));
+			$node.find('.courseDate').text(item.courseDate) //text(item.beginTime.substr(0,16));
 			var endClass = item.endTime > '1911-11-11' ? '' : '未下课'
 			$node.find('.endClass').text(endClass);
 			//$node.find('.id').text(item.classcourseID);
@@ -179,7 +179,7 @@ App.controller('classcourse', function (page,request) {
 	function doShow(selectedLi,classID){
 		var item = {	
 			// 按日期分 classcourseID ??? no parent table
-			"beginDate": selectedLi.find('.courseDate').text().substr(0,10),
+			"beginDate": selectedLi.find('.courseDate').text() ,//.substr(0,10),
 			"classID"  : classID
 		}
 		console.log(item)

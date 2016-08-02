@@ -6,12 +6,16 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 
 require_once('db/database_connection.php');
 
-$teacherID = $_REQUEST['teacherID'];
+$teacher = $_REQUEST['teacherID']; //userID 不是数字ID
 
-$sql = " SELECT * From `ghjy_class` Where teacherID > 0 ";
+//$sql = " SELECT * From `ghjy_class` Where teacherID > 0 ";
+$sql = " SELECT a.*,b.userId 
+	From `ghjy_class` a 
+	Join `ghjy_teacher` b On a.teacherID=b.teacherID 
+	Where b.userId = '$teacher' ";
     
 $result = mysql_query($sql) 
-	or die("Invalid query: readClassList by all" . mysql_error());
+	or die("Invalid query: readClassList by teacher userId" . mysql_error());
 
 	$query_array = array();
 	$i = 0;
