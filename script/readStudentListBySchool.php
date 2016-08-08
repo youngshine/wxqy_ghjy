@@ -1,6 +1,6 @@
 <?php
 /*
-  * 读取学校咨询师
+ * 7-27 全校学生
 */
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
@@ -8,16 +8,14 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 
 require_once('db/database_connection.php');
 
-$schoolID = $_REQUEST['schoolID'];
+$schoolID = addslashes($_REQUEST['schoolID']); //userId
 
-$query = "SELECT a.*,b.fullname 
-	From `ghjy_consult` a 
+$sql = "SELECT a.*,b.fullname    
+	From `ghjy_student` a 
 	Join `ghjy_school_sub` b On a.schoolsubID=b.schoolsubID 
-	Where a.schoolID=$schoolID 
-	Order By a.created ";
-    
-$result = mysql_query($query) 
-	or die("Invalid query: readConsultList" . mysql_error());
+	WHERE a.schoolID=$schoolID ";   
+$result = mysql_query($sql) 
+	or die("Invalid query: readStudentBySchool " . mysql_error());
 
 $query_array = array();
 $i = 0;
@@ -30,8 +28,8 @@ while($row = mysql_fetch_array($result))
 	
 echo json_encode(array(
 	"success" => true,
-	"message" => "读取咨询师列表成功",
+	"message" => "读取全校学生成功",
 	"data"	  => $query_array
 ));
-	
+
 ?>

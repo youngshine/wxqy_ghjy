@@ -61,7 +61,7 @@ App.controller('home', function (page) {
 		}
 		console.log(item)
 		// 如果下面存在删除记录，用pick，否则用load
-		App.load('subschool',item) 
+		App.load('schoolsub',item) 
 	}
 	
 	// search
@@ -99,14 +99,17 @@ App.controller('home', function (page) {
 		});
 		console.log(filter)
 		populateData(filter)
+		handleData( $list )
 	} 
 }); // ends controller
 
-App.controller('subschool', function (page,request) {
+App.controller('schoolsub', function (page,request) {
 	var me = this;
 	var $list = $(page).find('.list'),
 		$listItem = $(page).find('.listItem').remove()	
 
+	btnAddnew = $(page).find('.addnew')
+	
 	var params = {
 		"schoolID": request.schoolID
 	}	
@@ -137,9 +140,73 @@ App.controller('subschool', function (page,request) {
 			$node.find('.addr').text(item.addr);
 			$node.find('.phone').text(item.phone);
 			$node.find('.id').text(item.schoolsubID);
+			//$node.find('.schoolID').text(request.schoolID); //主校
 			$list.append($node);
 		});	
 	}
+	
+	btnAddnew.on('click',function(){
+		App.pick('addnew', {'schoolID':request.schoolID}, function (data) {
+			if(data){ 
+				console.log(data)
+				// 保存新增,ajax
+				$.ajax({
+					url: gDataUrl + 'createSchoolsub.php',
+					data: data,
+					dataType: 'json',
+					success: function(result){
+						console.log(result)
+						// 前端添加显示记录，不刷新服务器数据库
+						var $node = $listItem.clone(true);
+						// 返回新插入记录id，删除用
+						$node.find('.id').text(result.data.schoolsubID);
+						$node.find('.fullname').text(data.fullname); 
+						$node.find('.addr').text(data.addr);
+						$node.find('.phone').text(data.phone);
+						//display:none
+						//$node.find('.schoolID').text(data.schoolID);			
+						$list.prepend($node);
+						toast('添加分校区成功')
+					},
+				});
+			}
+		});
+	})
 }); 	
 
+// 添加校区
+App.controller('addnew', function (page,request) {
+	var me = this;
 
+	var btnSubmit = $(page).find('.submit')
+	
+	// 提交保存按钮
+	btnSubmit.on('click',function(e){		
+	    var fullname = $(page).find('input[name=fullname]').val(),
+			addr = $(page).find('input[name=addr]').val(),
+			phone = $(page).find('input[name=phone]').val()
+		if(fullname == ''){
+			toast('请填写校区名称');return;		
+		}
+		if(addr == ''){
+			toast('请填写校区地址');return;		
+		}
+		
+		App.dialog({
+			title	     : '保存？', //'删除当前公告？',
+			okButton     : '确定',
+			cancelButton : '取消'
+		}, function (choice) {
+			if(choice){		
+				var obj = {
+					fullname: fullname,
+					addr    : addr,
+					phone   : phone,
+					schoolID: request.schoolID //所属的主校
+				}
+				me.reply(obj)
+			}
+		});
+    });	
+	
+}); // addnew	

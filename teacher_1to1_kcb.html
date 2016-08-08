@@ -1,16 +1,18 @@
+
 <!DOCTYPE html>
 <html>
   <head>
     <title>根号教育平台</title>
 	<meta charset="utf-8" />
 	<meta name="format-detection" content="telephone=no" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-
-    <link rel="stylesheet" href="//cdn.kik.com/app/2.0.1/app.min.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">	
+	<!-- 
+	<link rel="stylesheet" href="//cdn.kik.com/app/2.0.1/app.min.css">
+		-->
+	<link rel="stylesheet" href="src/app.min.css">	
 	<style>
 		.app-topbar {background:#E82;}
-
+		
 		/*  msg box */
 		#m {
 			filter: alpha(opacity=30);
@@ -37,7 +39,6 @@
 			border-radius:10px;
 			-moz-border-radius:10px; /* Old Firefox */
 		} /* ends - msg box */
-		/* 滑动、长按删除 */
 		.list {
 			margin:5px 0;
 		}
@@ -49,77 +50,25 @@
 			border-radius:10px;
 			-moz-border-radius:10px; /* Old Firefox */
 		}
-		.list .listItem .subtitle{
-			 color: #888;
-			 font-size:0.9em;
-		}
-		
-		.spacer {
-			height:10px;
-		}
-	
-		.arrow-r{
-		  position: relative;
-		}
-		.arrow-r:after, .arrow-r:before {
-		  border: 10px solid transparent;
-		  border-left: 10px solid #fff;
-		  width: 0;
-		  height: 0;
-		  position: absolute;
-		  top: 0; 
-		  right: -20px;
-		  content: ' '
-		}
-		.arrow-r:before {
-		  border-left-color: #888;
-		  right: -21px;
-		}
 	</style>
   </head>
 
   <body>
-
+	  
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-          <div class="app-title">大小班学生</div>
-      </div>
-      <div class="app-content">
-		  <form action="">
-		    <input class="app-input no-icon-android" type="search" placeholder="Search...">
-		    <input type="submit" style="display:none">
-		  </form>
-		<ul class="app-list">
-			<li>						
-				<span class="name"></span>
-				<span class="gender" style="color:#888;"></span>
-				<span class="grade" style="color:#888;"></span>
-				<!--  -->
-				<span style="float:right;margin:10px;" class="arrow-r"></span>
-				<span class="phone" style="float:right;color:#888;"></span>
-
-				<span class="created" style="display:none;"></span>
-				<!--隐藏，记录唯一标识用 -->
-				<span class="id" style="display:none;"></span>
-			</li>
-		</ul>  
-    </div>
-	
-    <div class="app-page" data-page="classes">
-      <div class="app-topbar">
-          <div class="app-button left" data-back data-autotitle></div>
-		  <div class="app-title">报读班级列表</div>
+          <div class="app-title">教师一对一课程表</div>
       </div>
       <div class="app-content">
     	<div class="list">
     	  <div class="listItem">
     	    <div class="title"></div>
   			<div class="subtitle" style="color:#888;">
-  				<span>上课：</span>
-				<span class="weekday"></span>
+  				<span>时间：</span>
 				<span class="timespan"></span>
     		</div>
 			<!-- 隐藏id -->
+  			<div class="userId" style="display:none;"></div>
   			<div class="id" style="display:none;"></div>		
     	  </div>
     	</div>
@@ -128,12 +77,11 @@
 
     <script src="src/zepto.js"></script>
     <script src="src/app.min.js"></script>
+	
+	<script src="js/main.js"></script>		
+	<script src="js/teacher_1to1_kcb.js"></script>
 
-	<script src="js/main.js"></script>
-	
-	<script src="js/consult_class_student.js"></script>
-	
-    <script>  
+	<script>
 		// 中文参数，解决乱码。location.search就无效
 		var url = decodeURI(window.location);
 		//alert(url)
@@ -146,16 +94,14 @@
 			 var r = url.match(reg);
 		     if(r!=null)return  unescape(r[2]); return null;
 		}
-		
-		// 全局变量，用大写
+	
+		// 全局变量，你的校区，微信号，姓名
 		gUserID = getQueryString("userId");
 		gUserName = getQueryString("userName")
 		gSchoolID = getQueryString("schoolID");// 扩展属性
-		//alert("学校："+gSchoolID);
 
-		
 		App.load('home');
-    </script>
+
+	</script>
   </body>
-  
 </html>

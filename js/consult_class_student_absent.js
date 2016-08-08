@@ -1,4 +1,4 @@
-// 一对一学生
+// 今天缺课班级学生，所有咨询师的
 App.controller('home', function (page) {
 	var $list = $(page).find('.list'),
 		$listItem = $(page).find('.listItem').remove()	
@@ -20,7 +20,7 @@ App.controller('home', function (page) {
 	function readData(callback, obj){
 		showPrompt('读取缺课学生...'); console.log(obj)		
 		$.ajax({
-	    	url: gDataUrl + 'readStudentListByConsultClassAbsent.php',
+	    	url: gDataUrl + 'readStudentListByClassAbsent.php',
 			data: obj,
 			dataType: "json",
 			success: function(result){
@@ -39,12 +39,17 @@ App.controller('home', function (page) {
 		if($list.children().length != 0){
 			$list.empty(); //清除旧的列表项 if any
 		}
+		var classes = 0; // 按班级classes分组
 		items.forEach(function (item) {
+			if(item.classID != classes){
+				classes = item.classID
+				$list.append('<label style="padding:10px;color:#888;">' + item.title + '</label>')
+			}
 			var $node = $listItem.clone(true);
 			$node.find('.name').text(item.studentName); 
 			$node.find('.phone').text(item.phone);
 			$node.find('.gender').text(item.gender+'•'+item.grade);
-			$node.find('.class_title').text(item.title);
+			//$node.find('.class_title').text(item.title);
 			//display:none
 			//$node.find('.created').text(item.created.substr(0,10));
 			$node.find('.id').text(item.studentID);			

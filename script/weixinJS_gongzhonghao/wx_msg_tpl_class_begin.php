@@ -42,6 +42,7 @@ function httpPost($data,$access_token){
 //$courseID = $_REQUEST['courseID'];
 $wxID = addslashes($_REQUEST['wxID']);
 $studentName = addslashes($_REQUEST['studentName']);
+$schoolsub = addslashes($_REQUEST['schoolsub']);
 $msg = addslashes($_REQUEST['msg']);
 $classDate = date('Y-m-d');
 //$wxID = 'oMEqkuMUKNmxtAxWGrjeOWPRFO20';
@@ -65,7 +66,7 @@ $data = '{
                    "color":"#173177"
                },
                "keyword2": {
-                   "value":"根号教育",
+                   "value":"'.$schoolsub.'",
                    "color":"#173177"
                },
                "remark":{

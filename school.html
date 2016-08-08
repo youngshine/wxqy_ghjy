@@ -84,7 +84,7 @@
 	  </div>	  
     </div>
 	  
-    <div class="app-page" data-page="subschool">
+    <div class="app-page" data-page="schoolsub">
       <div class="app-topbar">
         <div class="app-button left" data-back data-autotitle></div>
         <div class="app-title">分校区</div>
@@ -99,11 +99,30 @@
 				<span class="phone" style="float:right;"></span>
       		</div>
   			<!-- 隐藏id -->
+			<div class="schoolID" style="display:none;"></div>
     		<div class="id" style="display:none;"></div>		
       	  </div>
       	</div>
 	  </div>	
     </div>
+	
+	<div class="app-page" data-page="addnew">
+		<div class="app-topbar">
+	        <div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">添加分校区</div>
+		</div>
+		<div class="app-content">
+			<form style="background:#fff;margin:10px;">
+				<input class="app-input" name="fullname" maxlength="70" placeholder="校区名称">	
+				<input class="app-input" name="addr" maxlength="70" placeholder="地址">
+				<input class="app-input" name="phone" maxlength="35" placeholder="电话">
+			</form>
+			
+			<div style="margin:0 10px;">
+				<div class="app-button green submit">保存</div>	
+			</div>
+		</div>	
+	</div>
 	
 
     <script src="src/zepto.js"></script>

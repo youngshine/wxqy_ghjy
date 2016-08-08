@@ -40,6 +40,7 @@ App.controller('home', function (page) {
 			var $node = $listItem.clone(true);
 			$node.find('.title').text(item.title); 
 			$node.find('.weekday').text(item.weekday);
+			$node.find('.timespan').text(item.timespan);
 			//display:none
 			$node.find('.id').text(item.classID);			
 			$list.append($node);
@@ -229,13 +230,14 @@ App.controller('rollcall', function (page,request) {
 	readData(function(data){
 		populateData(data)	
 		handleData( $list ) // 才能处理动态添加列表项
-		// 默认全选
+		// 该班级全部学生，默认全选，旷课搭上标志
 		data.forEach(function(item){
 			var obj = {
 				studentName: item.studentName,
 				studentID  : item.studentID,
 				wxID       : item.wxID,
-				flag       : 1, //默认1出勤，2迟到，3旷课（请假）
+				schoolsub  : item.fullname, //分校区
+				flag       : 1, //默认1出勤，2迟到，0旷课（请假）
 				classID    : request.classID
 			}
 			selPeople.push(obj);
@@ -267,6 +269,7 @@ App.controller('rollcall', function (page,request) {
 			var $node = $listItem.clone(true);
 			$node.find('.name').text(item.studentName);
 			$node.find('.wxID').text(item.wxID); //hidden
+			//$node.find('.schoolsub').text(item.fullname); //学生所在分校区名称，发消息抬头
 			$node.find('.id').text(item.studentID);
 			$list.append($node);
 		});	
@@ -283,6 +286,7 @@ App.controller('rollcall', function (page,request) {
 		var obj = {
 			"studentName": clicked.find('.name').text(),
 			"wxID": clicked.find('.wxID').text(), //e.target.innerText
+			"schoolsub": clicked.find('.schoolsub').text(),
 			"studentID": clicked.find('.id').text()
 		} 
 		
@@ -359,6 +363,7 @@ App.controller('rollcall', function (page,request) {
 			var obj = {
 				wxID       : person.wxID, // 发消息学生家长
 				studentName: person.studentName,
+				schoolsub  : person.schoolsub, //分校区，发消息抬头
 				classDate  : new Date(), // 用于判断今天补点名、不重复点名
 				msg        : '学生已经到校上课，请放心。'
 			}
@@ -437,6 +442,7 @@ App.controller('attendee', function (page,request) {
 			}
 			$node.find('.studentID').text(item.studentID);
 			$node.find('.wxID').text(item.wxID);
+			$node.find('.schoolsub').text(item.fullname);//分校区名称，发消息用
 			$node.find('.id').text(item.classcourseID);
 			$list.append($node);
 		});	
@@ -447,6 +453,8 @@ App.controller('attendee', function (page,request) {
 			doRollcall($(this)); //补点名
 		})
 	}
+	
+	// 单个学生，迟到，补点名
 	function doRollcall(selectedLi){
 		var text = selectedLi.find('.flag').text()
 		console.log(text)
@@ -455,6 +463,7 @@ App.controller('attendee', function (page,request) {
 		var person = {
 			wxID       : selectedLi.find('.wxID').text(),
 			studentName: selectedLi.find('.studentName').text(),
+			schoolsub  : selectedLi.find('.schoolsub').text(),
 			classDate  : new Date(), // 用于判断今天补点名、不重复点名
 			msg        : '学生今天上课迟到，请家长多关注。',
 			classcourseID: selectedLi.find('.id').text(),
@@ -492,13 +501,13 @@ App.controller('attendee', function (page,request) {
 				success: function(result){
 					console.log(result)
 					toast('补点名成功')
-					App.back()
+					App.back(); // 补点名后，返回，重新加载后台数据，下课才准确
 				},
 			});
 		}
 	}
 
-	// 下课
+	// 下课，所有来上课的发消息，循环
 	btnEndclass.bind('click', function () {		
 		if(btnEndclass.text() != '下课') return
 			
@@ -514,7 +523,7 @@ App.controller('attendee', function (page,request) {
 				console.log(records)
 				records.forEach(function(person){
 					// 一个个出勤发模版消息，通知学生家长
-					if(person.flag==1) wxTpl(person) 
+					if(person.flag != 0) wxTpl(person) 
 				})
 				// 2. 添加到数据库，全部一次性统一填写更改时间，
 				// classID+当天beginDate(time)唯一
@@ -532,6 +541,7 @@ App.controller('attendee', function (page,request) {
 			var obj = {
 				wxID       : person.wxID, // 发消息学生家长
 				studentName: person.studentName,
+				schoolsub  : person.fullname, //学生所在分校区，发消息抬头用
 				classDate  : new Date(), // 用于判断今天补点名、不重复点名
 			}
 			console.log(obj)

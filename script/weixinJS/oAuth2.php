@@ -11,23 +11,41 @@ switch($menuitem){
 	case "school":
 		$url = $url . "oAuth2-school.php";
 		break;
-	case "student":
-		$url = $url . "oAuth2-student.php";
+	case "dean_student_register":
+		$url = $url . "oAuth2-dean_student_register.php";
 		break;
-	case "teacher":
-		$url = $url . "oAuth2-teacher.php";
+	case "dean_consult":
+		$url = $url . "oAuth2-dean_consult.php";
 		break;
-	case "consult":
-		$url = $url . "oAuth2-consult.php";
+	case "dean_teacher":
+		$url = $url . "oAuth2-dean_teacher.php";
 		break;
+	case "dean_student":
+		$url = $url . "oAuth2-dean_student.php";
+		break;
+	case "dean_class":
+		$url = $url . "oAuth2-dean_class.php";
+		break;	
+	case "dean_1to1":
+		$url = $url . "oAuth2-dean_1to1.php";
+		break;		
 	case "teacher_class":
 		$url = $url . "oAuth2-teacher_class.php";
+		break;
+	case "teacher_class_kcb":
+		$url = $url . "oAuth2-teacher_class_kcb.php";
+		break;
+	case "teacher_1to1_kcb":
+		$url = $url . "oAuth2-teacher_1to1_kcb.php";
 		break;
 	case "consult_class":
 		$url = $url . "oAuth2-consult_class.php";
 		break;
 	case "consult_student":
 		$url = $url . "oAuth2-consult_student.php";
+		break;	
+	case "consult_student_register": //来自微信的
+		$url = $url . "oAuth2-consult_student_register.php";
 		break;	
 	case "consult_class_student_absent":
 		$url = $url . "oAuth2-consult_class_student_absent.php";

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>根号教育平台</title>
+	<meta charset="utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="//cdn.kik.com/app/2.0.1/app.min.css">
+
+	<style>
+		.app-topbar {background:#E82;}
+
+		/*  msg box */
+		#m {
+			filter: alpha(opacity=30);
+			-moz-opacity: 0.3; 
+			opacity: 0.3;
+			position:absolute;
+			z-index:10000;
+			background-color:none;
+		}
+		#lo {
+			position:absolute;
+			width:150px;
+			height:90px;
+			line-height:90px;
+			background-color:#000;
+			color:#fff;
+			text-align:center;
+			z-index:9999;
+	
+			filter: alpha(opacity=70);
+			-moz-opacity: 0.7; 
+			opacity: 0.7;
+			
+			border-radius:10px;
+			-moz-border-radius:10px; /* Old Firefox */
+		} /* ends - msg box */
+		/* 滑动、长按删除 */
+		.list {
+			margin:0px 0;
+		}
+		.list .listItem {
+			background: #fcfcfc;
+			padding: 10px 15px;
+			border: 1px solid #eee;
+			margin:0px;
+			border-radius:0px;
+			-moz-border-radius:0px; /* Old Firefox */
+		}
+		.list .listItem .subtitle{
+			 color: #888;
+			 font-size:0.8em;
+			 clear: both;
+		}
+		/* 删除列表项  */
+		.btnRemove {
+			background:red;
+			color:#fff;
+			float:right;
+			width:60px;
+			line-height:40px;
+			text-align:center;
+			display:none;
+			z-index:100;
+			position:relative;
+		}
+			
+		.spacer {
+			height:10px;
+		}
+	
+		.arrow-r{
+		  position: relative;
+		}
+		.arrow-r:after, .arrow-r:before {
+		  border: 10px solid transparent;
+		  border-left: 10px solid #fff;
+		  width: 0;
+		  height: 0;
+		  position: absolute;
+		  top: 0; 
+		  right: -20px;
+		  content: ' '
+		}
+		.arrow-r:before {
+		  border-left-color: #888;
+		  right: -21px;
+		}
+	</style>
+  </head>
+
+  <body>
+
+    <div class="app-page" data-page="home">
+      <div class="app-topbar">
+          <div class="app-title">大小班级</div>
+		  <div class="app-button right addnew" style="font-size:1.5em;
+		font-weight:bolder;">╋</div>
+      </div>
+      <div class="app-content">
+		<input class="app-input no-icon-android" type="search" placeholder="查找..." readOnly=true>
+		<div class="list">
+			<div class="listItem">						
+			  <div class="title">	
+				<span class="title"></span>
+				<span class="gender" style="float:right;"></span>
+				<span class='btnRemove' style="float:right;">删除</span>
+			  </div>
+			  <div class="subtitle">
+				<span class="hour"></span>
+				<span class="amount"></span>
+				<span class="teacher" style="float:right;"></span>	
+				<!--  -->
+				<span class="schoolID" style="display:none;"></span>
+				<!--隐藏，记录唯一标识用 -->
+				<span class="userId" style="display:none;"></span>
+				<span class="id" style="display:none;"></span>
+			  </div>	
+			</div>
+		</div>  
+    </div>
+	
+	<div class="app-page" data-page="addnew">
+		<div class="app-topbar">
+	        <div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">新增班级</div>
+		</div>
+		<div class="app-content">
+			<form style="background:#fff;margin:10px;">
+				<input class="app-input" name="title" maxlength="70" placeholder="班级名称" autofocus=true>	
+				<select class="app-input" id="selClasstype"   >
+					<option value="无">选择类别...</option> 
+					<option value="数理化">数理化</option> 
+					<option value="史地生">史地生</option> 
+					<option value="语政英">语政英</option> 
+					<option value="艺术">艺术</option>
+				</select>
+				<input class="app-input" name="hour" type="number" placeholder="课时">
+				<input class="app-input" name="amount" type="number" placeholder="金额">
+				<select class="app-input" id="selTeacher">
+					<option value="0">任课教师...</option> 
+				</select>
+				
+				<select class="app-input" id="selWeekday"   >
+					<option value="周一">周一</option> 
+					<option value="周二">周二</option> 
+					<option value="周三">周三</option> 
+					<option value="周四">周四</option>
+					<option value="周五">周五</option> 
+					<option value="周六">周六</option> 
+					<option value="周日">周日</option>
+				</select>
+				<select class="app-input" id="selTimespan"   >
+					<option value="上午">上午</option> 
+					<option value="下午">下午</option> 
+					<option value="晚上">晚上</option> 
+				</select>
+			</form>
+			
+			<div style="margin:0 10px;">
+				<div class="app-button green submit">保存</div>	
+			</div>
+		</div>	
+	</div>
+	
+    <div class="app-page" data-page="student">
+      <div class="app-topbar">
+          <div class="app-button left" data-back data-autotitle></div>
+		  <div class="app-title">班级的报读学生</div>
+      </div>
+      <div class="app-content">
+		<div class="list">
+		  <div class="listItem">
+		    <div>
+		    	<span class="name"></span>
+				<span class="gender" style="float:right;"></span>
+		    </div>
+			<div class="subtitle" style="clear:both;">
+				<span class="schoolsub"></span>
+				<span class="created" style="float:right;"></span>
+			</div>
+			<!-- 隐藏id student-->
+			<div class="schoolID" style="display:none;"></div>
+			<div class="id" style="display:none;"></div>		
+		  </div>
+		</div>
+    </div>
+
+    <script src="src/zepto.js"></script>
+    <script src="src/app.min.js"></script>
+
+	<script src="js/main.js"></script>	
+	<script src="js/dean_class.js"></script>
+	
+    <script>  
+		// 中文参数，解决乱码。location.search就无效
+		var url = decodeURI(window.location);
+		//alert(url)
+
+		//采用正则表达式获取地址栏参数
+		function getQueryString(param){
+		     var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)");
+		     //var r = window.location.search.substr(1).match(reg);
+			 url = url.substr(url.indexOf("?") + 1); //取得所有参数
+			 var r = url.match(reg);
+		     if(r!=null)return  unescape(r[2]); return null;
+		}
+		
+		// 全局变量，你的校区，微信号，姓名
+		gUserID = getQueryString("userId");
+		gUserName = getQueryString("userName")
+		gSchoolID = getQueryString("schoolID");// 扩展属性
+		//alert("学校："+gSchoolID);
+		
+		App.load('home');
+    </script>
+  </body>
+  
+</html>

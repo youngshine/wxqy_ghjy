@@ -1,6 +1,6 @@
 <?php
 /*
-  * 读取某个学校的分校区 if any
+  * 读取某个学校的分校区 至少都有一个if any
 */
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
@@ -8,7 +8,8 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 
 require_once('db/database_connection.php');
 
-$schoolID = addslashes($_REQUEST['schoolID']);
+$schoolID = $_REQUEST['schoolID'];
+
 $query = "SELECT * From `ghjy_school_sub` Where schoolID=$schoolID ";
     
 $result = mysql_query($query) 

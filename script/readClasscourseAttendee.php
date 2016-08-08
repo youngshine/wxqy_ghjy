@@ -1,5 +1,6 @@
 <?php
-// 读取大小班上课课时列表明细 DATA_FORMAT(datetime,format) to 日期
+// 读取大小班上课课时的学生考勤明细 
+// DATA_FORMAT(datetime,format) to 日期
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
 //header('Access-Control-Allow-Headers: X-Requested-With');
@@ -11,10 +12,11 @@ $beginDate = $_REQUEST['beginDate'];
 $classID = $_REQUEST['classID'];
 //$classcourseID = $_REQUEST['classcourseID'];
 
-$sql = " SELECT a.*,b.studentName,b.wxID,b.phone    
+$sql = " SELECT a.*,b.studentName,b.wxID,b.phone,c.schoolsubID,c.fullname     
 	From `ghjy_class_course` a 
 	Join `ghjy_student` b On a.studentID=b.studentID 
-	Where DATE_FORMAT(a.beginTime,'%Y-%m-%d') = '$beginDate' And classID=$classID";
+	Join `ghjy_school_sub` c On b.schoolsubID=c.schoolsubID 
+	Where DATE_FORMAT(a.beginTime,'%Y-%m-%d') = '$beginDate' And 		a.classID=$classID";
 $result = mysql_query($sql) 
 	or die("Invalid query: readClasscourseAttendee By beginDate" . mysql_error());
 

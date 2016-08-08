@@ -19,7 +19,7 @@ $schoolID = $userInfo->extattr->attrs[0]->value; //name:schoolID
 //echo json_encode($userInfo->extattr->attrs[0]->value);
 //die();
 
-$url = "../../teacher.html?userId=". $userId . 
+$url = "../../dean_1to1.html?userId=". $userId . 
 	"&userName=" . $userName . 
 	"&schoolID=" . $schoolID;
 header("Location:".$url);

@@ -39,19 +39,19 @@
 		} /* ends - msg box */
 		/* 滑动、长按删除 */
 		.list {
-			margin:0;
+			margin:0 0;
 		}
 		.list .listItem {
-			background: #fff;
+			background: #fcfcfc;
 			padding: 10px 15px;
 			border: 1px solid #eee;
-			margin:0px;
+			margin: 0px;
 			border-radius:0px;
 			-moz-border-radius:0px; /* Old Firefox */
 		}
 		.list .listItem .subtitle{
 			 color: #888;
-			 font-size:0.9em;
+			 font-size:0.8em;
 		}
 		
 		.spacer {
@@ -82,61 +82,36 @@
 
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-          <div class="app-title">我的学生</div>
+          <div class="app-title">全校学生列表</div>
       </div>
       <div class="app-content">
 		  <form action="">
 		    <input class="app-input no-icon-android" type="search" placeholder="Search...">
 		    <input type="submit" style="display:none">
 		  </form>
-		<ul class="app-list">
-			<li>						
-				<span class="name"></span>
-				<span class="gender" style="color:#888;"></span>
-				<span class="grade" style="color:#888;"></span>
-				<!--  -->
-				<span style="float:right;margin:10px;" class="arrow-r"></span>
-				<span class="phone" style="float:right;color:#888;"></span>
-
-				<span class="created" style="display:none;"></span>
-				<!--隐藏，记录唯一标识用 -->
-				<span class="id" style="display:none;"></span>
-			</li>
-		</ul>  
+		<div class="list">
+		  <div class="listItem">
+		    <div>
+		    	<span class="name"></span>
+				<span class="phone" style="float:right;"></span>
+		    </div>
+			<div class="subtitle" style="clear:both;">
+				<span class="schoolsub"></span>
+				<span class="created" style="float:right;"></span>
+			</div>
+			<!-- 隐藏id student-->
+			<div class="schoolID" style="display:none;"></div>
+			<div class="id" style="display:none;"></div>		
+		  </div>
+		</div>
     </div>
 	
-    <div class="app-page" data-page="orders">
-      <div class="app-topbar">
-          <div class="app-button left" data-back data-autotitle></div>
-		  <div class="app-title">报读课程</div>
-      </div>
-      <div class="app-content">
-		<div style="border-top:1px solid #eee;border-bottom:1px solid #eee;">
-			<div class="app-button class" style="float:left;width:50%;background:#fff;">大小班</div>	
-			<div class="app-button one2one" style="background:#eee;">一对一</div>	
-		</div>
-		<div class="list">
-    	  <div class="listItem">
-    	    <div class="title"></div>
-  			<div class="subtitle" style="color:#888;">
-  				<span>上课：</span>
-				<span class="weekday"></span>
-				<span class="timespan"></span>
-				<span class="teacher" style="float:right;"></span>
-    		</div>
-			<!-- 隐藏id -->
-  			<div class="id" style="display:none;"></div>		
-    	  </div>
-    	</div>
-	  </div>	  
-    </div>
-
     <script src="src/zepto.js"></script>
     <script src="src/app.min.js"></script>
 
 	<script src="js/main.js"></script>
 	
-	<script src="js/consult_student.js"></script>
+	<script src="js/dean_student.js"></script>
 	
     <script>  
 		// 中文参数，解决乱码。location.search就无效

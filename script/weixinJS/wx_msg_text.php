@@ -14,6 +14,7 @@ $userId = str_replace("、", "|", $userId);
 
 require_once "jssdk-token.php";
 
+// 技术开发管理组的scret，设置对应用agentId拥有发消息权限
 $corpid = "wx09e87ee7559bb52f";
 $corpsecret = "t08leZ8Ry2Yu3s5t0hU6G5npkxrkXypUCN7ew8y7h0vieePm7xbEyjGK37J1c5g6";
 $jssdk = new JSSDK($corpid, $corpsecret);

@@ -35,21 +35,23 @@
 	}
 	
 	// 微信图文news通知人员
-	wxMsgNews = function(userId,type,msg,link,agentid){
+	wxMsgNews = function(obj){
 		$.ajax({
-			url: 'script/weixinJS/wx_msgByNews.php',
-			data: {userId:userId, type:type, msg:msg, link:link,agentid:agentid},
-			//dataType: "jsonp",
+			url: 'script/weixinJS/wx_msg_news.php',
+			data: obj, //{userId:userId, type:type, msg:msg, link:link,agentid:agentid},
+			//dataType: "json",
 			success: function(result){},
 		});
 	} 
-	// 发送企业号文字消息 ajax
+	// 发送企业号文字消息 ajax，技术开发组secret，对应用有消息权限
 	wxMsgText = function(obj){
 		$.ajax({
 			url: 'script/weixinJS/wx_msg_text.php',
 			data: obj,
 			dataType: "json",
-			success: function(result){},
+			success: function(result){
+				console.log(result)
+			},
 		});
 	}
 	// js-sdk签名

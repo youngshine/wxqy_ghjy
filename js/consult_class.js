@@ -1,4 +1,4 @@
-// 咨询师创建的班级
+// 咨询师的班级，无权创建
 App.controller('home', function (page) {
 	var $search = $(page).find('input[type=search]'),
 		$list = $(page).find('.list'),
@@ -46,6 +46,7 @@ App.controller('home', function (page) {
 			$node.find('.title').text(item.title); 
 			$node.find('.weekday').text(item.weekday);
 			$node.find('.timespan').text(item.timespan);
+			$node.find('.teacher').text(item.teacherName);
 			//display:none
 			$node.find('.id').text(item.classID);			
 			$list.append($node);

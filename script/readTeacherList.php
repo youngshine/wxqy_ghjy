@@ -9,6 +9,7 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 require_once('db/database_connection.php');
 
 $schoolID = addslashes($_REQUEST['schoolID']);
+
 $query = "SELECT a.*,b.subjectName  
 	From `ghjy_teacher` a 
 	Join `ghjy_subject` b On a.subjectID=b.subjectID

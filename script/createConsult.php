@@ -9,11 +9,13 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 require_once('db/database_connection.php');
 
 $schoolID = $_REQUEST['schoolID']; //归属学校
+$schoolsubID = $_REQUEST['schoolsubID']; // 学校下面分校
 $username = addslashes($_REQUEST['username']); 
 $gender = $_REQUEST['gender'];
 
-$sql = "INSERT INTO `ghjy_consult` (consultName,gender,schoolID) 
-	VALUES('$username','$gender',$schoolID)";
+$sql = "INSERT INTO `ghjy_consult` 
+	(consultName,gender,schoolID,schoolsubID) 
+	VALUES('$username','$gender',$schoolID,$schoolsubID)";
 $result = mysql_query($sql) or die("Invalid query: createConsult" . mysql_error());
 
 if($result){

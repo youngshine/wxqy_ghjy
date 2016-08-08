@@ -6,11 +6,14 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 
 require_once('db/database_connection.php');
 
+// 咨询师userId
 $consult = addslashes($_REQUEST['consultID']); //userId
 
-$sql = " SELECT a.*,b.userId 
+// 可能还没有指定教师，所以left join teacher
+$sql = " SELECT a.*,b.userId,c.teacherName  
 	From `ghjy_class` a 
 	Join `ghjy_consult` b On a.consultID=b.consultID 
+	Left Join `ghjy_teacher` c On a.teacherId=c.teacherID 
 	Where b.userId = '$consult' ";
     
 $result = mysql_query($sql) 

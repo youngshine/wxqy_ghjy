@@ -8,9 +8,10 @@ require_once('db/database_connection.php');
 
 $studentID = $_REQUEST['studentID'];
 
-$sql = " SELECT a.*,b.studentID 
+$sql = " SELECT a.*,b.studentID,c.teacherName  
 	From `ghjy_class` a 
 	join `ghjy_class_student` b On a.classID=b.classID  
+	Join `ghjy_teacher` c On a.teacherID=c.teacherID 
 	Where b.studentID = $studentID ";
     
 $result = mysql_query($sql) 

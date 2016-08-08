@@ -46,8 +46,8 @@
 			padding: 10px 15px;
 			border: 1px solid #eee;
 			margin:0px;
-			//border-radius:10px;
-			//-moz-border-radius:10px; /* Old Firefox */
+			border-radius:0px;
+			-moz-border-radius:0px; /* Old Firefox */
 		}
 		.list .listItem .subtitle{
 			 color: #888;
@@ -85,19 +85,14 @@
           <div class="app-title">今天班级学生缺课</div>
       </div>
       <div class="app-content">
-		  <form action="">
-		    <input class="app-input no-icon-android" type="search" placeholder="Search...">
-		    <input type="submit" style="display:none">
-		  </form>
   		<div class="list">
       	  <div class="listItem">
       	    <div>
       	    	<span class="name"></span>
-				<span class="phone" style="float:right;"></span>
       	    </div>
     		<div class="subtitle">
-				<span class="class_title"></span>
-				<span class="gender" style="float:right;"></span>
+				<span class="gender"></span>
+				<span class="phone" style="float:right;"></span>
       		</div>
   			<!-- 隐藏id -->
     			<div class="id" style="display:none;"></div>		

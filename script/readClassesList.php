@@ -1,21 +1,21 @@
 <?php
-// 读取某个班级的报读学生
+// 企业号userId： 读取校长的大小班级
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
 //header('Access-Control-Allow-Headers: X-Requested-With');
 
 require_once('db/database_connection.php');
 
-$classID = $_REQUEST['classID'];
+$schoolID = $_REQUEST['schoolID']; 
 
-$sql = " SELECT a.*,b.studentName,b.wxID,b.phone,c.schoolsubID,c.fullname    
-	From `ghjy_class_student` a 
-	Join `ghjy_student` b On a.studentID=b.studentID 
-	Join `ghjy_school_sub` c On b.schoolsubID=c.schoolsubID 
-	WHERE a.classID = $classID ";  
+// 可能还没有指定教师，所以left join teacher
+$sql = " SELECT a.*,b.teacherName,b.userId 
+	From `ghjy_class` a 
+	Left Join `ghjy_teacher` b On a.teacherID=b.teacherID 
+	Where a.schoolID=$schoolID ";
     
 $result = mysql_query($sql) 
-	or die("Invalid query: readStudent by class" . mysql_error());
+	or die("Invalid query: readClassList by all" . mysql_error());
 
 	$query_array = array();
 	$i = 0;
@@ -28,7 +28,7 @@ $result = mysql_query($sql)
 
 	echo json_encode(array(
 		"success" => true,
-		"message" => "读取班级学生成功",
+		"message" => "企业号读取班级列表成功",
 		"data"	  => $query_array
 	));
 ?>

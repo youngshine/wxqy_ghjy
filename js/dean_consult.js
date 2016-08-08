@@ -1,18 +1,12 @@
-// 问题反馈论坛bbs
+// 管理咨询师 by 执行校长
 App.controller('home', function (page) {
 	// 离开页面、隐藏删除按钮if any
 	$(page).on('appForward', function () {
 		$('.btnRemove').hide();
 	}); 
-	/* 工具栏向下滑动，清零刷新, android不行？
-	$(page).find('.app-title').swipeDown(function(){
-		search.val('');	
-		//$list.empty();			
-		readData(callback??,params)
-	}); */
 	
-	var $list = $(page).find('.app-list'),
-		$listItem = $(page).find('.app-list li').remove()	
+	var $list = $(page).find('.list'),
+		$listItem = $(page).find('.listItem').remove()	
 	
 	var btnAddnew = $(page).find('.addnew')
 	btnAddnew.on('click',function(){
@@ -22,22 +16,25 @@ App.controller('home', function (page) {
 				console.log(data)
 				// 保存新增,ajax
 				$.ajax({
-					url: gDataUrl + 'createTeacher.php',
+					url: gDataUrl + 'createConsult.php',
 					data: data,
 					dataType: 'json',
 					success: function(result){
 						console.log(result)
 						// 前端添加显示记录，不刷新服务器数据库
 						var $node = $listItem.clone(true);
-						// 返回新插入记录id，删除用，无法马上操作li??，没绑定handledata?
-						$node.find('.id').text(result.data.teacherID);
+						// 返回新插入记录id，删除用
+						$node.find('.id').text(result.data.consultID);
 						$node.find('.name').text(data.username); 
-						$node.find('.subject').text(data.subjectName); 
 						//$node.find('.gender').text(data.gender);
+						$node.find('.schoolsub').text(data.fullname);
 						//display:none
+						//$node.find('.userId').text(data.userId);
 						$node.find('.schoolID').text(data.schoolID);			
 						$list.prepend($node);
-						toast('添加教师成功')
+						
+						handleData($list); //新插入的才能操作
+						toast('添加咨询师成功')
 					},
 				});
 			}
@@ -46,7 +43,7 @@ App.controller('home', function (page) {
 
 
 	var params = { 
-		"schoolID": gSchoolID //7 //USER_SCHOOL_ID,
+		"schoolID": gSchoolID 
 	}
 	//loadData(params); 
 	
@@ -61,17 +58,16 @@ App.controller('home', function (page) {
 	function readData(callback, obj){
 		showPrompt('加载中...');		
 		$.ajax({
-	    	url: gDataUrl + 'readTeacherList.php',
+	    	url: gDataUrl + 'readConsultList.php',
 			data: obj,
 			dataType: "json",
 			success: function(result){
 				hidePrompt()
 				console.log(result)
-			    //populateData(result.data)
 				callback(result.data)
 			},
 			error: function(xhr, type){
-				showPrompt('读取教师出错');	
+				showPrompt('读取咨询出错');	
 			}
 		});
 	}
@@ -82,18 +78,20 @@ App.controller('home', function (page) {
 		}
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
-			$node.find('.name').text(item.teacherName); 
-			$node.find('.subject').text(item.subjectName);
+			$node.find('.name').text(item.consultName); 
+			//$node.find('.gender').text(item.gender);
+			$node.find('.schoolsub').text(item.fullname);
 			//display:none
 			$node.find('.schoolID').text(item.schoolID);
 			//$node.find('.created').text(item.created.substr(0,10));
-			$node.find('.id').text(item.teacherID);			
+			$node.find('.userId').text(item.userId);
+			$node.find('.id').text(item.consultID);			
 			$list.append($node);
 		});
 	}	
 
 	function handleData(list){	
-		list.find('li').on({
+		list.find('.listItem').on({
 			// for android
 			longTap: function (e) {
 				$('.btnRemove').hide()
@@ -106,7 +104,7 @@ App.controller('home', function (page) {
 			click: function (e) {
 				console.log(e.target.className)
 				if(e.target.className == 'btnRemove'){
-					doRemove($(this))
+					//doRemove($(this))
 				}else{	
 					var hasBtn = false 
 					var btns = $('.btnRemove');
@@ -164,7 +162,7 @@ App.controller('home', function (page) {
 		function deleteData(ID,selected){
 			showPrompt('正在删除...');
 			$.ajax({
-				url: gDataUrl + 'deleteTeacher.php',
+				url: gDataUrl + 'deleteConsult.php',
 				data: {teacherID:ID},
 				dataType: "json", // 返回的也是 json
 				success: function(result){
@@ -181,47 +179,59 @@ App.controller('home', function (page) {
 	}	
 
 	function doShow(selectedLi){
-		//var obj = {
-		var obj = {	
-			"teacherID": selectedLi.find('.id').text(),
-			"teacherName": selectedLi.find('.name').text(),
+		var item = {	
+			"consultID": selectedLi.find('.id').text(),
+			"consultName": selectedLi.find('.name').text(),
+			"userId": selectedLi.find('.userId').text(),
 		}
 		console.log(item)
-		// 如果下面存在删除记录，用pick，否则用load
-		/*
-		App.pick('detail', item, function (data) {
-			if(data){ 	
-				// 结贴，相应的列表项listItem 移除消失
-				selectedLi.remove()
-			}
-		});	 */
+		App.load('student',item)
 	}
 }); // ends controller
 
 
 // 选择分配归属咨询师
 App.controller('addnew', function (page,request) {
-	var me = this;
+	var me = this; console.log(request)
+	
+	// 读取该学校的分校区列表（至少都有一个分校区）
+	$.ajax({
+    	url: gDataUrl + 'readSchoolsubList.php',
+		data: {"schoolID":request.schoolID},
+		dataType: "json",
+		success: function(result){
+			console.log(result.data)
+			$.each(result.data,function(index,item){
+				$(page).find("#selSchoolsub")
+				.append("<option value=" + 
+				item.schoolsubID + ">" + 
+				item.fullname + "</option>");
+			})
+		},
+		error: function(xhr, type){
+			showPrompt('读取分校区出错');	
+		}
+	});
 
 	var btnSubmit = $(page).find('.submit')
 	
 	// 提交保存按钮
 	btnSubmit.on('click',function(e){		
-		var subjectName = '数学' //$(page).find("#selSubject").text();
-		var subjectID = $(page).find("#selSubject").val();
-		if(subjectID == 0){
-			toast('请选择学科');return;		
-		}
-		if(subjectID == 2){
-			subjectName = '物理'
-		}else if(subjectID == 3){
-			subjectName = '化学'
-		}
-		
 	    var username = $(page).find('input[name=username]').val()			
 		if(username == ''){
-			toast('请输入教师姓名');return;		
+			toast('请输入姓名');return;		
 		}
+		var gender = $(page).find("#selGender").val(); //text()
+		if(gender == '无'){
+			toast('请选择性别');return;		
+		}
+		var schoolsubID = $(page).find("#selSchoolsub").val(); //text()
+		if(schoolsubID == 0){
+			toast('请选择分校区');return;		
+		}
+		// zepto select
+		var fullname = $(page).find("#selSchoolsub").find('option').not(function(){ return !this.selected })
+		fullname = fullname.text()
 		
 		App.dialog({
 			title	     : '保存？', //'删除当前公告？',
@@ -230,10 +240,11 @@ App.controller('addnew', function (page,request) {
 		}, function (choice) {
 			if(choice){		
 				var obj = {
+					gender: gender,
 					username: username,
-					subjectID: subjectID,
-					subjectName: subjectName, //显示用
-					schoolID: gSchoolID
+					schoolsubID: schoolsubID,
+					fullname: fullname,
+					schoolID: request.schoolID
 				}
 				me.reply(obj)
 			}
@@ -241,5 +252,55 @@ App.controller('addnew', function (page,request) {
     });	
 	
 }); // addnew	
+
+App.controller('student', function (page,request) {
+	var $list = $(page).find('.list'),
+		$listItem = $(page).find('.listItem').remove()	
+
+	var params = { 
+		"consultID": request.userId //consultID
+	}
+	
+	readData(function(data){
+		populateData(data)	
+		//handleData( $list )
+		//records = data;
+	}, params );
+
+	function readData(callback, obj){
+		showPrompt('加载中...');		
+		$.ajax({
+	    	url: gDataUrl + 'readStudentListByConsult.php',
+			data: obj,
+			dataType: "json",
+			success: function(result){
+				hidePrompt()
+				console.log(result)
+			    //populateData(result.data)
+				callback(result.data)
+			},
+			error: function(xhr, type){
+				showPrompt('读取学生出错');	
+			}
+		});
+	}
+
+	function populateData(items){
+		if($list.children().length != 0){
+			$list.empty(); //清除旧的列表项 if any
+		}
+		items.forEach(function (item) {
+			var $node = $listItem.clone(true);
+			$node.find('.name').text(item.studentName); //studentName = ''
+			$node.find('.phone').text(item.phone);
+			$node.find('.grade').text(item.gender+'•'+item.grade);
+			$node.find('.created').text(item.created.substr(0,10));
+			//display:none
+			$node.find('.schoolID').text(item.schoolID);
+			$node.find('.id').text(item.studentID);			
+			$list.append($node);
+		});
+	}	
+}); 
 
 

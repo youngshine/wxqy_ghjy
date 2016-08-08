@@ -25,7 +25,9 @@ endlog */
 		echo json_encode(array(
 	        "success" => true,
 	        "message" => "修改成功",
-			"data"    => $row['userId']
+			"data"    => array(
+				"userId"=>$row['userId']
+			)
 	    ));
 	}else{
 		echo json_encode(array(

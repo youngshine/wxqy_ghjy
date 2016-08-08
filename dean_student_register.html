@@ -39,33 +39,21 @@
 		} /* ends - msg box */
 		/* 滑动、长按删除 */
 		.list {
-			margin:5px 0;
+			margin:0px 0;
 		}
 		.list .listItem {
 			background: #fcfcfc;
 			padding: 10px 15px;
-			border: 0px solid #fff;
-			margin:5px;
-			border-radius:10px;
-			-moz-border-radius:10px; /* Old Firefox */
+			border: 1px solid #eee;
+			margin:0px;
+			border-radius:0px;
+			-moz-border-radius:0px; /* Old Firefox */
 		}
 		.list .listItem .subtitle{
 			 color: #888;
-			 font-size:0.9em;
+			 font-size:0.8em;
 		}
-		/* 删除列表项  */
-		.btnRemove {
-			background:red;
-			color:#fff;
-			float:right;
-			width:60px;
-			line-height:40px;
-			text-align:center;
-			display:none;
-			z-index:100;
-			position:relative;
-		}
-			
+		
 		.spacer {
 			height:10px;
 		}
@@ -94,86 +82,54 @@
 
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-          <div class="app-title">教师</div>
-		  <div class="app-button right addnew" style="font-size:1.5em;
-		font-weight:bolder;">╋</div>
+          <div class="app-title">归属微信注册学生</div>
       </div>
       <div class="app-content">
 		  <form action="">
 		    <input class="app-input no-icon-android" type="search" placeholder="Search...">
 		    <input type="submit" style="display:none">
 		  </form>
-		<ul class="app-list">
-			<li>						
-				<span class="name"></span>
-				<!--  -->
-				<span class='btnRemove'>删除</span>
-				<span style="float:right;margin:10px;" class="arrow-r"></span>
-				<span class="subject" style="float:right;"></span>
-				
-				<span class="schoolID" style="display:none;"></span>
-				<!--隐藏，记录唯一标识用 -->
-				<span class="id" style="display:none;"></span>
-				
-			</li>
-		</ul>  
+  		<div class="list">
+      	  <div class="listItem">
+      	    <div>
+      	    	<span class="name"></span>
+				<span class="phone" style="float:right;"></span>
+      	    </div>
+    		<div class="subtitle" style="clear:both;">
+				<span class="schoolsub"></span>
+				<span class="created" style="float:right;"></span>
+      		</div>
+  			<!-- 隐藏id student-->
+			<div class="schoolID" style="display:none;"></div>
+    		<div class="id" style="display:none;"></div>		
+      	  </div>
+      	</div> 
     </div>
 	
-	<div class="app-page" data-page="addnew">
+	<!-- 选择员工列表，公用-->
+	<div class="app-page" data-page="select-member">
 		<div class="app-topbar">
-	        <div class="app-button left" data-back data-autotitle></div>
-			<div class="app-title">新请教师</div>
+			<div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title"></span>选择咨询师</div>
+			<div class="app-button right ok" style="display:none;">确定</div>		
 		</div>
-		<div class="app-content">
-			<form style="background:#fff;margin:10px;">
-				<input class="app-input" name="username" maxlength="70" placeholder="姓名" autofocus=true>	
-				<select class="app-input" id="selSubject"   >
-					<option value="0">选择学科...</option> 
-					<option value="1">数学</option> 
-					<option value="2">物理</option> 
-					<option value="3">化学</option> 
-				</select>	
-			</form>
-			
-			<div style="margin:0 10px;">
-				<div class="app-button green submit">保存</div>	
-			</div>
-		</div>	
-	</div>
-
-	<!-- 数字、文本及多行文本输入，公用-->
-	<div class="app-page" data-page="input-text">
-		<div class="app-topbar">
-			<div class="app-title">任务名称</div>
-			<div class="app-button right ok">确定</div>
-		</div>
-		<div class="app-content">
-			<div style="margin:10px;">
-				<input class="app-input" maxlength="70">	
-			</div>
+		<div class="app-content"> 
+		  <ul class="app-list app-section">
+			<li>						
+				<span class="name"></span>
+				<!--隐藏，记录唯一标识用 -->
+				<span class="id" style="display:none;"></span>
+			</li>
+		  </ul>	  
 		</div>	  
 	</div>
-	<div class="app-page" data-page="input-textarea">
-		<div class="app-topbar">
-			<div class="app-title">任务说明</div>
-			<div class="app-button right ok">确定</div>
-		</div>
-		<div class="app-content">
-			<div style="margin:10px;background:#fff;">
-				<textarea class="app-input" maxlength="140" wrap="soft">
-					
-				</textarea>
-			</div>
-		</div>	  
-	</div>
-
 
     <script src="src/zepto.js"></script>
     <script src="src/app.min.js"></script>
 
 	<script src="js/main.js"></script>
 	
-	<script src="js/teacher.js"></script>
+	<script src="js/dean_student_register.js"></script>
 	
     <script>  
 		// 中文参数，解决乱码。location.search就无效
