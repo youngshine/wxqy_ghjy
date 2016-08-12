@@ -4,7 +4,7 @@ App.controller('home', function (page) {
 		$listItem = $(page).find('.listItem').remove()	
 
 	var params = { 
-		"consultID": gUserID,
+		"consult": gUserID,
 		"flag"     : 0 //未上课
 	}
 	//loadData(params); 

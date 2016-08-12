@@ -50,11 +50,19 @@ App.controller('home', function (page) {
 		if($list.children().length != 0){
 			$list.empty(); //清除旧的列表项 if any
 		}
+		var schoolsub = '';
 		items.forEach(function (item) {
+			if(item.fullname != schoolsub){
+				schoolsub = item.fullname
+				$list.append('<label style="padding:10px;color:#888;font-size:0.8em;">' + 
+					item.fullname + '</label>')
+			}
 			var $node = $listItem.clone(true);
 			$node.find('.name').text(item.studentName); //studentName = ''
 			$node.find('.phone').text(item.phone);
-			$node.find('.schoolsub').text(item.fullname);
+			//$node.find('.schoolsub').text(item.fullname);
+			$node.find('.gender').text(item.gender);
+			$node.find('.grade').text(item.grade);
 			$node.find('.created').text(item.created.substr(0,10));
 			//display:none
 			$node.find('.schoolID').text(item.schoolID);

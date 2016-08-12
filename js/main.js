@@ -54,6 +54,7 @@
 			},
 		});
 	}
+	
 	// js-sdk签名
 	wxSig = function(){
 		$.ajax({

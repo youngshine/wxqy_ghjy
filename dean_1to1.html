@@ -95,7 +95,7 @@
 
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-          <div class="app-title">一对一课程套餐</div>
+          <div class="app-title">一对一课程</div>
 		  <div class="app-button right addnew" style="font-size:1.5em;
 		font-weight:bolder;">╋</div>
       </div>
@@ -103,12 +103,14 @@
 		<input class="app-input no-icon-android" type="search" placeholder="查找..." readOnly=true>
 		<div class="list">
 			<div class="listItem">						
-			  <div class="title">	
+			  <div class="">	
 				<span class="title"></span>
+				<span class='btnEdit' style="float:right;color:green;">编辑</span>	
 				<span class='btnRemove' style="float:right;">删除</span>
 			  </div>
 			  <div class="subtitle">
-				单价：<span class="unitprice"></span>元／课时		
+				<span>课时单价（元）：</span>
+				<span class="unitprice"></span>	
 				<!--隐藏，记录唯一标识用 -->
 				<span class="userId" style="display:none;"></span>
 				<span class="id" style="display:none;"></span>
@@ -120,7 +122,7 @@
 	<div class="app-page" data-page="addnew">
 		<div class="app-topbar">
 	        <div class="app-button left" data-back data-autotitle></div>
-			<div class="app-title">新增一对一课程</div>
+			<div class="app-title">新增课程</div>
 		</div>
 		<div class="app-content">
 			<form style="background:#fff;margin:10px;">
@@ -133,6 +135,50 @@
 			</div>
 		</div>	
 	</div>
+	
+	<div class="app-page" data-page="edit">
+		<div class="app-topbar">
+	        <div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">编辑课程</div>
+		</div>
+		<div class="app-content">
+			<form style="background:#fff;margin:10px;">
+				<input class="app-input" name="title" maxlength="70" placeholder="名称" autofocus=true>	
+				<input class="app-input" name="unitprice" type="number" placeholder="课时单价">
+			</form>
+			
+			<div style="margin:0 10px;">
+				<div class="app-button green submit">保存</div>	
+			</div>
+			<div style="margin:10px;">
+				<div class="app-button red del">删除禁用课程</div>	
+			</div>
+		</div>	
+	</div>
+	
+    <div class="app-page" data-page="student">
+      <div class="app-topbar">
+          <div class="app-button left" data-back data-autotitle></div>
+		  <div class="app-title">一对一报读学生</div>
+      </div>
+      <div class="app-content">
+		<div class="info" style="margin:10px;text-align:center;"></div>
+		<div class="list">
+		  <div class="listItem">
+		    <div>
+		    	<span class="name"></span>
+				<span class="gender" style="float:right;"></span>
+		    </div>
+			<div class="subtitle" style="clear:both;">
+				<span class="schoolsub"></span>
+				<span class="created" style="float:right;"></span>
+			</div>
+			<!-- 隐藏id student-->
+			<div class="schoolID" style="display:none;"></div>
+			<div class="id" style="display:none;"></div>		
+		  </div>
+		</div>
+    </div>
 	
 
     <script src="src/zepto.js"></script>
@@ -160,9 +206,12 @@
 		gUserID = getQueryString("userId");
 		gUserName = getQueryString("userName")
 		gSchoolID = getQueryString("schoolID");// 扩展属性
-		//alert("学校："+gSchoolID);
-		
-		App.load('home');
+
+		if(gUserID==null || gUserID==''){
+			$('body').prepend('错误访问')
+		}else{
+			App.load('home');
+		}
     </script>
   </body>
   

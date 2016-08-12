@@ -11,7 +11,7 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 require_once('db/database_connection.php');
 
 //$teacherID = $_REQUEST['teacherID'];
-$teacher = addslashes($_REQUEST['teacherID']); //参数userId，不是primary
+$teacher = addslashes($_REQUEST['teacher']); //参数userId，不是primary
 
 $sql = "SELECT a.teach_weekday,a.teach_timespan,b.userId,b.teacherName  
 	FROM `ghjy_student-study` a

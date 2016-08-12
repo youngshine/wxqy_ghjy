@@ -1,22 +1,22 @@
 <?php
-// 读取大小班上课课时列表（group by beginDate(time))
+// 学校的缴费流水
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
 //header('Access-Control-Allow-Headers: X-Requested-With');
 
 require_once('db/database_connection.php');
 
-$classID = $_REQUEST['classID'];
+// 学校
+$schoolID = $_REQUEST['schoolID'];
 
-$sql = " SELECT classID,beginTime,endTime,flag,
-	DATE_FORMAT(beginTime,'%Y-%m-%d') As courseDate 
-	From `ghjy_class_course` 
-	Where classID = $classID 
-	Group By DATE_FORMAT(beginTime,'%Y-%m-%d') 
-	Order By DATE_FORMAT(beginTime,'%Y-%m-%d') Desc";
+$sql = " SELECT a.*,b.studentName   
+	From `ghjy_accnt` a 
+	Join `ghjy_student` b On a.studentID=b.studentID 
+	Where b.schoolID=$schoolID 
+	Order by a.created Desc";
     
 $result = mysql_query($sql) 
-	or die("Invalid query: readClasscourse" . mysql_error());
+	or die("Invalid query: readAccntList" . mysql_error());
 
 	$query_array = array();
 	$i = 0;
@@ -29,7 +29,7 @@ $result = mysql_query($sql)
 
 	echo json_encode(array(
 		"success" => true,
-		"message" => "读取班级上课课时成功",
+		"message" => "企业号读取缴费流水列表成功",
 		"data"	  => $query_array
 	));
 ?>

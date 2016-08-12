@@ -39,15 +39,15 @@
 		} /* ends - msg box */
 		/* 滑动、长按删除 */
 		.list {
-			margin:5px 0;
+			margin:0px 0;
 		}
 		.list .listItem {
 			background: #fcfcfc;
 			padding: 10px 15px;
-			border: 0px solid #fff;
-			margin:5px;
-			border-radius:10px;
-			-moz-border-radius:10px; /* Old Firefox */
+			border: 1px solid #eee;
+			margin:0px;
+			border-radius:0px;
+			-moz-border-radius:0px; /* Old Firefox */
 		}
 		.list .listItem .subtitle{
 			 color: #888;
@@ -113,16 +113,41 @@
 				
 				<span class="schoolID" style="display:none;"></span>
 				<!--隐藏，记录唯一标识用 -->
+				<span class="userId" style="display:none;"></span>
 				<span class="id" style="display:none;"></span>
 				
 			</li>
 		</ul>  
     </div>
+    <div class="app-page" data-page="kcb">
+      <div class="app-topbar">
+          <div class="app-button left" data-back data-autotitle></div>
+		  <div class="app-title">排课表</div>
+      </div>
+      <div class="app-content">
+		<div style="border-top:1px solid #eee;border-bottom:1px solid #eee;">
+			<div class="app-button class" style="float:left;width:50%;background:#fff;">大小班级</div>	
+			<div class="app-button one2one" style="background:#eee;">一对一</div>	
+		</div>
+		<div class="list">
+    	  <div class="listItem">
+    	    <div class="title"></div>
+  			<div class="subtitle" style="color:#888;">
+  				<span>时间：</span>
+				<span class="timespan"></span>
+    		</div>
+			<!-- 隐藏id -->
+  			<div class="userId" style="display:none;"></div>
+  			<div class="id" style="display:none;"></div>		
+    	  </div>
+    	</div>
+	  </div>	  
+    </div>
 	
 	<div class="app-page" data-page="addnew">
 		<div class="app-topbar">
 	        <div class="app-button left" data-back data-autotitle></div>
-			<div class="app-title">新请教师</div>
+			<div class="app-title">新增教师</div>
 		</div>
 		<div class="app-content">
 			<form style="background:#fff;margin:10px;">
@@ -144,7 +169,7 @@
 	<!-- 数字、文本及多行文本输入，公用-->
 	<div class="app-page" data-page="input-text">
 		<div class="app-topbar">
-			<div class="app-title">任务名称</div>
+			<div class="app-title">名称</div>
 			<div class="app-button right ok">确定</div>
 		</div>
 		<div class="app-content">
@@ -155,7 +180,7 @@
 	</div>
 	<div class="app-page" data-page="input-textarea">
 		<div class="app-topbar">
-			<div class="app-title">任务说明</div>
+			<div class="app-title">说明</div>
 			<div class="app-button right ok">确定</div>
 		</div>
 		<div class="app-content">
@@ -171,8 +196,7 @@
     <script src="src/zepto.js"></script>
     <script src="src/app.min.js"></script>
 
-	<script src="js/main.js"></script>
-	
+	<script src="js/main.js"></script>	
 	<script src="js/dean_teacher.js"></script>
 	
     <script>  

@@ -6,16 +6,18 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 
 require_once('db/database_connection.php');
 
-$schoolID = $_REQUEST['schoolID']; 
+$schoolID = $_REQUEST['schoolID']; //企业号自定义schoolID
 
 // 可能还没有指定教师，所以left join teacher
-$sql = " SELECT a.*,b.teacherName,b.userId 
+$sql = " SELECT a.*,b.teacherName,b.userId,c.fullname  
 	From `ghjy_class` a 
 	Left Join `ghjy_teacher` b On a.teacherID=b.teacherID 
-	Where a.schoolID=$schoolID ";
+	Join `ghjy_school_sub` c On a.schoolsubID=c.schoolsubID 
+	Where a.schoolID=$schoolID 
+	Order By a.schoolsubID";
     
 $result = mysql_query($sql) 
-	or die("Invalid query: readClassList by all" . mysql_error());
+	or die("Invalid query: readClassList by school" . mysql_error());
 
 	$query_array = array();
 	$i = 0;

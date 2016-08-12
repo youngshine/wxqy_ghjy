@@ -1,5 +1,5 @@
-// 问题反馈论坛bbs
-App.controller('home', function (page) {
+// 教师及其课程表
+App.controller('home', function (page,request) {
 	// 离开页面、隐藏删除按钮if any
 	$(page).on('appForward', function () {
 		$('.btnRemove').hide();
@@ -88,6 +88,7 @@ App.controller('home', function (page) {
 			$node.find('.subject').text(item.subjectName);
 			//display:none
 			$node.find('.schoolID').text(item.schoolID);
+			$node.find('.userId').text(item.userId);
 			//$node.find('.created').text(item.created.substr(0,10));
 			$node.find('.id').text(item.teacherID);			
 			$list.append($node);
@@ -184,20 +185,97 @@ App.controller('home', function (page) {
 
 	function doShow(selectedLi){
 		//var obj = {
-		var obj = {	
+		var item = {	
 			"teacherID": selectedLi.find('.id').text(),
 			"teacherName": selectedLi.find('.name').text(),
+			'userId': selectedLi.find('.userId').text()
 		}
 		console.log(item)
+		App.load('kcb',item)
 		// 如果下面存在删除记录，用pick，否则用load
-		/*
-		App.pick('detail', item, function (data) {
-			if(data){ 	
-				// 结贴，相应的列表项listItem 移除消失
-				selectedLi.remove()
-			}
-		});	 */
 	}
+}); // ends controller
+
+// 教师大小班课程表
+App.controller('kcb', function (page,request) {
+	var $list = $(page).find('.list'),
+		$listItem = $(page).find('.listItem').remove()	
+
+	var records = []
+	var params = { 
+		"teacher": request.userId
+	}
+	
+	readData(function(data){
+		populateData(data)	
+		//handleData( $list )
+		records = data;
+	}, params );
+
+	function readData(callback, obj){
+		showPrompt('加载中...');		
+		$.ajax({
+	    	url: gDataUrl + 'readClassesListByTeacher.php',
+			data: obj,
+			dataType: "json",
+			success: function(result){
+				hidePrompt()
+				console.log(result)
+				callback(result.data)
+			},
+		});
+	}
+
+	function populateData(items){
+		if($list.children().length != 0){
+			$list.empty(); //清除旧的列表项 if any
+		}
+		items.forEach(function (item) {
+			var $node = $listItem.clone(true);
+			$node.find('.title').text(item.weekday); 
+			$node.find('.timespan').text(item.timespan);
+			//$node.find('.id').text(item.pricelistID);			
+			$list.append($node);
+		});
+	}	
+	
+	var tabClass = $(page).find('.class'),
+		tabOne2one = $(page).find('.one2one')
+	
+	tabClass.on('click',function(e){
+		$(this).css('background','#fff');
+		tabOne2one.css('background','#eee')
+		$list.empty()
+		populateData(records)	/*
+		var obj = {
+			"userId"      : '', //空白，表示全部 userId like ''
+			"classjxtType": '咨询'		
+		}
+		readData(obj) */
+	})
+	tabOne2one.on('click',function(e){
+		$(this).css('background','#fff');
+		tabClass.css('background','#eee')
+		$list.empty()
+		//populateData(records)	
+		//handleData($list,records);
+		$.ajax({
+	    	url: gDataUrl + 'readStudentstudyListByTeacher.php',
+			data: params,
+			dataType: "json",
+			success: function(result){
+				console.log(result)
+				//populateData(result.data)
+				result.data.forEach(function (item) {
+					var $node = $listItem.clone(true);
+					$node.find('.title').text(item.teach_weekday); 
+					$node.find('.timespan').text(item.teach_timespan);
+					//$node.find('.id').text(item.pricelistID);			
+					$list.append($node);
+				});
+			},
+		});
+	})
 }); // ends controller
 
 

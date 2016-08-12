@@ -4,7 +4,7 @@ App.controller('home', function (page) {
 		$listItem = $(page).find('.listItem').remove()	
 
 	var params = { 
-		"teacherID": gUserID // userId，不是数字primary ID
+		"teacher": gUserID // userId，不是数字primary ID
 	}
 	
 	readData(function(data){

@@ -108,8 +108,8 @@ App.controller('home', function (page) {
 // 选择分配归属咨询师
 App.controller('select-member', function (page,request) {
 	var me = this;
-	var $list = $(page).find('.app-list'),
-		$listItem = $(page).find('.app-list li').remove()	
+	var $list = $(page).find('.list'),
+		$listItem = $(page).find('.listItem').remove()	
 	
 	var btnOk = $(page).find('.ok')
 	
@@ -132,7 +132,7 @@ App.controller('select-member', function (page,request) {
 			    populateData(result.data)
 			},
 			error: function(xhr, type){
-				showPrompt('读取咨询师出错');	
+				showPrompt('读取本校咨询师出错');	
 			}
 		});
   	}
@@ -144,12 +144,13 @@ App.controller('select-member', function (page,request) {
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true); 
 			$node.find('.name').text(item.consultName);
+			$node.find('.schoolsub').text(item.fullname); //咨询所在分校区
 			$node.find('.id').text(item.consultID);			
 			$list.append($node);
 		});
 		
-		$list.find('li').on('click', function (e){		
-			$('li').css('background','#fff'); // all 
+		$list.find('.listItem').on('click', function (e){		
+			$('.listItem').css('background','#fff'); // all 
 			$(this).css('background','#E0FFFF'); //me
 			//$('.nj li', this).hide();//css('color','blue'); 
 			consultID = $(this).find('.id').text();

@@ -8,8 +8,11 @@ if(isset($_SESSION['user'])){
 $url = 'http://www.xzpt.org/wxqy/ghjy/script/weixinJS/'; //redirect
 $menuitem = $_GET["menuitem"];
 switch($menuitem){
-	case "school":
+	case "school": //总校长
 		$url = $url . "oAuth2-school.php";
+		break;
+	case "dean_student":
+		$url = $url . "oAuth2-dean_student.php";
 		break;
 	case "dean_student_register":
 		$url = $url . "oAuth2-dean_student_register.php";
@@ -20,15 +23,15 @@ switch($menuitem){
 	case "dean_teacher":
 		$url = $url . "oAuth2-dean_teacher.php";
 		break;
-	case "dean_student":
-		$url = $url . "oAuth2-dean_student.php";
-		break;
 	case "dean_class":
 		$url = $url . "oAuth2-dean_class.php";
 		break;	
 	case "dean_1to1":
 		$url = $url . "oAuth2-dean_1to1.php";
-		break;		
+		break;
+	case "dean_class_jxt":
+		$url = $url . "oAuth2-dean_class_jxt.php";
+		break;					
 	case "teacher_class":
 		$url = $url . "oAuth2-teacher_class.php";
 		break;
@@ -37,6 +40,9 @@ switch($menuitem){
 		break;
 	case "teacher_1to1_kcb":
 		$url = $url . "oAuth2-teacher_1to1_kcb.php";
+		break;
+	case "teacher_class_jxt": //大小通的家校通
+		$url = $url . "oAuth2-teacher_class_jxt.php";
 		break;
 	case "consult_class":
 		$url = $url . "oAuth2-consult_class.php";
@@ -52,7 +58,13 @@ switch($menuitem){
 		break;
 	case "consult_1to1_student":
 		$url = $url . "oAuth2-consult_1to1_student.php";
-		break;		
+		break;	
+	case "consult_class_jxt":
+		$url = $url . "oAuth2-consult_class_jxt.php";
+		break;	
+	case "accnt_daily":
+		$url = $url . "oAuth2-accnt_daily.php";
+		break;
 }
 
 $APPID = 'wx09e87ee7559bb52f';

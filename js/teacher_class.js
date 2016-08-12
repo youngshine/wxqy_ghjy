@@ -6,7 +6,7 @@ App.controller('home', function (page) {
 		$listItem = $(page).find('.listItem').remove()	
 	
 	var params = { 
-		"teacherID": gUserID
+		"teacher": gUserID
 	}
 	//loadData(params); 
 	//function loadData(obj){		

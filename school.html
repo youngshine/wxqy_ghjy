@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>联盟学校</title>
+    <title>根号教育平台</title>
 	<meta charset="utf-8" />
 	<meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">	
@@ -96,7 +96,9 @@
       	    <div class="fullname"></div>
     		<div class="subtitle">
 				<span class="addr"></span>
-				<span class="phone" style="float:right;"></span>
+      		</div>
+    		<div class="subtitle">
+				<span class="phone"></span>
       		</div>
   			<!-- 隐藏id -->
 			<div class="schoolID" style="display:none;"></div>
@@ -106,14 +108,32 @@
 	  </div>	
     </div>
 	
-	<div class="app-page" data-page="addnew">
+	<div class="app-page" data-page="addnew-schoolsub">
 		<div class="app-topbar">
 	        <div class="app-button left" data-back data-autotitle></div>
 			<div class="app-title">添加分校区</div>
 		</div>
 		<div class="app-content">
 			<form style="background:#fff;margin:10px;">
-				<input class="app-input" name="fullname" maxlength="70" placeholder="校区名称">	
+				<input class="app-input" name="fullname" maxlength="70" placeholder="分校区名称">	
+				<input class="app-input" name="addr" maxlength="70" placeholder="地址">
+				<input class="app-input" name="phone" maxlength="35" placeholder="电话">
+			</form>
+			
+			<div style="margin:0 10px;">
+				<div class="app-button green submit">保存</div>	
+			</div>
+		</div>	
+	</div>
+	
+	<div class="app-page" data-page="addnew">
+		<div class="app-topbar">
+	        <div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">添加联盟学校</div>
+		</div>
+		<div class="app-content">
+			<form style="background:#fff;margin:10px;">
+				<input class="app-input" name="schoolName" maxlength="70" placeholder="学校名称">	
 				<input class="app-input" name="addr" maxlength="70" placeholder="地址">
 				<input class="app-input" name="phone" maxlength="35" placeholder="电话">
 			</form>

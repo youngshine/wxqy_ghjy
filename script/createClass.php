@@ -9,19 +9,24 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 require_once('db/database_connection.php');
 
 $title = addslashes($_REQUEST['title']); 
-$hour = $_REQUEST['hour']; 
-$amount = $_REQUEST['amount']; 
-$classType = $_REQUEST['classType']; 
+$classType = $_REQUEST['classType'];
+$beginDate = $_REQUEST['beginDate'];
+$persons = $_REQUEST['persons']; //计划一个班的人数
+
 $weekday = $_REQUEST['weekday'];
 $timespan = $_REQUEST['timespan'];
-$teacherID = $_REQUEST['teacherID'];
+$hour = $_REQUEST['hour']; 
+$amount = $_REQUEST['amount'];  
+
+$teacherID = $_REQUEST['teacherID']; //可能还没有指定教师 0
+$schoolsubID = $_REQUEST['schoolsubID']; // 分校区
 $schoolID = $_REQUEST['schoolID']; // 学校
 //$beginDate = $arr->beginDate;
 
 $query = "INSERT INTO `ghjy_class` 
-	(title,hour,amount,weekday,timespan,classType,teacherID,schoolID) 
-	VALUES('$title',$hour,$amount,'$weekday','$timespan',
-		'$classType',$teacherID,$schoolID)";
+	(title,hour,amount,weekday,timespan,persons,classType,beginDate,teacherID,schoolsubID,schoolID) 
+	VALUES('$title',$hour,$amount,'$weekday','$timespan',$persons,
+		'$classType','$beginDate',$teacherID,$schoolsubID,$schoolID)";
 $result = mysql_query($query) 
 	or die("Invalid query: create classes" . mysql_error());
 	

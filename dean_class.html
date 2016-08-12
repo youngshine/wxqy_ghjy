@@ -103,25 +103,36 @@
 		<input class="app-input no-icon-android" type="search" placeholder="查找..." readOnly=true>
 		<div class="list">
 			<div class="listItem">						
-			  <div class="title">	
+			  <div class="">	
 				<span class="title"></span>
-				<span class="gender" style="float:right;"></span>
+				<span class='btnEdit' style="float:right;color:green;">编辑</span>
 				<span class='btnRemove' style="float:right;">删除</span>
 			  </div>
 			  <div class="subtitle">
-				<span class="hour"></span>
-				<span class="amount"></span>
-				<span class="teacher" style="float:right;"></span>	
-				<!--  -->
-				<span class="schoolID" style="display:none;"></span>
+				<span class="weekday"></span>
+				<span class="timespan"></span>｜教师：
+				<span class="teacher"></span>	
+				<span class="teacherID" style="display:none;"></span>
+				
 				<!--隐藏，记录唯一标识用 -->
+				<span class="classType" style="display:none;"></span>
+				<span class="persons" style="display:none;"></span>
+				<span class="beginDate" style="display:none;"></span>
+				<span class="hour" style="display:none;"></span>
+				<span class="amount" style="display:none;"></span>
 				<span class="userId" style="display:none;"></span>
 				<span class="id" style="display:none;"></span>
+				<!-- 学校及其分校区  -->
+				<span class="schoolID" style="display:none;"></span>
 			  </div>	
+			  <div class="subtitle">
+				<span class="schoolsub" style="display:none;"></span>
+				<span class="schoolsubID" style="display:none;"></span>
+			  </div>	  
 			</div>
 		</div>  
     </div>
-	
+<!-- 	新增班级信息
 	<div class="app-page" data-page="addnew">
 		<div class="app-topbar">
 	        <div class="app-button left" data-back data-autotitle></div>
@@ -164,13 +175,157 @@
 			</div>
 		</div>	
 	</div>
+-->
+		
+	<div class="app-page" data-page="addnew">
+		<div class="app-topbar">
+			<div class="app-button left" data-back>返回</div>
+			<div class="app-title">新建班级</div>
+			  <div class="app-button right submit">提交</div>
+		</div>
+		<div class="app-content">	
+			<div style="background:#fff;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">名称：</span>
+				<span class="title" style="color:#888;"></span>	
+			</div>
+			<div style="background:#fff;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">科目类别：</span>
+				<span class="classType" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+			<div style="background:#fff;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">开课日期：</span>
+				<span class="beginDate" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+			<div style="background:#fff;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">人数：</span>
+				<span class="persons" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>			
+			
+			<div style="background:#fff;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">课时数：</span>
+				<span class="hour" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+			<div style="background:#fff;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">金额：</span>
+				<span class="amount" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+			<div style="background:#fff;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">上课周期：</span>
+				<span class="weekday" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+			<div style="background:#fff;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">时间段：</span>
+				<span class="timespan" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+
+			<div style="background:#fff;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">任课教师：</span>
+				<span class="teacher" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+			<div style="background:#fff;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">分校区：</span>
+				<span class="schoolsub" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+
+			<!-- 
+			<div style="margin-bottom:10px;">
+				<div class="label" style="color:#888;">标题</div>
+				<div class="title" style="background:#fff;height:40px;line-height:40px;padding-left:5px;"></div>
+			</div>
+			<div>
+				<span style="color:#888;">开始日期</span>
+				<span style="float:right;color:#888;">完成日期</span>
+			</div>
+			<div style="margin-bottom:10px;height:40px;">
+				<div class="start" style="float:left;width:48%;background:#fff;height:40px;line-height:40px;padding-left:5px;"></div>
+				<div class="end" style="float:right;width:48%;background:#fff;height:40px;line-height:40px;padding-right:5px;text-align:right;"></div>
+			</div>  -->
+			<!-- 
+			<div style="margin-bottom:10px;clear:both;">
+				<div class="label" style="color:#888;">开始日期</div>
+				<div class="start" style="background:#fff;height:40px;line-height:40px;padding-left:5px;"></div>
+			</div>
+			<div style="margin-bottom:10px;">
+				<div class="label" style="color:#888;">完成日期</div>
+				<div class="end" style="background:#fff;height:40px;line-height:40px;padding-left:5px;"></div>
+			</div> -->
+ 
+		</div>	
+	</div>
+	
+	<div class="app-page" data-page="edit">
+		<div class="app-topbar">
+			<div class="app-button left" data-back>返回</div>
+			<div class="app-title">修改班级</div>
+			  <div class="app-button right submit">提交</div>
+		</div>
+		<div class="app-content">	
+			<div style="background:#fff;padding:0 15px;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>名称：</span>
+				<span class="title" style="color:#888;float:right;"></span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>科目类别：</span>
+				<span class="classType" style="color:#888;float:right;"></span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>开课日期：</span>
+				<span class="beginDate" style="color:#888;float:right;"></span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>人数：</span>
+				<span class="persons" style="color:#888;float:right;"></span>	
+			</div>
+			
+			<div style="background:#fff;margin-top:10px;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>课时数：</span>
+				<span class="hour" style="color:#888;float:right;"></span>
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>金额：</span>
+				<span class="amount" style="color:#888;float:right;"></span>
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>上课周期：</span>
+				<span class="weekday" style="color:#888;float:right;"></span>
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>时间段：</span>
+				<span class="timespan" style="color:#888;float:right"></span>
+			</div>
+
+			<div style="background:#fff;margin-top:10px;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>任课教师：</span>
+				<span class="teacher" style="color:#888;float:right;"></span>
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>分校区：</span>
+				<span class="schoolsub" style="color:#888;float:right;"></span>	
+			</div>
+			
+			<div style="margin:10px;">
+				<div class="app-button red del">删除、结束班级</div>	
+			</div>
+		</div>	
+	</div>
 	
     <div class="app-page" data-page="student">
       <div class="app-topbar">
           <div class="app-button left" data-back data-autotitle></div>
-		  <div class="app-title">班级的报读学生</div>
+		  <div class="app-title">班级报读学生</div>
+  		  <div class="app-button right finish">结束</div>
       </div>
       <div class="app-content">
+		<div class="info" style="margin:10px;text-align:center;"></div>
 		<div class="list">
 		  <div class="listItem">
 		    <div>
@@ -188,11 +343,106 @@
 		</div>
     </div>
 
+	<!-- 选择固定项名称，需要传递固定项数组参数进来，公用类 -->
+	<div class="app-page" data-page="select-option">
+		<div class="app-topbar">
+			<div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">选择项</div>		
+		</div>
+		<div class="app-content">
+		  <ul class="app-list">
+		    <li>
+		    	<div class="name"></div>
+		    </li>
+		  </ul>	  
+		</div>	  
+	</div>	
+	<!-- 选择员工列表，公用-->
+	<div class="app-page" data-page="select-schoolsub">
+		<div class="app-topbar">
+			<div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">选择分校区</div>		
+		</div>
+		<div class="app-content">
+		  <ul class="app-list">
+		    <li>
+		    	<div class="name"></div>
+				<div class="id"></div>
+		    </li>
+		  </ul>	  
+		</div>	  
+	</div>	
+	<!-- 选择员工列表，公用-->
+	<div class="app-page" data-page="select-member">
+		<div class="app-topbar">
+			<div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">选择教师</div>		
+		</div>
+		<div class="app-content">
+		  <ul class="app-list">
+		    <li>
+		    	<div class="name"></div>
+				<div class="id"></div>
+		    </li>
+		  </ul>	  
+		</div>	  
+	</div>	
+	<!-- 数字、文本及多行文本输入，公用-->
+	<div class="app-page" data-page="input-text">
+		<div class="app-topbar">
+			<div class="app-title">名称</div>
+			<div class="app-button right done">完成</div>
+		</div>
+		<div class="app-content">
+			<div style="margin:10px;">
+				<input class="app-input" maxlength="70">	
+			</div>
+		</div>	  
+	</div>
+	<div class="app-page" data-page="input-textarea">
+		<div class="app-topbar">
+			<div class="app-title">任务说明</div>
+			<div class="app-button right done">完成</div>
+		</div>
+		<div class="app-content">
+			<div style="margin:10px;background:#fff;">
+				<textarea class="app-input" maxlength="140" wrap="soft">
+					
+				</textarea>
+			</div>
+		</div>	  
+	</div>
+	<div class="app-page" data-page="input-number">
+		<div class="app-topbar">
+			<div class="app-title">数量</div>
+			<div class="app-button right done">完成</div>
+		</div>
+		<div class="app-content">
+			<div style="margin:10px;">
+				<input class="app-input" type="number">	
+			</div>
+		</div>	  
+	</div>
+	<div class="app-page" data-page="input-date">
+		<div class="app-topbar">
+			<div class="app-title">日期</div>
+			<div class="app-button right done">完成</div>
+		</div>
+		<div class="app-content">
+			<div style="margin:15px;">
+				<input class="app-input" type="date">
+			</div>
+		</div>	  
+	</div>
+	
+
     <script src="src/zepto.js"></script>
     <script src="src/app.min.js"></script>
 
 	<script src="js/main.js"></script>	
 	<script src="js/dean_class.js"></script>
+	
+	<script src="js/inputs.js"></script>
 	
     <script>  
 		// 中文参数，解决乱码。location.search就无效

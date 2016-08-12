@@ -2,6 +2,33 @@
 App.controller('home', function (page) {
 	var $list = $(page).find('.list'),
 		$listItem = $(page).find('.listItem').remove()	
+
+	var btnAddnew = $(page).find('.addnew')
+	btnAddnew.on('click',function(){
+		App.pick('addnew', {'userId':gUserID}, function (data) {
+			if(data){ 
+				console.log(data)
+				$.ajax({
+					url: gDataUrl + 'createSchool.php',
+					data: data,
+					dataType: 'json',
+					success: function(result){
+						console.log(result)
+						// 前端添加显示记录，不刷新服务器数据库
+						var $node = $listItem.clone(true);
+						// 返回新插入记录id，删除用
+						$node.find('.id').text(result.data.schoolID);
+						$node.find('.title').text(data.schoolName); 
+						$node.find('.addr').text(data.addr);
+						$node.find('.phone').text(data.phone);
+						//display:none			
+						$list.prepend($node);
+						toast('添加联盟学校成功')
+					},
+				});
+			}
+		});
+	})
 	
 	var params = { 
 		"hq": 1
@@ -28,7 +55,7 @@ App.controller('home', function (page) {
 				callback(result.data)
 			},
 			error: function(xhr, type){
-				showPrompt('读取学校出错');	
+				showPrompt('读取联盟学校出错');	
 			}
 		});
 	}
@@ -146,7 +173,7 @@ App.controller('schoolsub', function (page,request) {
 	}
 	
 	btnAddnew.on('click',function(){
-		App.pick('addnew', {'schoolID':request.schoolID}, function (data) {
+		App.pick('addnew-schoolsub', {'schoolID':request.schoolID}, function (data) {
 			if(data){ 
 				console.log(data)
 				// 保存新增,ajax
@@ -174,8 +201,8 @@ App.controller('schoolsub', function (page,request) {
 	})
 }); 	
 
-// 添加校区
-App.controller('addnew', function (page,request) {
+// 添加分校区
+App.controller('addnew-schoolsub', function (page,request) {
 	var me = this;
 
 	var btnSubmit = $(page).find('.submit')
@@ -186,10 +213,10 @@ App.controller('addnew', function (page,request) {
 			addr = $(page).find('input[name=addr]').val(),
 			phone = $(page).find('input[name=phone]').val()
 		if(fullname == ''){
-			toast('请填写校区名称');return;		
+			toast('请填写分校区名称');return;		
 		}
 		if(addr == ''){
-			toast('请填写校区地址');return;		
+			toast('请填写分校区地址');return;		
 		}
 		
 		App.dialog({
@@ -209,4 +236,40 @@ App.controller('addnew', function (page,request) {
 		});
     });	
 	
-}); // addnew	
+}); // addnew-schoolsub分校区
+
+// 添加脸萌学校
+App.controller('addnew', function (page,request) {
+	var me = this;
+
+	var btnSubmit = $(page).find('.submit')
+	
+	// 提交保存按钮
+	btnSubmit.on('click',function(e){		
+	    var schoolName = $(page).find('input[name=schoolName]').val(),
+			addr = $(page).find('input[name=addr]').val(),
+			phone = $(page).find('input[name=phone]').val()
+		if(schoolName == ''){
+			toast('请填写学校名称');return;		
+		}
+		if(addr == ''){
+			toast('请填写学校地址');return;		
+		}
+		
+		App.dialog({
+			title	     : '保存？', //'删除当前公告？',
+			okButton     : '确定',
+			cancelButton : '取消'
+		}, function (choice) {
+			if(choice){		
+				var obj = {
+					schoolName: schoolName,
+					addr    : addr,
+					phone   : phone,
+				}
+				me.reply(obj)
+			}
+		});
+    });	
+	
+}); // addnew

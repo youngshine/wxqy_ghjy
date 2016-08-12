@@ -13,7 +13,7 @@ $schoolID = addslashes($_REQUEST['schoolID']); //userId
 $sql = "SELECT a.*,b.fullname    
 	From `ghjy_student` a 
 	Join `ghjy_school_sub` b On a.schoolsubID=b.schoolsubID 
-	WHERE a.schoolID=$schoolID ";   
+	WHERE a.schoolID=$schoolID Order By a.schoolsubID";   
 $result = mysql_query($sql) 
 	or die("Invalid query: readStudentBySchool " . mysql_error());
 
