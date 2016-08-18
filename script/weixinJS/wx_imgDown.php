@@ -1,5 +1,5 @@
 <?php
-//光线企业号
+//根号教育企业号
 require_once "jssdk-token.php";
 
 $mediaId = $_REQUEST['mediaId'];

@@ -1,6 +1,6 @@
 <?php
 /*
-  * 读取本校的教师
+  * 读取本校的教师，按科目分组
 */
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
@@ -14,7 +14,7 @@ $query = "SELECT a.*,b.subjectName
 	From `ghjy_teacher` a 
 	Join `ghjy_subject` b On a.subjectID=b.subjectID
 	Where a.schoolID=$schoolID 
-	Order By a.created ";
+	Order By a.subjectID Desc ";
     
 $result = mysql_query($query) 
 	or die("Invalid query: readTeacherList" . mysql_error());

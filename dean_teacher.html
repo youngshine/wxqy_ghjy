@@ -105,12 +105,16 @@
 		  </form>
 		<ul class="app-list">
 			<li>						
-				<span class="name"></span>
-				<!--  -->
-				<span class='btnRemove'>删除</span>
+				<span class="name"></span>［<span class="gender"></span>］
+				<span class='btnEdit' style="float:right;color:green;">编辑</span>
+				<!--  arrow
 				<span style="float:right;margin:10px;" class="arrow-r"></span>
-				<span class="subject" style="float:right;"></span>
+				-->
+				<span class='btnRemove'>删除</span>
 				
+				<span class="phone" style="display:none;"></span>
+				<span class="subject" style="display:none;"></span>
+				<span class="subjectID" style="display:none;"></span>
 				<span class="schoolID" style="display:none;"></span>
 				<!--隐藏，记录唯一标识用 -->
 				<span class="userId" style="display:none;"></span>
@@ -143,7 +147,7 @@
     	</div>
 	  </div>	  
     </div>
-	
+	<!-- 
 	<div class="app-page" data-page="addnew">
 		<div class="app-topbar">
 	        <div class="app-button left" data-back data-autotitle></div>
@@ -164,13 +168,114 @@
 				<div class="app-button green submit">保存</div>	
 			</div>
 		</div>	
+	</div>  ends-->
+	<div class="app-page" data-page="addnew">
+		<div class="app-topbar">
+			<div class="app-button left" data-back>返回</div>
+			<div class="app-title">新增教师</div>
+			  <div class="app-button right submit">提交</div>
+		</div>
+		<div class="app-content">	
+			<div style="background:#fff;padding:0 15px;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>姓名：</span>
+				<span class="name" style="color:#888;float:right;">未填写</span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>账号（不可修改）</span>
+				<span class="userId" style="color:#888;float:right;">自动生成</span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>性别：</span>
+				<span class="gender" style="color:#888;float:right;">未选择</span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>手机号：</span>
+				<span class="phone" style="color:#888;float:right;">11位手机号码</span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>任课学科：</span>
+				<span class="subject" style="color:#888;float:right;">未选择</span>	
+			</div>
+		</div>	
+	</div>
+	
+	<div class="app-page" data-page="edit">
+		<div class="app-topbar">
+			<div class="app-button left" data-back>返回</div>
+			<div class="app-title">修改教师</div>
+			  <div class="app-button right submit">提交</div>
+		</div>
+		<div class="app-content">	
+			<div style="background:#fff;padding:0 15px;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>姓名：</span>
+				<span class="name" style="color:#888;float:right;"></span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>账号（不可修改）</span>
+				<span class="userId" style="color:#888;float:right;"></span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>性别：</span>
+				<span class="gender" style="color:#888;float:right;"></span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>手机号：</span>
+				<span class="phone" style="color:#888;float:right;"></span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>任课学科：</span>
+				<span class="subject" style="color:#888;float:right;"></span>	
+			</div>
+			
+			<div style="margin:10px;">
+				<div class="app-button red del">删除、禁用</div>	
+			</div>
+		</div>	
 	</div>
 
+	<!-- 学科，有id，不通用 -->
+	<div class="app-page" data-page="select-subject">
+		<div class="app-topbar">
+			<div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">选择学科</div>		
+		</div>
+		<div class="app-content">
+		  <ul class="app-list">
+		    <li>
+		    	<span class="name">数学</span>
+				<span class="id" style="display:none;">1</span>
+		    </li>
+		    <li>
+		    	<span class="name">物理</span>
+				<span class="id" style="display:none;">2</span>
+		    </li>
+		    <li>
+		    	<span class="name">化学</span>
+				<span class="id" style="display:none;">3</span>
+		    </li>
+		  </ul>	  
+		</div>	  
+	</div>
+	
+	<!-- 选择固定项名称，需要传递固定项数组参数进来，公用类 -->
+	<div class="app-page" data-page="select-option">
+		<div class="app-topbar">
+			<div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">选择项</div>		
+		</div>
+		<div class="app-content">
+		  <ul class="app-list">
+		    <li>
+		    	<span class="name"></span>
+		    </li>
+		  </ul>	  
+		</div>	  
+	</div>
 	<!-- 数字、文本及多行文本输入，公用-->
 	<div class="app-page" data-page="input-text">
 		<div class="app-topbar">
 			<div class="app-title">名称</div>
-			<div class="app-button right ok">确定</div>
+			<div class="app-button right done">完成</div>
 		</div>
 		<div class="app-content">
 			<div style="margin:10px;">
@@ -181,7 +286,7 @@
 	<div class="app-page" data-page="input-textarea">
 		<div class="app-topbar">
 			<div class="app-title">说明</div>
-			<div class="app-button right ok">确定</div>
+			<div class="app-button right done">完成</div>
 		</div>
 		<div class="app-content">
 			<div style="margin:10px;background:#fff;">
@@ -198,6 +303,9 @@
 
 	<script src="js/main.js"></script>	
 	<script src="js/dean_teacher.js"></script>
+	
+	<script src="js/inputs.js"></script>
+	<script src="js/py.js"></script>
 	
     <script>  
 		// 中文参数，解决乱码。location.search就无效

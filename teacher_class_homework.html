@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>根号教育平台</title>
+	<meta charset="utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">	
+	<!-- 
+	<link rel="stylesheet" href="//cdn.kik.com/app/2.0.1/app.min.css">
+		-->
+	<link rel="stylesheet" href="src/app.min.css">	
+	<style>
+		.app-topbar {background:#E82;}
+		
+		/*  msg box */
+		#m {
+			filter: alpha(opacity=30);
+			-moz-opacity: 0.3; 
+			opacity: 0.3;
+			position:absolute;
+			z-index:10000;
+			background-color:none;
+		}
+		#lo {
+			position:absolute;
+			width:150px;
+			height:90px;
+			line-height:90px;
+			background-color:#000;
+			color:#fff;
+			text-align:center;
+			z-index:9999;
+	
+			filter: alpha(opacity=70);
+			-moz-opacity: 0.7; 
+			opacity: 0.7;
+			
+			border-radius:10px;
+			-moz-border-radius:10px; /* Old Firefox */
+		} /* ends - msg box */
+		.list {
+			margin:0px 0;
+		}
+		.list .listItem {
+			background: #fcfcfc;
+			padding: 10px 15px;
+			border: 0px solid #ddd;
+			margin:0px;
+			border-radius:0px;
+			-moz-border-radius:0px; /* Old Firefox */
+		}
+		.list .listItem .subtitle{
+			 color: #888;
+			 font-size:0.8em;
+		}
+		
+		.photos-wrapper {
+			//min-height:80px;
+			height:auto;
+			overflow:auto;
+			padding:10px 10px 0;
+			position:relative;
+			background:#fff;
+		}
+		.imgContainer,.imgUpload,.imgMinus,.imgPlus{
+		    padding:0px;
+		    margin:0px;  
+		}
+		.imgContainer{
+			position:relative;
+			float:left;
+			height:75px;
+			width:75px;
+			margin:-0px 0 9px 5px; 
+		}
+		.imgUpload{
+		    height:75px;
+		    width:75px;
+			position:relative;
+			border:1px solid #ddd;
+		}
+		.imgMinus {
+			height:33px;
+		    width:33px;
+		    top:-5px;
+		    left:-5px;
+		    z-index:2;
+			position:absolute;
+			//display:block;
+			line-height:33px;
+		}
+		.imgPlus {
+		    height:75px;
+		    width:75px;
+			line-height:75px;
+			border:1px solid #ccc;
+			text-align:center;
+			font-size:4em;
+			color:#ccc;
+			position:relative;
+			display:block;
+			float:left;
+			margin:0px 0 9px 5px;
+		}
+	</style>
+  </head>
+
+  <body>
+	<div class="app-page" data-page="home">
+		<div class="app-topbar">
+			<div class="app-title">上课要点及作业</div>
+	  		<div class="app-button right hist">历史记录</div>
+		</div>
+		<div class="app-content">
+			<div style="background:#fff;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">班级：</span>
+				<span class="classes" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+			
+  		  <div style="background:#fff;border-bottom:1px solid #ddd;">
+  			  <textarea class="app-input" maxlength="99" wrap="soft"  placeholder="上课内容要点"></textarea> 	 
+  		  </div>
+		  
+		  <div style="padding:10px 15px 0;background:#fff;">作业上传：</div>
+		  
+			<!-- 多选图片数组 -->
+  			<div class="photos-wrapper">
+  				<div class="imgContainer">
+					<img class="imgUpload"  />
+					<!-- 删除图片按钮  -->
+					<div class="imgMinus" style="font-size:2.2em;color:red;">✖</div>
+				</div>
+				<!-- 添加图片按钮 -->
+				<div class="imgPlus">＋</div>
+  			</div>
+		
+			<div style="clear:both;"></div>
+		
+			<div style="padding:10px;">
+				<div class="app-button green submit">提交</div>	
+			</div>		
+		</div>	
+	</div>
+	  
+    <div class="app-page" data-page="hist">
+      <div class="app-topbar">
+		<div class="app-button left" data-back data-autotitle></div>
+          <div class="app-title">推送记录</div>
+      </div>
+      <div class="app-content">
+    	<div class="list">
+    	  <div class="listItem">
+			<div class="subtitle" style="line-height:30px;">				
+				<span class="time"></span>｜<span class="classes"></span>
+				<!-- 隐藏 -->
+				<span class="id" style="display:none;"></span>				
+				<span class="removeItem" style="float:right;color:pink;display:none;">删除</span>
+			</div>
+			<div style="color:#888;">上课内容：</div>
+			<div class="keypoint"></div>
+			<div style="color:#888;">课后作业：</div>
+			<div class="photos"></div>	
+    	  </div>
+    	</div>
+	  </div>	  
+    </div>
+	
+	<!-- 选择员工列表，公用-->
+	<div class="app-page" data-page="select-classes">
+		<div class="app-topbar">
+			<div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">选择班级</div>		
+		</div>
+		<div class="app-content">
+		  <div class="list">
+		    <div class="listItem">
+		    	<div class="title"></div>
+				<div class="subtitle">
+					<span class="weekday"></span>
+					<span class="timespan"></span>
+					<span class="id" style="display:none;"></span>
+				</div>
+			</div>
+		  </ul>	  
+		</div>	  
+	</div>
+
+    <script src="src/zepto.js"></script>
+    <script src="src/app.min.js"></script>
+	
+	<script src="js/main.js"></script>		
+	<script src="js/teacher_class_homework.js"></script>
+	
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>	
+
+	<script>
+		// 中文参数，解决乱码。location.search就无效
+		var url = decodeURI(window.location);
+		//alert(url)
+
+		//采用正则表达式获取地址栏参数
+		function getQueryString(param){
+		     var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)");
+		     //var r = window.location.search.substr(1).match(reg);
+			 url = url.substr(url.indexOf("?") + 1); //取得所有参数
+			 var r = url.match(reg);
+		     if(r!=null)return  unescape(r[2]); return null;
+		}
+	
+		// 全局变量，你的校区，微信号，姓名
+		gUserID = getQueryString("userId");
+		gUserName = getQueryString("userName")
+		gSchoolID = getQueryString("schoolID");// 扩展属性
+
+		//获得sdk签名
+		wxSig(); 
+		
+		App.load('home');
+
+	</script>
+  </body>
+</html>

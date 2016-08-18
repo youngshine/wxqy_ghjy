@@ -35,14 +35,20 @@ switch($menuitem){
 	case "teacher_class":
 		$url = $url . "oAuth2-teacher_class.php";
 		break;
+	case "teacher_class_homework": //大小通的家校通
+		$url = $url . "oAuth2-teacher_class_homework.php";
+		break;
 	case "teacher_class_kcb":
 		$url = $url . "oAuth2-teacher_class_kcb.php";
 		break;
-	case "teacher_1to1_kcb":
-		$url = $url . "oAuth2-teacher_1to1_kcb.php";
-		break;
 	case "teacher_class_jxt": //大小通的家校通
 		$url = $url . "oAuth2-teacher_class_jxt.php";
+		break;
+	case "teacher_1to1":
+		$url = $url . "oAuth2-teacher_1to1.php";
+		break;
+	case "teacher_1to1_kcb":
+		$url = $url . "oAuth2-teacher_1to1_kcb.php";
 		break;
 	case "consult_class":
 		$url = $url . "oAuth2-consult_class.php";

@@ -8,21 +8,24 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 
 require_once('db/database_connection.php');
 
+$userId = addslashes($_REQUEST['userId']); 
+$consultName = addslashes($_REQUEST['userName']); // user统一
+$gender = $_REQUEST['gender'];
+$phone = addslashes($_REQUEST['phone']);
 $schoolID = $_REQUEST['schoolID']; //归属学校
 $schoolsubID = $_REQUEST['schoolsubID']; // 学校下面分校
-$username = addslashes($_REQUEST['username']); 
-$gender = $_REQUEST['gender'];
 
 $sql = "INSERT INTO `ghjy_consult` 
-	(consultName,gender,schoolID,schoolsubID) 
-	VALUES('$username','$gender',$schoolID,$schoolsubID)";
+	(consultName,gender,phone,userId,schoolID,schoolsubID) 
+	VALUES('$consultName','$gender','$phone','$userId',
+		$schoolID,$schoolsubID)";
 $result = mysql_query($sql) or die("Invalid query: createConsult" . mysql_error());
 
 if($result){
 	$id = mysql_insert_id(); 	
 	echo json_encode(array(
         "success" => true,
-        "message" => "创建成功",
+        "message" => "创建咨询成功",
 		"data"    => array("consultID" => $id)
     ));
 }else{

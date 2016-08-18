@@ -1,12 +1,12 @@
 <?php
-// 企业号userId： 教师家校联络拍照记录
+// 某个学校的家校通记录（教师，咨询）
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 header('Access-Control-Allow-Origin: *'); // 跨域问题
 //header('Access-Control-Allow-Headers: X-Requested-With');
 
 require_once('db/database_connection.php');
 
-//$teacher = $_REQUEST['teacher']; // userId not ID
+$schoolID = $_REQUEST['schoolID']; // 
 $userId = addslashes($_REQUEST['userId']);
 $classjxtType = $_REQUEST['classjxtType'];
 
@@ -21,16 +21,16 @@ if($classjxtType=='咨询' And $userId ==''){
 		From `ghjy_class_jxt` a 
 		Join `ghjy_class` b On a.classID=b.classID 
 		Join `ghjy_consult` c On a.userID=c.userID
-		Where a.classjxtType='$classjxtType' 
+		Where a.classjxtType='$classjxtType' And a.schoolID=$schoolID  
 		Order by a.created Desc";
 }else if($classjxtType=='教师' And $userId ==''){
 	$sql = " SELECT a.*,b.title,c.teacherName As name   
 		From `ghjy_class_jxt` a 
 		Join `ghjy_class` b On a.classID=b.classID 
 		Join `ghjy_teacher` c On a.userID=c.userID
-		Where a.classjxtType='$classjxtType' 
+		Where a.classjxtType='$classjxtType' And a.schoolID=$schoolID   
 		Order by a.created Desc";
-}else{ //某个人的
+}else{ //某个人教师或咨询师的
 	$sql = " SELECT a.*,b.title     
 		From `ghjy_class_jxt` a 
 		Join `ghjy_class` b On a.classID=b.classID 

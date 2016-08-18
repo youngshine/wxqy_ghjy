@@ -1,9 +1,8 @@
-// 咨询家校联络记录拍照
-
-// 家校通记录拍照上传
+// 教师的班级上课要点和作业，推送给家长
 App.controller('home', function (page,request) {
 	var classes = '', 
 		classID = 0, //班级
+		keypoint = '', //班级上课内容
 		localPhotos = [], // 选择或拍照的图片，未上传
 		remotePhotos = [], // 上传服务器多图
 		fileNames = []; //数据库图片文件名
@@ -12,12 +11,13 @@ App.controller('home', function (page,request) {
 		btnSubmit = $(page).find('.submit'),
 		$list = $(page).find('.photos-wrapper'),
 		$listItem = $(page).find('.photos-wrapper .imgContainer').remove()
-		
+	
 	var btnHist = $(page).find('.hist')
-	// 该咨询的上传历史记录	
+	// 该教师的上传历史记录		
 	var params = {
 		"userId"      : gUserID,
-		"classjxtType": '咨询'
+		"schoolID"      : gSchoolID,
+		//"classjxtType": '教师'
 	}	
 	btnHist.on('click',function(e){
 		App.load('hist',params)
@@ -25,7 +25,7 @@ App.controller('home', function (page,request) {
 	
 	// 当前教师的上课班级	企业号微信teacher是userId，不是teacherID
 	$classes.parent().on('click',function(e){
-		App.pick('select-classes', {"schoolID":gSchoolID}, function (data) {
+		App.pick('select-classes', {teacher:gUserID}, function (data) {
 			if(data){ 
 				console.log(data)
 				classes = data.title;
@@ -69,15 +69,6 @@ App.controller('home', function (page,request) {
 	})
 	function addImg(){			
 		console.log('add multi img')
-		/*
-		var $node = $listItem.clone(true);
-		$node.find('.imgUpload').attr('src','assets/img/nopic.jpg')
-		$list.prepend($node);
-		
-		localPhotos.push('assets/img/nopic.jpg')
-		console.log(localPhotos)
-		return  */
-		
 		wx.chooseImage({
             count: 3, // 默认9
             sizeType: ['original', 'compressed'], 
@@ -103,25 +94,39 @@ App.controller('home', function (page,request) {
 		if(classID == 0){
 			toast('请选择班级'); return;		
 		}
+		keypoint = $(page).find('textarea').val().trim()
+		console.log(keypoint)
 		var imgs = $list.find('.imgUpload');
-		if(imgs.length == 0){
+		if(imgs.length == 0 && keypoint==''){
 		//if(localPhotos.length == 0 ){
-			toast('请添加照片'); return;		
+			toast('内容、照片不能全空'); return;		
 		}
-		localPhotos = []
-		imgs.each(function(index){
-			//localPhotos.push(imgs[index].src) //mediaId
-			localPhotos.push(imgs[index].id)
-		})
 		
 		App.dialog({
-			title	     : '上传家校记录？', //'删除当前公告？',
+			title	     : '提交、推送？？', //'删除当前公告？',
 			okButton     : '确定',
 			cancelButton : '取消'
 		}, function (choice) {
 			if(choice){
-				showPrompt('正在上传...');
-				syncUpload(localPhotos); // 递归调用，不是循环
+				if(imgs.length > 0){
+					//localPhotos = []
+					imgs.each(function(index){
+						//localPhotos.push(imgs[index].src) //mediaId
+						localPhotos.push(imgs[index].id)
+					})
+					showPrompt('正在上传...');
+					syncUpload(localPhotos); // 递归调用，不是循环
+				}else{
+					var obj = {
+						"classID": classID,
+						"photos": '', //没有作业照片
+						"keypoint": keypoint,
+						"userId": gUserID, //没有取得数据库ID
+						//"classjxtType": '教师',
+						"schoolID": gSchoolID
+					}
+					createData(obj)
+				}			
 			}
 		});
     });	
@@ -139,14 +144,6 @@ App.controller('home', function (page,request) {
 					syncUpload(localIds); //递归
 				}else{
 					syncDownload(remotePhotos)				
-					/*
-					// 3、保存数据库记录
-					var obj = {
-						"userId": myUserId,
-						"photos": '', //fileNames.join(',') // 数组转字符串
-						"mediaIds": remotePhotos.join(',') // 微信服务器保存3天的图片
-					}
-					createData(obj) */
 				}
 			}
 		});
@@ -175,8 +172,9 @@ App.controller('home', function (page,request) {
 						"photos": fileNames.join(','), // 数组转字符串
 						//"mediaIds": '' // remotePhotos.join(',') 
 						// 微信服务器保存3天的图片
+						"keypoint": keypoint,
 						"userId": gUserID, //没有取得数据库ID
-						"classjxtType": '咨询',
+						//"classjxtType": '教师',
 						"schoolID": gSchoolID
 					}
 					createData(obj)
@@ -188,16 +186,16 @@ App.controller('home', function (page,request) {
 	function createData(obj){		   
 		//showPrompt('正在保存');
 		$.ajax({
-			url: gDataUrl + 'createClassjxt.php',
+			url: gDataUrl + 'createClasshomework.php',
 			dataType: "json",
 			data: obj, //jsonp: 'callback',
 			success: function(result){
 				hidePrompt();
-				toast('上传家校记录成功')
+				toast('上传上课作业成功')
 				
 				App.load('hist',params); 
 				
-				// 企业号通知校长, 不知道校长userID，使用固定校长标签＝4
+				// 微信模版通知家长
 				//doWxMsgText()
 			},
 			error: function(result){
@@ -210,11 +208,12 @@ App.controller('home', function (page,request) {
 	function doWxMsgText(){		
 		var objMsg = {
 			//userId : userId, // all = '@all
-			tagID: 4, //校长标签4
-			type : "家校通记录",
+			//partyID: 2, //?????
+			//tagID: 4, //校长标签4，所有学校校长？？？？？
+			type : "上课内容及作业",
 			msg : '有教师上传家校联系记录，请查看',
-			agentId : 9, // 9=咨询模块，0系统小助手
-			link : 'news-notify-zepto.php?id=' + result.data.news_id // 刚新增的公文id
+			agentId : 10, // 10=教师模块，0系统小助手
+			link : 'http://www.xzpt.org/wxqy/ghjy/script/weixinJS/oAuth2.php?menuitem=dean_teacher' //'?id=' + result.data.news_id // 刚新增的公文id
 		}
 		console.log(objMsg)
 		wxMsgText(objMsg)
@@ -227,24 +226,20 @@ App.controller('select-classes', function (page,request) {
 	var $list = $(page).find('.list'),
 		$listItem = $(page).find('.listItem').remove();
 
-	var records = []; // all for search filter
-	
 	var params = {
-		"schoolID": request.schoolID, //企业号自定义
-		"consult" : gUserID
+		"teacher": request.teacher, //userId
 	}	
 	readMemberList(params); 
 	console.log(params)
 	function readMemberList(obj){	
 		showPrompt('加载班级...');	
 		$.ajax({
-			url: gDataUrl + 'readClassesListBySchoolsub.php', //all
+			url: gDataUrl + 'readClassesListByTeacher.php',
 			data: obj,
 			dataType: "json",
 			success: function(result){
-				populateData(result.data); 
+				populateData(result.data); // all
 				console.log(result.data)
-				records = result.data // all for search
 				hidePrompt()
 			},
 		});
@@ -272,41 +267,14 @@ App.controller('select-classes', function (page,request) {
 			console.log(obj)
 		})
 	}
-	
-
-	var $search = $(page).find('input[type=search]')
-	$search.on('click', function () {
-		App.dialog({
-			数理化Button     : '数理化',
-			史地生Button     : '史地生',
-			语政英Button     : '语政英',
-			艺术Button     : '艺术',
-			cancelButton : '取消'
-		}, function (choice) {
-		  if (choice) {
-		    console.log(choice)
-			$search.val(choice)  
-			var filter = records.filter(function(ele,pos){
-			    return ele.classType == choice ;
-			});
-			console.log(filter)
-			$list.empty();
-			populateData(filter)
-			handleData( $list )
-		  }
-		});
-	});	
 });
 
 // 
 App.controller('hist', function (page,request) {
 	var $list = $(page).find('.list'),
 		$listItem = $(page).find('.listItem').remove()	
-/*	
-	var params = { 
-		"userId": request.userId //gUserID - userId
-	}	*/
-		
+	
+	console.log(request)	
 	readData(function(data){
 		populateData(data)	
 		handleData( $list )
@@ -314,9 +282,9 @@ App.controller('hist', function (page,request) {
 	}, request );
 
 	function readData(callback, obj){
-		showPrompt('加载家校记录...');		
+		showPrompt('加载上课作业记录...');		
 		$.ajax({
-	    	url: gDataUrl + 'readClassjxtList.php',
+	    	url: gDataUrl + 'readClasshomeworkList.php',
 			data: obj,
 			dataType: "json",
 			success: function(result){
@@ -336,6 +304,7 @@ App.controller('hist', function (page,request) {
 			var $node = $listItem.clone(true);
 			$node.find('.classes').text(item.title);
 			$node.find('.time').text(item.created.substr(2,8));
+			$node.find('.keypoint').text(item.keypoint);//课程内容
 			//display:none
 			$node.find('.id').text(item.classjxtID);	
 			
@@ -366,7 +335,7 @@ App.controller('hist', function (page,request) {
 				var selected = $(this).parent().parent()
 				console.log(selected.find('.examId').text())
 				App.dialog({
-					title	     : '删除家校记录？', //'删除当前公告？',
+					title	     : '删除记录？', //'删除当前公告？',
 					okButton     : '确定',
 					cancelButton : '取消'
 				}, function (choice) {
@@ -398,8 +367,8 @@ App.controller('hist', function (page,request) {
 	function deleteData(ID, selected){
 		showPrompt('正在删除...'); console.log(ID)
 		$.ajax({
-			url: dataUrl + 'deleteClassjxt.php',
-			data: {"classjxtID":ID},
+			url: dataUrl + 'deleteClasshomework.php',
+			data: {"classhomeworkID":ID},
 			dataType: "json", // 返回的也是 json
 			success: function(result){
 				if(result.success){
@@ -413,5 +382,6 @@ App.controller('hist', function (page,request) {
 		});
 	}	
 }); // ends controller
+
 
 

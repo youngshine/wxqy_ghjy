@@ -88,3 +88,26 @@ App.controller('input-date', function (page,request) {
 	})	
 });
 
+//选择固定项（带入数组参数）－－公用类，对应app.pick
+App.controller('select-option', function (page,request) {
+	var me = this; console.log(request)
+
+	var $list = $(page).find('.app-list'),
+		$listitem = $(page).find('li').remove();
+
+	request.forEach(function (item) {
+		var $node = $listitem.clone(true); console.log(item)
+		$node.find('.name').text(item); 
+		$list.append($node);	
+	});
+	
+	$list.find('li').on('click', function (e){
+		$(this).css('color','blue')
+		var obj = {
+			"value"	: $(this).find('.name').text()
+		}
+		me.reply(obj); // app.pick
+		console.log(obj)
+	})
+}); // select-option ends
+

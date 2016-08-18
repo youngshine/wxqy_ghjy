@@ -3,34 +3,6 @@ App.controller('home', function (page,request) {
 	var $list = $(page).find('.list'),
 		$listItem = $(page).find('.listItem').remove()	
 
-/*	var records = []; //all for search filter
-	var params = {
-		"userId"      : '', //空白，表示全部
-		"classjxtType": '咨询'
-	}	
-	console.log(params)	
-	readData(function(data){
-		populateData(data)	
-		//handleData( $list )
-		records = data;
-	}, params );
-
-	function readData(callback, obj){
-		showPrompt('加载家校记录...');		
-		$.ajax({
-	    	url: gDataUrl + 'readClassjxtList.php',
-			data: obj,
-			dataType: "json",
-			success: function(result){
-				hidePrompt()
-				console.log(result)
-			    //populateData(result.data)
-				callback(result.data)
-			},
-		});
-	}
-*/
-	
 	var tabConsult = $(page).find('.consult'),
 		tabTeacher = $(page).find('.teacher')
 	
@@ -40,8 +12,9 @@ App.controller('home', function (page,request) {
 		//$list.empty()
 		//populateData(records)	
 		var obj = {
+			"classjxtType": '咨询',
 			"userId"      : '', //空白，表示全部 userId like ''
-			"classjxtType": '咨询'		
+			"schoolID"    : gSchoolID			
 		}
 		readData(obj)
 	})
@@ -52,8 +25,9 @@ App.controller('home', function (page,request) {
 		//populateData(records)	
 		//handleData($list,records);
 		var obj = {
+			"classjxtType": '教师',
 			"userId"      : '', //空白，表示全部 userId like ''
-			"classjxtType": '教师'		
+			"schoolID"    : gSchoolID		
 		}
 		readData(obj)
 	})
@@ -76,17 +50,17 @@ App.controller('home', function (page,request) {
 		if($list.children().length != 0){
 			$list.empty(); //清除旧的列表项 if any
 		}
-		//var dateGroup = '';
+		var grp = ''; //按日期 ？？＋班级
 		items.forEach(function (item) {
-			/*
-			if(item.created.substr(2,8) != dateGroup){
-				dateGroup = item.created.substr(2,8);
-				$list.append('<label className="group">'+ dateGroup + '</label>')
-			} */
+			
+			if(item.created.substr(2,8) != grp){
+				grp = item.created.substr(2,8);
+				$list.append('<label style="padding:0 10px;">'+ grp + '</label>')
+			} 
 			var $node = $listItem.clone(true);
 			$node.find('.classes').text(item.title);
 			$node.find('.name').text(item.name);
-			$node.find('.time').text(item.created.substr(2,8));
+			//$node.find('.time').text(item.created.substr(2,8));
 			//display:none
 			$node.find('.id').text(item.classjxtID);	
 			
@@ -102,8 +76,6 @@ App.controller('home', function (page,request) {
 				var $img = '<img src='+photo+' style="width:100px;height:100px;padding:2px;" />'
 				$photos.append($img)
 			});	
-			
-			$node.find('.removeItem').show()
 					
 			$list.append($node);
 		});

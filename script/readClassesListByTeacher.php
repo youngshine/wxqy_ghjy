@@ -7,6 +7,7 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 require_once('db/database_connection.php');
 
 $teacher = $_REQUEST['teacher']; //userID 不是数字ID
+//$teacherID = $_REQUEST['teacherID'];
 
 $sql = " SELECT a.*,b.userId 
 	From `ghjy_class` a 

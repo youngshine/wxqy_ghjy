@@ -1,6 +1,4 @@
 // 教师家校联络记录拍照
-
-// 家校通记录拍照上传
 App.controller('home', function (page,request) {
 	var classes = '', 
 		classID = 0, //班级
@@ -160,6 +158,7 @@ App.controller('home', function (page,request) {
 						// 微信服务器保存3天的图片
 						"userId": gUserID, //没有取得数据库ID
 						"classjxtType": '教师',
+						"schoolID": gSchoolID
 					}
 					createData(obj)
 				}
