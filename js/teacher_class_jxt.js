@@ -234,6 +234,7 @@ App.controller('select-classes', function (page,request) {
 			$node.find('.title').text(item.title); 
 			$node.find('.weekday').text(item.weekday); 
 			$node.find('.timespan').text(item.timespan); 
+			$node.find('.schoolsub').text(item.fullname);
 			$node.find('.id').text(item.classID);
 			$list.append($node);	
 		});

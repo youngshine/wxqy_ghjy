@@ -10,7 +10,7 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 require_once('db/database_connection.php');
 
 $courseID = $_REQUEST['courseID'];
-//$endTime = $_REQUEST['endTime'];
+$hour = $_REQUEST['hour'];
 $now = date('ymdhis');
 
 $query = "UPDATE `ghjy_teacher_course` SET 
@@ -21,7 +21,8 @@ $result = mysql_query($query)
 
 echo json_encode(array(
     "success" => true,
-    "message" => "一对一下课了"
+    "message" => "一对一下课了",
+	"data"    => $hour
 ));
   
 ?>

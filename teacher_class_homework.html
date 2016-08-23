@@ -176,10 +176,13 @@
 		<div class="app-content">
 		  <div class="list">
 		    <div class="listItem">
-		    	<div class="title"></div>
+		    	<div class="">
+		    		<span class="title"></span>
+					<span class="timespan" style="float:right;"></span>
+					<span class="weekday" style="float:right;"></span>
+		    	</div>
 				<div class="subtitle">
-					<span class="weekday"></span>
-					<span class="timespan"></span>
+					<span class="schoolsub"></span>
 					<span class="id" style="display:none;"></span>
 				</div>
 			</div>
@@ -188,7 +191,10 @@
 	</div>
 
     <script src="src/zepto.js"></script>
+	<!-- 小米oppo无法点击dialog确定，解决办法
     <script src="src/app.min.js"></script>
+	-->
+	<script src="//cdn.kik.com/app/2/app.min.js"></script>
 	
 	<script src="js/main.js"></script>		
 	<script src="js/teacher_class_homework.js"></script>

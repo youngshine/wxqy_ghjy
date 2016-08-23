@@ -9,9 +9,10 @@ require_once('db/database_connection.php');
 $teacher = $_REQUEST['teacher']; //userID 不是数字ID
 //$teacherID = $_REQUEST['teacherID'];
 
-$sql = " SELECT a.*,b.userId 
+$sql = " SELECT a.*,b.userId,c.fullname  
 	From `ghjy_class` a 
 	Join `ghjy_teacher` b On a.teacherID=b.teacherID 
+	Join `ghjy_school_sub` c On a.schoolsubID=c.schoolsubID 
 	Where b.userId = '$teacher' 
 	Order by a.created Desc ";
     

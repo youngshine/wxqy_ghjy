@@ -119,6 +119,7 @@ App.controller('home', function (page,request) {
 				}else{
 					var obj = {
 						"classID": classID,
+						"className": classes,
 						"photos": '', //没有作业照片
 						"keypoint": keypoint,
 						"userId": gUserID, //没有取得数据库ID
@@ -173,8 +174,7 @@ App.controller('home', function (page,request) {
 						//"mediaIds": '' // remotePhotos.join(',') 
 						// 微信服务器保存3天的图片
 						"keypoint": keypoint,
-						"userId": gUserID, //没有取得数据库ID
-						//"classjxtType": '教师',
+						"userId": gUserID, //教师账号，没有取得数据库ID
 						"schoolID": gSchoolID
 					}
 					createData(obj)
@@ -193,30 +193,56 @@ App.controller('home', function (page,request) {
 				hidePrompt();
 				toast('上传上课作业成功')
 				
-				App.load('hist',params); 
+				//App.load('hist',params); 
+				App.load('home'); // 清空
 				
-				// 微信模版通知家长
-				//doWxMsgText()
+				// 微信模版通知家长,classID班级循环
+				$.ajax({
+					url: gDataUrl + 'readStudentListByClass.php',
+					dataType: "json",
+					data: obj, //classID,
+					success: function(result){
+						console.log(result)
+						result.data.forEach(function(person){
+							// 来上课的，一个个发模版消息，通知家长
+							wxTpl(person,obj.keypoint,obj.photos,obj.className) 
+						})
+					}
+				})
 			},
-			error: function(result){
-				showPrompt('出错');
-			}
 		});
 	} 
 	
-	// 微信文本通知咨询师有新的学生，全局函数公用
-	function doWxMsgText(){		
-		var objMsg = {
-			//userId : userId, // all = '@all
-			//partyID: 2, //?????
-			//tagID: 4, //校长标签4，所有学校校长？？？？？
-			type : "上课内容及作业",
-			msg : '有教师上传家校联系记录，请查看',
-			agentId : 10, // 10=教师模块，0系统小助手
-			link : 'http://www.xzpt.org/wxqy/ghjy/script/weixinJS/oAuth2.php?menuitem=dean_teacher' //'?id=' + result.data.news_id // 刚新增的公文id
+	// 发送模版消息: 企业号－>服务号
+	function wxTpl(person,keypoint,photos,className){
+		console.log(person);
+		
+		var msg = '今天上课主要内容：' + keypoint ;
+		/*
+		var photos = photos.split(',');
+		$.each(photos, function(i,photo){      
+			console.log(photo)
+			msg += '<img src='+photo+' style="width:100px;height:100px;padding:2px;" />'
+		});	 */
+		
+		var obj = {
+			wxID       : person.wxID, // 发消息学生家长
+			studentName: person.studentName,
+			schoolsub  : person.fullname, //分校区，发消息抬头
+			classDate  : new Date(), // 用于判断今天补点名、不重复点名
+			className  : className,
+			msg        : msg
 		}
-		console.log(objMsg)
-		wxMsgText(objMsg)
+		console.log(obj)
+		$.ajax({
+		    url: gDataUrl + 'weixinJS_gongzhonghao/wx_msg_tpl_class_homework.php',
+		    data: obj,
+		    success: function(response){
+		        var text = response.responseText;
+		        // process server response here
+				console.log(response)//JSON.parse
+		    }
+		});
 	}
 }); // photo upload & save ends
 
@@ -251,6 +277,7 @@ App.controller('select-classes', function (page,request) {
 			$node.find('.title').text(item.title); 
 			$node.find('.weekday').text(item.weekday); 
 			$node.find('.timespan').text(item.timespan); 
+			$node.find('.schoolsub').text(item.fullname); 
 			$node.find('.id').text(item.classID);
 			$list.append($node);	
 		});

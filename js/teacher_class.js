@@ -41,6 +41,7 @@ App.controller('home', function (page) {
 			$node.find('.title').text(item.title); 
 			$node.find('.weekday').text(item.weekday);
 			$node.find('.timespan').text(item.timespan);
+			$node.find('.schoolsub').text(item.fullname);
 			//display:none
 			$node.find('.id').text(item.classID);			
 			$list.append($node);

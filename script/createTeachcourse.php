@@ -17,9 +17,12 @@
     $result = mysql_query($query) 
         or die("Invalid query: createCourse" . mysql_error());
     
-    echo json_encode(array(
+	$id = mysql_insert_id(); 
+		
+	echo json_encode(array(
         "success" => true,
-        "message" => "新增一对一上课成功"
+        "message" => "创建一对一成功",
+		"data"    => array("courseId" => $id)
     ));
   
 ?>

@@ -97,18 +97,6 @@
 		</div>	
     </div>
 
-	<div class="app-page" data-page="input-number">
-		<div class="app-topbar">
-			<div class="app-title">课时</div>
-			<div class="app-button right done">完成</div>
-		</div>
-		<div class="app-content">
-			<div style="margin:10px;">
-				<input class="app-input" type="number">	
-			</div>
-		</div>	  
-	</div>	
-
 	<div class="app-page" data-page="endclass">
 		<div class="app-topbar">
 	        <div class="app-button left" data-back data-autotitle></div>
@@ -116,7 +104,8 @@
 		</div>
 		<div class="app-content">
 			<div style="margin:10px;">
-				<input class="app-input" type="number" placeholder='填写本次课时'>	
+				<div style="color:#888;margin-bottom:5px;">本次上课课时（以0.5为单位）</div>
+				<input class="app-input" type="number" placeholder=''>	
 			</div>
 			<div style="margin:0 10px;">
 				<div class="app-button green submit">保存</div>	
@@ -125,7 +114,10 @@
 	</div>
 
     <script src="src/zepto.js"></script>
+	<!-- 小米oppo无法点击dialog确定，解决办法
     <script src="src/app.min.js"></script>
+	-->
+	<script src="//cdn.kik.com/app/2/app.min.js"></script>
 	
 	<script src="js/main.js"></script>		
 	<script src="js/teacher_1to1.js"></script>
