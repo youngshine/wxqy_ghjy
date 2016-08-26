@@ -525,18 +525,11 @@ App.controller('addnew', function (page) {
 		});
 	}) 
 	$timespan.parent().on('click', function () {
-		/*
-		App.dialog({
-			上午Button     : '上午',
-			下午Button     : '下午',
-			晚上Button     : '晚上',
-		}, function (tryAgain) {
-		  if (tryAgain) {
-			  timespan = tryAgain
-			  $timespan.text(timespan);
-		  }
-		}); */
-		var arr = ['上午','下午','晚上'];
+		var arr = [
+			'08:00','08:30','09:00','09:30','10:00','10:30','11:00',
+			'14:00','14:30','15:00','15:30','16:00','16:30','17:00',
+			'18:30','19:00','19:30','20:00'
+			];
 		App.pick('select-option', arr, function (data) {
 			if(data){ // 取消返回
 				console.log(data)
@@ -728,17 +721,11 @@ App.controller('edit', function (page,request) {
 		});
 	}) 
 	$timespan.parent().on('click', function () {
-		/*App.dialog({
-			上午Button     : '上午',
-			下午Button     : '下午',
-			晚上Button     : '晚上',
-		}, function (tryAgain) {
-		  if (tryAgain) {
-			  timespan = tryAgain
-			  $timespan.text(timespan);
-		  }
-		}); */
-		var arr = ['上午','下午','晚上'];
+		var arr = [
+			'08:00','08:30','09:00','09:30','10:00','10:30','11:00',
+			'14:00','14:30','15:00','15:30','16:00','16:30','17:00',
+			'18:30','19:00','19:30','20:00'
+		];
 		App.pick('select-option', arr, function (data) {
 			if(data){ // 取消返回
 				console.log(data)

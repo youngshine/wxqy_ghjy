@@ -9,8 +9,12 @@ App.controller('input-text', function (page,request) {
 
 	$(page).find('.done').on('click', function (e){
 		input.blur(); // 关闭软键盘
+		var val = input.val().trim()
+		if(val == ''){
+			toast('不能空白');return
+		}
 		var obj = {
-			"value": input.val().trim()
+			"value": val //input.val().trim()
 		}
 		me.reply(obj); // app.pick
 	})	
