@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>根号教育平台</title>
+	<meta charset="utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="//cdn.kik.com/app/2.0.1/app.min.css">
+
+	<style>
+		.app-topbar {background:#E82;}
+
+		/*  msg box */
+		#m {
+			filter: alpha(opacity=30);
+			-moz-opacity: 0.3; 
+			opacity: 0.3;
+			position:absolute;
+			z-index:10000;
+			background-color:none;
+		}
+		#lo {
+			position:absolute;
+			width:150px;
+			height:90px;
+			line-height:90px;
+			background-color:#000;
+			color:#fff;
+			text-align:center;
+			z-index:9999;
+	
+			filter: alpha(opacity=70);
+			-moz-opacity: 0.7; 
+			opacity: 0.7;
+			
+			border-radius:10px;
+			-moz-border-radius:10px; /* Old Firefox */
+		} /* ends - msg box */
+		/* 滑动、长按删除 */
+		.list {
+			margin:0px 0;
+		}
+		.list .listItem {
+			background: #fcfcfc;
+			padding: 10px 15px;
+			border: 1px solid #eee;
+			margin:0px;
+			border-radius:0px;
+			-moz-border-radius:0px; /* Old Firefox */
+		}
+		.list .listItem .subtitle{
+			 color: #888;
+			 font-size:0.8em;
+			 clear: both;
+		}
+		/* 删除列表项  */
+		.btnRemove {
+			background:red;
+			color:#fff;
+			float:right;
+			width:60px;
+			line-height:40px;
+			text-align:center;
+			display:none;
+			z-index:100;
+			position:relative;
+		}
+			
+		.spacer {
+			height:10px;
+		}
+	
+		.arrow-r{
+		  position: relative;
+		}
+		.arrow-r:after, .arrow-r:before {
+		  border: 10px solid transparent;
+		  border-left: 10px solid #fff;
+		  width: 0;
+		  height: 0;
+		  position: absolute;
+		  top: 0; 
+		  right: -20px;
+		  content: ' '
+		}
+		.arrow-r:before {
+		  border-left-color: #888;
+		  right: -21px;
+		}
+	</style>
+  </head>
+
+  <body>
+
+    <div class="app-page" data-page="home">
+      <div class="app-topbar">
+          <div class="app-title">一对一课程设置</div>
+		  <div class="app-button right addnew" style="font-size:1.5em;
+		font-weight:bolder;">╋</div>
+      </div>
+      <div class="app-content">
+		<input class="app-input no-icon-android" type="search" placeholder="查找..." readOnly=true>
+		<div class="list">
+			<div class="listItem">						
+			  <div class="">	
+				<span class="title"></span>
+				<span class='btnEdit' style="float:right;color:green;">编辑</span>
+				<span class='btnRemove' style="float:right;">删除</span>
+			  </div>
+			  <div class="subtitle">
+				<span class="kmType" style="float:right;"></span>
+				单价：<span class="unitprice"></span>元／课时
+				<span class="note" style="display:none;"></span>
+				<span class="userId" style="display:none;"></span>
+				<span class="id" style="display:none;"></span>
+				<!-- 学校及其分校区  -->
+				<span class="schoolID" style="display:none;"></span>
+			  </div>		  
+			</div>
+		</div>  
+    </div>
+		
+	<div class="app-page" data-page="addnew">
+		<div class="app-topbar">
+			<div class="app-button left" data-back>返回</div>
+			<div class="app-title">新建课程</div>
+			  <div class="app-button right submit">提交</div>
+		</div>
+		<div class="app-content">	
+			<div style="background:#fff;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">名称：</span>
+				<span class="title" style="color:#888;"></span>	
+			</div>
+			<div style="background:#fff;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">科目类别：</span>
+				<span class="kmType" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>		
+			
+			<div style="background:#fff;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">课时单价：</span>
+				<span class="unitprice" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+
+			<div style="background:#fff;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span style="padding-left:15px;">备注：</span>
+				<span class="note" style="color:#888;"></span>	
+				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			</div>
+
+		</div>	
+	</div>
+	
+	<div class="app-page" data-page="edit">
+		<div class="app-topbar">
+			<div class="app-button left" data-back>返回</div>
+			<div class="app-title">修改课程</div>
+			  <div class="app-button right submit">提交</div>
+		</div>
+		<div class="app-content">	
+			<div style="background:#fff;padding:0 15px;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>名称：</span>
+				<span class="title" style="color:#888;float:right;"></span>	
+			</div>
+			<div style="background:#fff;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>科目类别：</span>
+				<span class="kmType" style="color:#888;float:right;"></span>	
+			</div>
+			
+			<div style="background:#fff;margin-top:10px;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>课时单价：</span>
+				<span class="unitprice" style="color:#888;float:right;"></span>
+			</div>
+			
+			<div style="background:#fff;margin-top:10px;padding:0 15px;line-height:45px;border-bottom:1px solid #ddd;">
+				<span>备注：</span>
+				<span class="note" style="color:#888;float:right;"></span>
+			</div>
+
+			<div style="margin:10px;">
+				<div class="app-button red del">删除、禁用</div>	
+			</div>
+		</div>	
+	</div>
+	
+    <div class="app-page" data-page="classes">
+      <div class="app-topbar">
+          <div class="app-button left" data-back data-autotitle></div>
+		  <div class="app-title">已开的班级</div>
+      </div>
+      <div class="app-content">
+		<div class="info" style="margin:10px;text-align:center;"></div>
+		<div class="list">
+		  <div class="listItem">
+		    <div>
+		    	<span class="title"></span>
+				<span class="persons" style="float:right;"></span>
+		    </div>
+			<div class="subtitle" style="clear:both;">
+				<span class="schoolsub"></span>
+			</div>		
+		  </div>
+		</div>
+    </div>
+
+	<!-- 选择固定项名称，需要传递固定项数组参数进来，公用类 -->
+	<div class="app-page" data-page="select-option">
+		<div class="app-topbar">
+			<div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">选择项</div>		
+		</div>
+		<div class="app-content">
+		  <ul class="app-list">
+		    <li>
+		    	<div class="name"></div>
+		    </li>
+		  </ul>	  
+		</div>	  
+	</div>	
+
+	<!-- 数字、文本及多行文本输入，公用-->
+	<div class="app-page" data-page="input-text">
+		<div class="app-topbar">
+			<div class="app-title">名称</div>
+			<div class="app-button right done">完成</div>
+		</div>
+		<div class="app-content">
+			<div style="margin:10px;">
+				<input class="app-input" maxlength="70">	
+			</div>
+		</div>	  
+	</div>
+	<div class="app-page" data-page="input-textarea">
+		<div class="app-topbar">
+			<div class="app-title">备注</div>
+			<div class="app-button right done">完成</div>
+		</div>
+		<div class="app-content">
+			<div style="margin:10px;background:#fff;">
+				<textarea class="app-input" maxlength="140" wrap="soft">
+					
+				</textarea>
+			</div>
+		</div>	  
+	</div>
+	<div class="app-page" data-page="input-number">
+		<div class="app-topbar">
+			<div class="app-title">数量</div>
+			<div class="app-button right done">完成</div>
+		</div>
+		<div class="app-content">
+			<div style="margin:10px;">
+				<input class="app-input" type="number">	
+			</div>
+		</div>	  
+	</div>
+	<div class="app-page" data-page="input-date">
+		<div class="app-topbar">
+			<div class="app-title">日期</div>
+			<div class="app-button right done">完成</div>
+		</div>
+		<div class="app-content">
+			<div style="margin:15px;">
+				<input class="app-input" type="date">
+			</div>
+		</div>	  
+	</div>
+	
+
+    <script src="src/zepto.js"></script>
+	<!-- 小米oppo无法点击dialog确定，解决办法
+		<script src="//cdn.kik.com/app/2/app.min.js"></script>
+	-->
+    <script src="src/app.min.js"></script>
+
+	<script src="js/main.js"></script>	
+	<script src="js/dean_kclist_1to1.js"></script>
+	
+	<script src="js/inputs.js"></script>
+	
+    <script>  
+		// 中文参数，解决乱码。location.search就无效
+		var url = decodeURI(window.location);
+		//alert(url)
+
+		//采用正则表达式获取地址栏参数
+		function getQueryString(param){
+		     var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)");
+		     //var r = window.location.search.substr(1).match(reg);
+			 url = url.substr(url.indexOf("?") + 1); //取得所有参数
+			 var r = url.match(reg);
+		     if(r!=null)return  unescape(r[2]); return null;
+		}
+		
+		// 全局变量，你的校区，微信号，姓名
+		gUserID = getQueryString("userId");
+		gUserName = getQueryString("userName")
+		gSchoolID = getQueryString("schoolID");// 扩展属性
+		//alert("学校："+gSchoolID);
+		
+		App.load('home');
+    </script>
+  </body>
+  
+</html>

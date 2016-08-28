@@ -29,6 +29,12 @@ switch($menuitem){
 	case "dean_1to1":
 		$url = $url . "oAuth2-dean_1to1.php";
 		break;
+	case "dean_kclist_class":
+		$url = $url . "oAuth2-dean_kclist_class.php";
+		break;
+	case "dean_kclist_1to1":
+		$url = $url . "oAuth2-dean_kclist_1to1.php";
+		break;
 	case "dean_class_jxt":
 		$url = $url . "oAuth2-dean_class_jxt.php";
 		break;					
