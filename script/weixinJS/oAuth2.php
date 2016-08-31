@@ -23,8 +23,8 @@ switch($menuitem){
 	case "dean_teacher":
 		$url = $url . "oAuth2-dean_teacher.php";
 		break;
-	case "dean_class":
-		$url = $url . "oAuth2-dean_class.php";
+	case "dean_class_enroll": //满班率
+		$url = $url . "oAuth2-dean_class_enroll.php";
 		break;	
 	case "dean_1to1":
 		$url = $url . "oAuth2-dean_1to1.php";
