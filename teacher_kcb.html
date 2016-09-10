@@ -57,71 +57,25 @@
 	  
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-          <div class="app-title">一对一上课</div>
+          <div class="app-title">教师课程表</div>
       </div>
       <div class="app-content">
     	<div class="list">
     	  <div class="listItem">
-    	    <div class="title">
-    	    	<span class="zsdName"></span>
-    	    </div>
-  			<div class="subtitle" style="color:#888;">
+  			<div class="title">
+				<span class="kcType"></span>：
 				<span class="timely"></span>
-				<span class="student" style="float:right;"></span>
-    		</div>
-			<!-- 隐藏id 学生userId-->
-  			<div class="userId" style="display:none;"></div>
-  			<div class="id" style="display:none;"></div>		
+    		</div>	
     	  </div>
     	</div>
 	  </div>	  
     </div>
 
-    <div class="app-page" data-page="teachcourse">
-      <div class="app-topbar">
-        <div class="app-button left" data-back data-autotitle></div>
-        <div class="app-title">课时记录</div>
-		<div class="right app-button addnew">＋上课</div>
-      </div>
-      <div class="app-content">
-		  <ul class="app-list">
-		    <li>
-				<span class="courseDate"></span>
-				<span class="hour" style="float:right;color:#888;display:none;"></span>
-				<span class="endClass" style="float:right;color:green;display:none;">下课</span>
-				<!-- 学生微信，用于发送模版消息 classcourseID -->
-				<span class="id" style="display:none;"></span>
-		    </li>
-		  </ul>
-		</div>	
-    </div>
-
-	<div class="app-page" data-page="endclass">
-		<div class="app-topbar">
-	        <div class="app-button left" data-back data-autotitle></div>
-			<div class="app-title">下课</div>
-		</div>
-		<div class="app-content">
-			<div style="margin:10px;">
-				<div style="color:#888;margin-bottom:5px;">本次上课课时（以0.5为单位）</div>
-				<input class="app-input" type="number" placeholder=''>	
-			</div>
-			<div style="margin:0 10px;">
-				<div class="app-button green submit">提交</div>	
-			</div>
-		</div>	
-	</div>
-
     <script src="src/zepto.js"></script>
-	<!-- 小米oppo无法点击dialog确定，解决办法
     <script src="src/app.min.js"></script>
-	-->
-	<script src="//cdn.kik.com/app/2/app.min.js"></script>
 	
 	<script src="js/main.js"></script>		
-	<script src="js/teacher_1to1.js"></script>
-	
-	<script src="js/inputs.js"></script>
+	<script src="js/teacher_kcb.js"></script>
 
 	<script>
 		// 中文参数，解决乱码。location.search就无效

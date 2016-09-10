@@ -28,7 +28,7 @@ App.controller('home', function (page) {
 						
 						$node.find('.title').text(data.title); 
 						$node.find('.kmType').text(data.kmType); 
-						$node.find('.unitprice').text(data.hour);
+						$node.find('.unitprice').text(data.unitprice);
 						//$node.find('.amount').text(data.amount);
 						$node.find('.note').text(data.note);
 

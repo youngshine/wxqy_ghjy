@@ -1,4 +1,5 @@
 // 一对一上下课记录，并自定义消费的上课课时 1，1.5，2
+// 下课要模版消息通知？？？
 App.controller('home', function (page) {
 	var $list = $(page).find('.list'),
 		$listItem = $(page).find('.listItem').remove()	
@@ -35,8 +36,7 @@ App.controller('home', function (page) {
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
 			$node.find('.zsdName').text(item.zsdName); 
-			$node.find('.weekday').text(item.teach_weekday);
-			$node.find('.timespan').text(item.teach_timespan);
+			$node.find('.timely').text(item.timely_list);
 			$node.find('.student').text(item.studentName);
 			//display:none
 			$node.find('.userId').text(item.wxID); //学生userId，发模版消息

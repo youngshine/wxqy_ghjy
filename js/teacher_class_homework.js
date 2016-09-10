@@ -103,7 +103,7 @@ App.controller('home', function (page,request) {
 		}
 		
 		App.dialog({
-			title	     : '提交、推送？？', //'删除当前公告？',
+			title	     : '提交、推送？', //'删除当前公告？',
 			okButton     : '确定',
 			cancelButton : '取消'
 		}, function (choice) {
@@ -142,7 +142,7 @@ App.controller('home', function (page,request) {
 				remotePhotos.push(res.serverId);
 				//其他对serverId做处理的代码
 				if(localIds.length > 0){
-					syncUpload(localIds); //递归
+					syncUpload(localIds); //递归，循环上传
 				}else{
 					syncDownload(remotePhotos)				
 				}
@@ -160,7 +160,8 @@ App.controller('home', function (page,request) {
 			"fileName": fileName
 		}
 		$.ajax({
-			url: 'script/weixinJS/wx_imgDown.php',
+			//不保存服务器，保存云存储cos
+			url: 'script/weixinJS/wx_img_down.php',
 			data: obj, //必须符合json标准，才能执行success
 			dataType: "json",//jsonp: 'callback',
 			success: function(result){

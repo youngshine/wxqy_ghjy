@@ -1,5 +1,5 @@
 <?php
-	// 教育企业号创建通讯录成员，并且设置标签：咨询2、教师3
+	// 教育企业号通讯录成员设置标签：咨询2、教师3
 	header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 	header('Access-Control-Allow-Origin: *'); // 跨域问题
 	
@@ -10,26 +10,13 @@
 	$access_token = $jssdk->getAccessToken();
 	
 	// 从微信服务器下载多媒体文件到自己服务器，永久保存
-	$url = "https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=$access_token";
-
+	$url = "https://qyapi.weixin.qq.com/cgi-bin/tag/addtagusers?access_token=$access_token";
 	$userId = addslashes($_REQUEST['userId']);
-	$name = addslashes($_REQUEST['userName']);
-	$mobile = $_REQUEST['phone'];
-	//$gender = $_REQUEST['gender'];
-	$gender = $_REQUEST['gender']=='男' ? 1 : 2;
-	$position = $_REQUEST['position'];
-	//$tag = $_REQUEST['tag']; //创建时，无法标签
-	$schoolID = $_REQUEST['schoolID']; //高歌schoolID与企业号部门dept匹配表
-	$department = $_REQUEST['department']; //4-根号联盟，子部门就是学校
+	$tagId = $_REQUEST['position']=='咨询' ? 2 : 3;
 	
 	$data = '{
-	   "userid": "'.$userId.'",
-	   "name": "'.$name.'",
-	   "department": [4], 
-	   "position": "'.$position.'",
-	   "mobile": "'.$mobile.'",
-	   "gender": "'.$gender.'",
-	   "extattr": {"attrs":[{"name":"schoolID","value":"'.$schoolID.'"}]}
+	   "tagid": "'.$tagId.'",
+	   "userlist": ["'.$userId.'"],
 	}';
 	
 	echo httpPost($url, $data);

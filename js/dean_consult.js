@@ -36,7 +36,7 @@ App.controller('home', function (page) {
 						// 2. 在企业号通讯录创建成员，必须弄一个 schoolID与department的对应表
 						var objQy = data
 						objQy.department = 1, //企业号通讯录根部门？？？
-						objQy.position = '咨询师', //用于企业号 职务
+						objQy.position = '咨询', //用于企业号 职务
 						//obj.tag = 3, //用于企业号标签，咨询2，教师3，创建成员无法添加标签
 
 						doAdd2Contact(objQy)
@@ -46,6 +46,7 @@ App.controller('home', function (page) {
 		});
 	})
 	
+	// 2. 成功后，企业号通讯录新增人员，如果重复？
 	function doAdd2Contact(obj){
 		console.log(obj)
 		$.ajax({
@@ -55,6 +56,20 @@ App.controller('home', function (page) {
 			success: function(data){	
                 console.log(data)
 				toast('添加咨询成功') //数据库和通讯录都添加
+				doAdd2Tag(obj)
+			},
+		});
+	}
+	// 3. 添加企业号通讯录成功后，设置标签（咨询2、教师3）
+	function doAdd2Tag(obj){
+		console.log(obj)
+		$.ajax({
+			url: 'script/weixinJS/wx_user_addtag.php',
+			dataType: "json", 
+			data: obj,
+			success: function(data){	
+                console.log(data)
+				toast('设置标签成功') //数据库和通讯录都添加
 			},
 		});
 	}

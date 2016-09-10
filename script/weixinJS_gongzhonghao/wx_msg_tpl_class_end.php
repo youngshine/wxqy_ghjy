@@ -7,13 +7,18 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 header('Access-Control-Allow-Origin: *'); // 跨域问题
 //header('Access-Control-Allow-Headers: X-Requested-With');
 
+/* 获得保存在json文件中的token
 require_once "jssdk-token.php";
-
 $corpid = "wx4f3ffca94662ce40";
 $corpsecret = "9998a307f7f99e9445d84439d6182355";
-
 $jssdk = new JSSDK($corpid, $corpsecret);
 $access_token = $jssdk->getAccessToken();
+*/
+
+// 新浪云kvdb保存token
+$ret = file_get_contents("http://xyzs.sinaapp.com/wx/kvdb.php");
+$ret = json_decode($ret); 
+$access_token = $ret->access_token;
 
 define("ACCESS_TOKEN",$access_token );
 

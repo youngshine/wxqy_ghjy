@@ -7,8 +7,8 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 require_once('db/database_connection.php');
 
 $schoolID = $_REQUEST['schoolID']; // 
-$userId = addslashes($_REQUEST['userId']);
 $classjxtType = $_REQUEST['classjxtType'];
+$userId = addslashes($_REQUEST['userId']);
 
 /* 教师userId
 $sql = " SELECT a.*,b.title,c.teacherName,c.userId 

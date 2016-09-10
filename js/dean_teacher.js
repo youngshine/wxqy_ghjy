@@ -62,7 +62,7 @@ App.controller('home', function (page,request) {
 			},
 		});
 	}
-	// 2. 成功后，企业号通讯录新增人员
+	// 2. 成功后，企业号通讯录新增人员，并设置标签
 	function doAdd2Contact(obj){
 		console.log(obj)
 		$.ajax({
@@ -72,6 +72,20 @@ App.controller('home', function (page,request) {
 			success: function(data){	
                 console.log(data)
 				toast('添加教师成功') //数据库和通讯录都添加
+				doAdd2Tag(obj)
+			},
+		});
+	}
+	// 3. 添加企业号通讯录成功后，设置标签（咨询2、教师3）
+	function doAdd2Tag(obj){
+		console.log(obj)
+		$.ajax({
+			url: 'script/weixinJS/wx_user_addtag.php',
+			dataType: "json", 
+			data: obj,
+			success: function(data){	
+                console.log(data)
+				toast('设置标签成功') //数据库和通讯录都添加
 			},
 		});
 	}

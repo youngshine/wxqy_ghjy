@@ -162,7 +162,7 @@ App.controller('home', function (page,request) {
 			"fileName": fileName
 		}
 		$.ajax({
-			url: 'script/weixinJS/wx_imgDown.php',
+			url: 'script/weixinJS/wx_img_down.php',
 			data: obj, //必须符合json标准，才能执行success
 			dataType: "json",//jsonp: 'callback',
 			success: function(result){
