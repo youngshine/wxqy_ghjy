@@ -154,18 +154,22 @@ App.controller('home', function (page,request) {
 	// 2. 下载刚才上传的到自己服务器，长久保存
 	var syncDownload = function(serverIds){
 		var serverId = serverIds.pop(); //递归，逐步减少
-		var fileName = 'script/img/classjxt/' + 
+		/*var fileName = 'script/img/classjxt/' + 
 			new Date().getTime() + '_' + Math.floor(Math.random()*100) + '.jpg';
 		fileNames.push(fileName); // photo多图的文件名
+		*/
 		var obj = {
 			"mediaId": serverId,
-			"fileName": fileName
+			//"fileName": fileName
 		}
 		$.ajax({
-			url: 'script/weixinJS/wx_img_down.php',
+			url: 'script/weixinJS/wx_img_down_jxt.php',
 			data: obj, //必须符合json标准，才能执行success
 			dataType: "json",//jsonp: 'callback',
 			success: function(result){
+				console.log(result)
+				fileNames.push(result.photofile); // photo多图的文件名
+				
 				if(serverIds.length > 0){
 					syncDownload(serverIds); //递归recursive
 				}else{
@@ -193,9 +197,10 @@ App.controller('home', function (page,request) {
 			data: obj, //jsonp: 'callback',
 			success: function(result){
 				hidePrompt();
-				toast('上传家校记录成功')
+				toast('上传家校记录成功<br>可在历史记录查看')
 				
-				App.load('hist',params); 
+				//App.load('hist',params); 
+				App.load('home'); // 清空
 				
 				// 企业号通知校长, 不知道校长userID，使用固定校长标签＝4
 				//doWxMsgText()

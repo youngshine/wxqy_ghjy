@@ -23,7 +23,7 @@ $schoolID = $_REQUEST['schoolID']; //归属学校
 
 $sql = "INSERT INTO `ghjy_teacher` (teacherName,gender,phone,subjectID,schoolID,userId) 
 	VALUES('$teacherName','$gender','$phone',$subjectID,$schoolID,'$userId')";
-$result = mysql_query($sql) or die("Invalid query: createTeacher" . mysql_error());
+$result = mysql_query($sql);// or die("Invalid query: createTeacher" . mysql_error());
 
 if($result){
 	$id = mysql_insert_id(); 	

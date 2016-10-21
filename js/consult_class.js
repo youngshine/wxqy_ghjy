@@ -44,8 +44,7 @@ App.controller('home', function (page) {
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
 			$node.find('.title').text(item.title); 
-			$node.find('.weekday').text(item.weekday);
-			$node.find('.timespan').text(item.timespan);
+			$node.find('.timely_list').text(item.timely_list);
 			$node.find('.teacher').text(item.teacherName);
 			//display:none
 			$node.find('.id').text(item.classID);			
@@ -77,7 +76,7 @@ App.controller('home', function (page) {
 		    console.log(choice)
 			$search.val(choice)  
 			var filter = records.filter(function(ele,pos){
-			    return ele.classType == choice ;
+			    return ele.kmType == choice ;
 			});
 			console.log(filter)
 			populateData(filter)

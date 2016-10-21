@@ -1,42 +1,63 @@
 // 教师的班级上课要点和作业，推送给家长
 App.controller('home', function (page,request) {
-	var classes = '', 
-		classID = 0, //班级
-		keypoint = '', //班级上课内容
+	// 存储变量
+	var classID = 0, //班级
+		studentID = 0, //班级
+		classes = '', 
+		schoolsub = '',
+		student = '', 
+	    wxID = '', //学生微信，用于发送模版消息
+		note = '', //班级上课内容
 		localPhotos = [], // 选择或拍照的图片，未上传
 		remotePhotos = [], // 上传服务器多图
 		fileNames = []; //数据库图片文件名
-
+	// 页面组件
 	var $classes = $(page).find('.classes'),
+		$student = $(page).find('.student'),
+		$note = $(page).find('.note'),
+		btnHist = $(page).find('.hist'), // 历史记录
 		btnSubmit = $(page).find('.submit'),
 		$list = $(page).find('.photos-wrapper'),
-		$listItem = $(page).find('.photos-wrapper .imgContainer').remove()
-	
-	var btnHist = $(page).find('.hist')
-	// 该教师的上传历史记录		
-	var params = {
-		"userId"      : gUserID,
-		"schoolID"      : gSchoolID,
-		//"classjxtType": '教师'
-	}	
-	btnHist.on('click',function(e){
-		App.load('hist',params)
-	})	
+		$listItem = $(page).find('.photos-wrapper .imgContainer').remove()	
 	
 	// 当前教师的上课班级	企业号微信teacher是userId，不是teacherID
-	$classes.parent().on('click',function(e){
+	$classes.parent().on('singleTap',function(e){
 		App.pick('select-classes', {teacher:gUserID}, function (data) {
 			if(data){ 
 				console.log(data)
 				classes = data.title;
 				classID = data.classID;
+				schoolsub = data.schoolsub
 				$classes.text(classes);
 			}
 		});	
 	})	
+	$student.parent().on('singleTap',function(e){
+		if(classID==0){
+			toast('请先选择班级'); return;		
+		}
+		App.pick('select-student', {classID:classID}, function (data) {
+			if(data){ 
+				console.log(data)
+				student = data.studentName
+				wxID = data.wxID 
+				studentID = data.studentID
+				$student.text(student);
+			}
+		});	
+	})	
+	$note.parent().on('singleTap', function () {
+		App.pick('input-textarea', {'value':note,'title':'留言'}, function (data) {
+			if(data){ // 取消返回没有数值
+				console.log(data)
+				note = data.value;
+				$note.text(note);
+			}
+		});
+	});
 	
-	// 添加，预览或删除，$转换为jquery对象方便操作
-	$list.on('click',function(e){
+	// 照片列表添加，预览或删除，$转换为jquery对象方便操作
+	$list.on('singleTap',function(e){
 		e.stopPropagation(); 
 		console.log(e.target.className)
 		var el = e.target.className
@@ -66,40 +87,48 @@ App.controller('home', function (page,request) {
 				urls: [e.target.src]
 			});
 		}
+		
+		// + 
+		function addImg(){			
+			console.log('add multi img')
+			wx.chooseImage({
+	            count: 9, // 默认9
+	            sizeType: ['original', 'compressed'], 
+	            sourceType: ['album', 'camera'],
+	            success: function (res) {
+	                var localIds = res.localIds; 
+					// 多选
+					for (var i=0; i<localIds.length; i++)
+					{
+						var $node = $listItem.clone(true);
+						$node.find('.imgUpload').attr('src',localIds[i])
+						$node.find('.imgUpload').attr('id',localIds[i]); // localId
+						$list.prepend($node); //append
+						// 本地
+						//localPhotos.push(localIds[i]) //mediaId
+					}
+	            }
+	        });
+		}
 	})
-	function addImg(){			
-		console.log('add multi img')
-		wx.chooseImage({
-            count: 3, // 默认9
-            sizeType: ['original', 'compressed'], 
-            sourceType: ['album', 'camera'],
-            success: function (res) {
-                var localIds = res.localIds; 
-				// 多选
-				for (var i=0; i<localIds.length; i++)
-				{
-					var $node = $listItem.clone(true);
-					$node.find('.imgUpload').attr('src',localIds[i])
-					$node.find('.imgUpload').attr('id',localIds[i]); // localId
-					$list.prepend($node); //append
-					// 本地
-					//localPhotos.push(localIds[i]) //mediaId
-				}
-            }
-        });
-	}
+
 		
 	// 提交保存按钮
-	btnSubmit.on('click',function(e){				
+	btnSubmit.on('singleTap',function(e){				
 		if(classID == 0){
 			toast('请选择班级'); return;		
 		}
-		keypoint = $(page).find('textarea').val().trim()
-		console.log(keypoint)
+		if(studentID == 0){
+			toast('请选择推送学生'); return;		
+		}
+		if(note == ''){
+			toast('请填写留言'); return;		
+		}
+		
 		var imgs = $list.find('.imgUpload');
-		if(imgs.length == 0 && keypoint==''){
+		if(imgs.length == 0){
 		//if(localPhotos.length == 0 ){
-			toast('内容、照片不能全空'); return;		
+			toast('请添加照片'); return;		
 		}
 		
 		App.dialog({
@@ -108,27 +137,12 @@ App.controller('home', function (page,request) {
 			cancelButton : '取消'
 		}, function (choice) {
 			if(choice){
-				if(imgs.length > 0){ 
-					//localPhotos = []
-					imgs.each(function(index){
-						//localPhotos.push(imgs[index].src) //mediaId
-						localPhotos.push(imgs[index].id)
-					})
-					showPrompt('正在上传...');
-					syncUpload(localPhotos); // 递归调用，不是循环
-				}else{ 
-					// 只发送作业或留言，不推送图片
-					var obj = {
-						"classID": classID,
-						"className": classes,
-						"photos": '', //没有作业照片
-						"keypoint": keypoint,
-						"userId": gUserID, //没有取得数据库ID
-						//"classjxtType": '教师',
-						"schoolID": gSchoolID
-					}
-					createData(obj)
-				}			
+				imgs.each(function(index){
+					//localPhotos.push(imgs[index].src) //mediaId
+					localPhotos.push(imgs[index].id)
+				})
+				showPrompt('正在上传...');
+				syncUpload(localPhotos); // 递归调用，不是循环		
 			}
 		});
     });	
@@ -150,7 +164,7 @@ App.controller('home', function (page,request) {
 			}
 		});
 	};
-	// 2. 下载刚才上传的到自己服务器，长久保存
+	// 2. 下载刚才上传的到自己服务器或腾讯云cos，长久保存
 	var syncDownload = function(serverIds){
 		var serverId = serverIds.pop(); //递归，逐步减少
 		/*
@@ -163,7 +177,7 @@ App.controller('home', function (page,request) {
 		}
 		$.ajax({
 			//不保存服务器，保存云存储cos
-			url: 'script/weixinJS/wx_img_down_homework.php',
+			url: 'script/weixinJS/wx_img_down_each.php',
 			data: obj, //必须符合json标准，才能执行success
 			dataType: "json",//jsonp: 'callback',
 			success: function(result){
@@ -176,11 +190,15 @@ App.controller('home', function (page,request) {
 					// 3、保存数据库记录
 					var obj = {
 						"classID": classID,
-						"className": classes,
+						"studentID": studentID,
+						"classes": classes, //班级名称
+						"schoolsub": schoolsub, //所在分校区
+						"student": student,
+						"wxID": wxID, //学生微信
+						"note": note,
 						"photos": fileNames.join(','), // 数组转字符串
 						//"mediaIds": '' // remotePhotos.join(',') 
 						// 微信服务器保存3天的图片
-						"keypoint": keypoint,
 						"userId": gUserID, //教师账号，没有取得数据库ID
 						"schoolID": gSchoolID
 					}
@@ -193,67 +211,69 @@ App.controller('home', function (page,request) {
 	function createData(obj){		   
 		//showPrompt('正在保存');
 		$.ajax({
-			url: gDataUrl + 'createClasshomework.php',
+			url: gDataUrl + 'createClassesEach.php',
 			dataType: "json",
 			data: obj, //jsonp: 'callback',
 			success: function(result){
+				console.log(result.data)
 				hidePrompt();
-				toast('上传上课作业成功')
 				
-				//App.load('hist',params); 
-				App.load('home'); // 清空
-				
-				// 微信模版通知家长,classID班级循环
-				obj.classhomeworkID = result.data.classhomeworkID // 当前这次推送
+				obj.classeachID = result.data.classeachID // 当前这次推送
 				console.log(obj)
 				
-				$.ajax({
-					url: gDataUrl + 'readStudentListByClass.php',
-					dataType: "json",
-					data: obj, //classID,
-					success: function(result){
-						console.log(result)
-						result.data.forEach(function(person){
-							// 来上课的，一个个发模版消息，通知家长
-							wxTpl(person,obj) 
-						})
-					}
-				})
+				// 微信模版通知家长
+				wxTpl(obj)
+				
+				toast('推送成功')
+				
+				//App.load('hist',params); 
+				//App.load('home'); // 清空
+				$student.text('未选择') //换另外一个学生？
+				student = ''
+				wxID = ''
+				studentID = 0
 			},
 		});
 	} 
 	
 	// 发送模版消息: 企业号－>服务号
-	function wxTpl(person,objMsg){
+	function wxTpl(person){
 		console.log(person);
-
-		/*
-		var photos = photos.split(',');
-		$.each(photos, function(i,photo){      
-			console.log(photo)
-			msg += '<img src='+photo+' style="width:100px;height:100px;padding:2px;" />'
-		});	 */
 		
-		var obj = {
-			wxID           : person.wxID, // 发消息学生家长
-			studentName    : person.studentName,
-			schoolsub      : person.fullname, //分校区，发消息抬头
-			msg            : '今天上课主要内容：' + objMsg.keypoint,
-			classDate      : new Date(), // 用于判断今天补点名、不重复点名
-			className      : objMsg.className,
-			classhomeworkID: objMsg.classhomeworkID, //模版消息，仅仅读取本次推送
+		//var msg = '学生精彩瞬间：' + person.note ;
+		
+		var objWx = {
+			msg        : person.note,
+			wxID       : person.wxID, // 发消息学生家长
+			studentName: person.student,
+			schoolsub  : person.schoolsub, //分校区，发消息抬头
+			classDate  : new Date(), // 用于判断今天补点名、不重复点名
+			className  : person.classes,
+			classeachID: person.classeachID,
 		}
-		console.log(obj)
+		console.log(objWx)
+		
 		$.ajax({
-		    url: gDataUrl + 'weixinJS_gongzhonghao/wx_msg_tpl_class_homework.php',
-		    data: obj,
-		    success: function(response){
-		        var text = response.responseText;
+		    url: gDataUrl + 'weixinJS_gongzhonghao/wx_msg_tpl_class_each.php',
+		    data: objWx,
+		    success: function(res){
+		        var text = res.responseText;
 		        // process server response here
-				console.log(response)//JSON.parse
+				console.log(res)//JSON.parse
 		    }
 		});
 	}
+	
+
+	// 历史记录			
+	btnHist.on('singleTap',function(e){
+		var params = {
+			"userId"      : gUserID,
+			"schoolID"    : gSchoolID,
+			//"classjxtType": '教师'
+		}
+		App.load('hist',params)
+	})
 }); // photo upload & save ends
 
 // 选择教师的班级
@@ -291,13 +311,64 @@ App.controller('select-classes', function (page,request) {
 			$list.append($node);	
 		});
 		
-		$list.find('.listItem').on('click', function (e){
+		$list.find('.listItem').on('singleTap', function (e){
 			//if(e.target.className == 'group') return false // 点击分组标签
 			//this.style.color = 'blue';
 			$(this).css('color','blue')
 			var obj = {
 				"classID": $(this).find('.id').text(),
-				"title"	: $(this).find('.title').text()
+				"title"	: $(this).find('.title').text(),
+				"schoolsub"	: $(this).find('.schoolsub').text()
+			}
+			me.reply(obj); // app.pick
+			console.log(obj)
+		})
+	}
+});
+
+// 选择当前班级的学生
+App.controller('select-student', function (page,request) {
+	var me = this; 
+	var $list = $(page).find('.list'),
+		$listItem = $(page).find('.listItem').remove();
+
+	var params = {
+		"classID": request.classID, //userId
+	}	
+	readMemberList(params); 
+	console.log(params)
+	function readMemberList(obj){	
+		showPrompt('加载班级...');	
+		$.ajax({
+			url: gDataUrl + 'readClassesStudent.php',
+			data: obj,
+			dataType: "json",
+			success: function(result){
+				populateData(result.data); // all
+				console.log(result.data)
+				hidePrompt()
+			},
+		});
+  	}
+
+	function populateData(items){
+		items.forEach(function (item) {
+			var $node = $listItem.clone(true);
+			$node.find('.name').text(item.studentName); 
+			$node.find('.gender').text(item.gender); 
+			$node.find('.wxID').text(item.wxID); //方便发送微信模版信息
+			$node.find('.id').text(item.studentID);
+			$list.append($node);	
+		});
+		
+		$list.find('.listItem').on('singleTap', function (e){
+			//if(e.target.className == 'group') return false // 点击分组标签
+			//this.style.color = 'blue';
+			$(this).css('color','blue')
+			var obj = {
+				"studentID"  : $(this).find('.id').text(),
+				"wxID"       : $(this).find('.wxID').text(),
+				"studentName": $(this).find('.name').text()
 			}
 			me.reply(obj); // app.pick
 			console.log(obj)
@@ -318,9 +389,9 @@ App.controller('hist', function (page,request) {
 	}, request );
 
 	function readData(callback, obj){
-		showPrompt('加载上课作业记录...');		
+		showPrompt('加载记录...');		
 		$.ajax({
-	    	url: gDataUrl + 'readClasshomeworkList.php',
+	    	url: gDataUrl + 'readClassesEach.php',
 			data: obj,
 			dataType: "json",
 			success: function(result){
@@ -339,8 +410,9 @@ App.controller('hist', function (page,request) {
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
 			$node.find('.classes').text(item.title);
+			$node.find('.student').text(item.studentName);
 			$node.find('.time').text(item.created.substr(2,8));
-			$node.find('.keypoint').text(item.keypoint);//课程内容
+			$node.find('.note').text(item.note);//课程内容
 			//display:none
 			$node.find('.id').text(item.classjxtID);	
 			
@@ -360,61 +432,6 @@ App.controller('hist', function (page,request) {
 			$node.find('.removeItem').show()
 					
 			$list.append($node);
-		});
-	}	
-
-	function handleData(list, items){
-		list.find('.listItem').find('.removeItem').bind({
-			click: function(e){
-				//console.log($(this).siblings(".examId").text())
-				//toDelete( $(this).siblings(".examId").text(), items )
-				var selected = $(this).parent().parent()
-				console.log(selected.find('.examId').text())
-				App.dialog({
-					title	     : '删除记录？', //'删除当前公告？',
-					okButton     : '确定',
-					cancelButton : '取消'
-				}, function (choice) {
-					if(choice){
-						deleteData( selected.find('.id').text(), selected )
-					}
-				});
-			}
-		})
-			
-		list.find('.listItem').find('img').bind({
-			click: function(e){
-				//console.log(e.target)
-				var imgs = $(this).parent().children();
-				var urls = [];
-				imgs.forEach(function (img) {
-					urls.push(img.src)
-				})
-				console.log(urls);
-				WeixinJSBridge.invoke('imagePreview', {  
-					'current' : e.target.src,  
-					'urls' : urls  
-				});
-			}
-		})
-	}
-	
-	// 删除
-	function deleteData(ID, selected){
-		showPrompt('正在删除...'); console.log(ID)
-		$.ajax({
-			url: dataUrl + 'deleteClasshomework.php',
-			data: {"classhomeworkID":ID},
-			dataType: "json", // 返回的也是 json
-			success: function(result){
-				if(result.success){
-					hidePrompt();
-					//显示服务端出错信息,有跟贴子表记录，不能删除
-					selected.remove()
-				}else{
-					toast(result.message,3000)
-				}						
-			},
 		});
 	}	
 }); // ends controller

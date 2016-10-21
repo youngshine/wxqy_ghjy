@@ -109,16 +109,27 @@
   <body>
 	<div class="app-page" data-page="home">
 		<div class="app-topbar">
-			<div class="app-title">教师家校通</div>
+			<div class="app-title">个人精彩瞬间</div>
 	  		<div class="app-button right hist">历史记录</div>
 		</div>
 		<div class="app-content">
-			<div style="background:#fff;margin-top:10px;line-height:45px;border-bottom:1px solid #ddd;">
-				<span style="padding-left:15px;">班级：</span>
-				<span class="classes" style="color:#888;"></span>	
-				<span style="float:right;padding-right:10px;color:#888;">〉</span>
+			<div style="background:#fff;margin-top:10px;line-height:45px;padding:0 15px;border-bottom:1px solid #ddd;">
+				<span>班级：</span>
+				<span class="classes" style="color:#888;float:right;">未选择</span>	
 			</div>
-			<div style="padding:10px 15px 0;background:#fff;">拍照：</div>
+    		<div style="background:#fff;line-height:45px;padding:0 15px;border-bottom:1px solid #ddd;">
+  				<span>学生：</span>
+  				<span class="student" style="color:#888;float:right;">未选择</span>	 
+    		</div>
+			
+    		<div style="background:#fff;height:90px;padding:10px 15px;border-bottom:1px solid #ddd;">
+  				<span>留言：</span> <br>
+  				<span class="note" style="color:#888;">无</span>	 
+    		</div>
+			
+		  
+		  <div style="padding:10px 15px 0;background:#fff;">照片上传：</div>
+		  
 			<!-- 多选图片数组 -->
   			<div class="photos-wrapper">
   				<div class="imgContainer">
@@ -133,7 +144,7 @@
 			<div style="clear:both;"></div>
 		
 			<div style="padding:10px;">
-				<div class="app-button green submit">上传</div>	
+				<div class="app-button green submit">提交</div>	
 			</div>		
 		</div>	
 	</div>
@@ -141,18 +152,26 @@
     <div class="app-page" data-page="hist">
       <div class="app-topbar">
 		<div class="app-button left" data-back data-autotitle></div>
-          <div class="app-title">家校通记录</div>
+          <div class="app-title">推送记录</div>
       </div>
       <div class="app-content">
     	<div class="list">
     	  <div class="listItem">
 			<div class="subtitle" style="line-height:30px;">				
-				<span class="time"></span>｜<span class="classes"></span>
+				<span class="student"></span>
+				<span class="classes" style="float:right;"></span>
+			</div>
+			<div style="color:#888;">教师留言：</div>
+			<div class="note"></div>
+			<div style="color:#888;">精彩照片：</div>
+			<div class="photos"></div>	
+			
+			<div class="subtitle" style="line-height:30px;">				
+				<span class="time"></span>
 				<!-- 隐藏 -->
 				<span class="id" style="display:none;"></span>				
 				<span class="removeItem" style="float:right;color:pink;display:none;">删除</span>
 			</div>
-			<div class="photos"></div>	
     	  </div>
     	</div>
 	  </div>	  
@@ -165,18 +184,52 @@
 			<div class="app-title">选择班级</div>		
 		</div>
 		<div class="app-content">
-		  <div class="list">
+		  <div class="list" style="margin:5px;border-radius:10px;">
 		    <div class="listItem">
 		    	<div class="">
 		    		<span class="title"></span>
 		    	</div>
 				<div class="subtitle">
-					<span class="timely_list"></span><br>
+					<span class="timely_list"></span>
+					<br>
 					<span class="schoolsub"></span>
 					<span class="id" style="display:none;"></span>
 				</div>
 			</div>
 		  </ul>	  
+		</div>	  
+	</div>
+	<!-- 选择员工列表，公用-->
+	<div class="app-page" data-page="select-student">
+		<div class="app-topbar">
+			<div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">选择学生</div>		
+		</div>
+		<div class="app-content">
+		  <div class="list" style="margin:5px;border-radius:10px;">
+		    <div class="listItem">
+		    	<div class="">
+		    		<span class="name"></span>
+					<span class="gender" style="float:right;"></span>
+					<span class="wxID" style="display:none;"></span>
+					<span class="id" style="display:none;"></span>
+		    	</div>
+			</div>
+		  </ul>	  
+		</div>	  
+	</div>
+	
+	<div class="app-page" data-page="input-textarea">
+		<div class="app-topbar">
+			<div class="app-title">备注</div>
+			<div class="app-button right done">完成</div>
+		</div>
+		<div class="app-content">
+			<div style="margin:10px;background:#fff;">
+				<textarea class="app-input" maxlength="70" wrap="soft">
+					
+				</textarea>
+			</div>
 		</div>	  
 	</div>
 
@@ -187,7 +240,9 @@
 	<script src="//cdn.kik.com/app/2/app.min.js"></script>
 	
 	<script src="js/main.js"></script>		
-	<script src="js/teacher_class_jxt.js"></script>
+	<script src="js/teacher_class_each.js"></script>
+		
+	<script src="js/inputs.js"></script>
 	
 	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>	
 

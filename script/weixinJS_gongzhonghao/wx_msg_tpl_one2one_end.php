@@ -1,6 +1,8 @@
 <?php
-// 根号教育班级上课－发送模版消息 token 微信上墙－现场大屏幕气氛 
-// 推送给整个班级classID
+// 根号平台服务号：模版消息--一对一下课，
+// 没有通过教师APP???，直接在企业号下课
+//根号教育上门家教－发送模版消息 token 微信上墙－现场大屏幕气氛 https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxe7253a6972bd2d4b&secret=c5c604c56402baac2c7ccd98b35ef2f2 
+
 header("Content-type: text/html; charset=utf-8");
 
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
@@ -44,42 +46,40 @@ function httpPost($data,$access_token){
 	return $tmpInfo;
 }
 
-// 本次作业
-$ID = $_REQUEST['classhomeworkID']; // unique
+$courseID = $_REQUEST['courseID'];
 $wxID = addslashes($_REQUEST['wxID']);
-$studentName = addslashes($_REQUEST['studentName']);
-$schoolsub = addslashes($_REQUEST['schoolsub']);
-$msg = addslashes($_REQUEST['msg']);
-$classDate = date('Y-m-d');
-$className = addslashes($_REQUEST['className']);
 //$wxID = 'oMEqkuMUKNmxtAxWGrjeOWPRFO20';
-//$student = $_REQUEST['student'];
-//$teacher = $_REQUEST['teacher'];
-//$courseDate = $_REQUEST['date'];
+$student = $_REQUEST['studentName'];
+$teacher = $_REQUEST['teacherName'];
+$zsd = addslashes($_REQUEST['zsdName']);
+$courseDate = $_REQUEST['courseDate'];
 //$created = $_REQUEST['created'];
-
-$url = 'http://www.xzpt.org/wx_ghjy/homework_tplmsg.php?ID='.$ID;
+$schoolsub = addslashes($_REQUEST['schoolsub']);
 
 // 教学课后评价提醒模版，评价页面在公众号wx_ghjy/course_assess.html
 $data = '{
        "touser":"' . $wxID . '",
-       "template_id":"r7fUlf30XWHl-5XkIbJs43wlEQxUY0SSvlI33J_JxaE",
-       "url":"' . $url . '", 
+       "template_id":"w-jfUn6P5GzQvNcUAguC2_v66XK_1WSiemBvUjZDzyc",
+       "url":"http://www.xzpt.org/wx_ghjy/course_assess.html?courseDate='.$courseDate .'&wxID='.$wxID.'&courseID='.$courseID.'&teacher='.$teacher.'",            
        "data":{
                "first": {
-                   "value":"'.$msg.'",
+                   "value":"今天一对一教学已经下课，请对上课教师进行评价。",
                    "color":"#173177"
                },
                "keyword1": {
-                   "value":"'.$className.'",
+                   "value":"'.$student.'",
                    "color":"#173177"
                },
                "keyword2": {
-                   "value":"'.$classDate.'作业",
+                   "value":"' . $zsd . '",
+                   "color":"#173177"
+               },
+               "keyword3": {
+                   "value":"' . $teacher . '",
                    "color":"#173177"
                },
                "remark":{
-                   "value": "点击详情查看作业内容，请按时完成作业。\n［'.$schoolsub.'］",
+                   "value": "点击详情进入评价界面。\n［'.$schoolsub.'］",
                    "color":"#173177"
                }
        }

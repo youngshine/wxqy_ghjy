@@ -1,5 +1,6 @@
 <?php
 // 根号教育企业号，从微信服务器下载图片保存在本地或腾讯云存储cos
+// 腾讯云cos
 
 $mediaId = $_REQUEST['mediaId'];
 //$fileName = $_REQUEST['fileName'];

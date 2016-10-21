@@ -21,11 +21,25 @@ App.controller('home', function (page,request) {
 			if(data){ 
 				console.log(data)
 				// 保存新增,ajax 1.添加到数据库 2.在企业通讯录创建成员
-				createData(data)
+				//createData(data)
+				// 前端添加显示记录，不刷新服务器数据库
+				var $node = $listItem.clone(true);
+				// 返回新插入记录id，删除用，无法马上操作li??，没绑定handledata?
+				$node.find('.id').text(data.teacherID);
+				$node.find('.name').text(data.userName); //user，统一
+				$node.find('.userId').text(data.userId); 
+				$node.find('.gender').text(data.gender); 
+				$node.find('.phone').text(data.phone); 
+				$node.find('.subject').text(data.subjectName); //修改用
+				$node.find('.subjectID').text(data.subjectID);
+				//display:none
+				$node.find('.schoolID').text(data.schoolID);			
+				$list.prepend($node);		
+				handleData($list); //新插入的才能操作
 			}
 		});
 	})
-	
+/*	
 	// 1. 添加到数据库
 	function createData(data){
 		$.ajax({
@@ -89,7 +103,7 @@ App.controller('home', function (page,request) {
 			},
 		});
 	}
-
+*/
 	var params = { 
 		"schoolID": gSchoolID //7 //USER_SCHOOL_ID,
 	}	
@@ -145,7 +159,7 @@ App.controller('home', function (page,request) {
 
 	function handleData(list){	
 		list.find('li').on({
-			// for android
+			/* for android
 			longTap: function (e) {
 				$('.btnRemove').hide()
 				$('.btnRemove', this).show()
@@ -153,8 +167,8 @@ App.controller('home', function (page,request) {
 			swipeLeft: function (e) {
 				$('.btnRemove').hide()
 				$('.btnRemove', this).show()
-			},
-			click: function (e) {
+			},  */
+			singleTap: function (e) {
 				console.log(e.target.className)
 				if(e.target.className == 'btnRemove'){
 					doRemove($(this))
@@ -178,26 +192,6 @@ App.controller('home', function (page,request) {
 				}
 			},	
 		})
-/*		
-		// click删除
-		list.find('li').find('.removeItem').on('click',function(){
-			//toRemoveItem($(this).parent('li'))
-			//$(this).parent('li').remove()	
-			var selectedLi = $(this).parent('li');		
-			var id = selectedLi.find('.id').text();
-			console.log(id)
-			//listItem.remove()
-		
-			App.dialog({
-			  title	       : '删除当前记录？', //'删除当前公告？',
-			  okButton     : '确定',
-			  cancelButton : '取消'
-			}, function (choice) {
-				if(choice){
-					deleteData(id,selectedLi);
-				}
-			});
-		}) */
 	}
 
 	function doRemove(listItem){
@@ -320,8 +314,9 @@ App.controller('kcb', function (page,request) {
 		}
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
-			$node.find('.title').text(item.weekday); 
-			$node.find('.timespan').text(item.timespan);
+			$node.find('.title').text(item.title); 
+			$node.find('.timely').text(item.timely_list);
+			$node.find('.schoolsub').text(item.fullname); 
 			//$node.find('.id').text(item.pricelistID);			
 			$list.append($node);
 		});
@@ -356,8 +351,8 @@ App.controller('kcb', function (page,request) {
 				//populateData(result.data)
 				result.data.forEach(function (item) {
 					var $node = $listItem.clone(true);
-					$node.find('.title').text(item.teach_weekday); 
-					$node.find('.timespan').text(item.teach_timespan);
+					$node.find('.title').text(item.title); 
+					$node.find('.timely').text(item.timely_list);
 					//$node.find('.id').text(item.pricelistID);			
 					$list.append($node);
 				});
@@ -370,40 +365,6 @@ App.controller('kcb', function (page,request) {
 // 选择分配归属咨询师
 App.controller('addnew', function (page,request) {
 	var me = this;
-	/* 提交保存按钮
-	btnSubmit.on('click',function(e){		
-		var subjectName = '数学' //$(page).find("#selSubject").text();
-		var subjectID = $(page).find("#selSubject").val();
-		if(subjectID == 0){
-			toast('请选择学科');return;		
-		}
-		if(subjectID == 2){
-			subjectName = '物理'
-		}else if(subjectID == 3){
-			subjectName = '化学'
-		}
-		
-	    var username = $(page).find('input[name=username]').val()			
-		if(username == ''){
-			toast('请输入教师姓名');return;		
-		}
-		
-		App.dialog({
-			title	     : '保存？', //'删除当前公告？',
-			okButton     : '确定',
-			cancelButton : '取消'
-		}, function (choice) {
-			if(choice){		
-				var obj = {
-					username: username,
-					subjectID: subjectID,
-					subjectName: subjectName, //显示用
-					schoolID: gSchoolID
-				}
-				me.reply(obj)
-			}
-		});
-    });	 */	
 	
 	var teacherName = '',
 		gender = '', 
@@ -469,8 +430,8 @@ App.controller('addnew', function (page,request) {
 	})
 	
 	btnSubmit.on('click', function () {			
-		var userId = $(page).find('.userId').text()
-		console.log(phone,teacherName)
+		//var userId = $(page).find('.userId').text()
+		//console.log(phone,teacherName)
 		if(phone=='' || isNaN(phone)){
 			toast('手机号格式错误',3000); return;	
 	    }
@@ -494,10 +455,73 @@ App.controller('addnew', function (page,request) {
 					"schoolID": gSchoolID // 新增，属于哪个学校unique
 				}
 				console.log(obj);
-				me.reply(obj); // app.pick
+				//me.reply(obj); // app.pick
+				createData(obj)
 			}	
 		});
 	})
+	
+	// 1. 添加到数据库
+	function createData(obj){
+		$.ajax({
+			url: gDataUrl + 'createTeacher.php',
+			data: obj,
+			dataType: 'json',
+			success: function(result){
+				console.log(result)
+				if(result.success){
+					//toast('添加教师成功')			
+					// 2. 在企业号通讯录创建成员，必须弄一个 schoolID与department的对应表
+					var objQy = obj
+					objQy.teacherID = result.data.teacherID; //新增id
+					objQy.department = 1, //企业号通讯录根部门？？？
+					objQy.position = '教师', //用于企业号 职务
+					//obj.tag = 3, //用于企业号标签，咨询2，教师3，创建成员无法添加标签
+
+					doAdd2Contact(objQy)
+				}else{
+					toast('数据库保存失败')
+				}	
+			},
+		});
+	}
+	// 2. 成功后，企业号通讯录新增人员，并设置标签
+	function doAdd2Contact(obj){
+		console.log(obj)
+		$.ajax({
+			url: 'script/weixinJS/wx_user_create.php',
+			dataType: "json", 
+			data: obj,
+			success: function(ret){	
+                console.log(ret)
+				if(ret.errcode==0){
+					toast('添加通讯录教师成功') //数据库和通讯录都添加
+					doAdd2Tag(obj); // 设置标签
+				}else{
+					toast('添加通讯录教师失败')
+					me.reply(obj); // app.pick返回
+				}
+			},
+		});
+	}
+	// 3. 添加企业号通讯录成功后，设置标签（咨询2、教师3）
+	function doAdd2Tag(obj){
+		console.log(obj)
+		$.ajax({
+			url: 'script/weixinJS/wx_user_addtag.php',
+			dataType: "json", 
+			data: obj,
+			success: function(ret){	
+                console.log(ret)
+				if(ret.errcode==0){
+					toast('设置通讯录标签成功') //数据库和通讯录都添加
+				}else{
+					toast('设置通讯录标签失败')
+				}
+				me.reply(obj); // app.pick返回
+			},
+		});
+	}
 }); // addnew	
 
 // 修改edit

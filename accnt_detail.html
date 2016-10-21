@@ -40,7 +40,7 @@
 			-moz-border-radius:10px; /* Old Firefox */
 		} /* ends - msg box */
 		.list {
-			margin:5px 0;
+			margin:0px 0;
 		}
 		.list .listItem {
 			background: #fcfcfc;
@@ -50,6 +50,10 @@
 			border-radius:0px;
 			-moz-border-radius:0px; /* Old Firefox */
 		}
+		.list .listItem .subtitle{
+			 color: #888;
+			 font-size:0.9em;
+		}
 	</style>
   </head>
 
@@ -57,14 +61,22 @@
 	  
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-          <div class="app-title">教师课程表</div>
+          <div class="app-title">缴费流水单</div>
       </div>
       <div class="app-content">
     	<div class="list">
     	  <div class="listItem">
-  			<div class="title">
-				<span class="timely"></span>
-    		</div>	
+    	    <div class="title">
+    	    	<span class="accntType"></span>
+				<span class="amount" style="float:right;"></span>
+    	    </div>
+  			<div class="subtitle">
+  				<span class="student"></span>
+				<span class="time" style="float:right;"></span>
+    		</div>
+			<!-- 隐藏id -->
+  			<div class="userId" style="display:none;"></div>
+  			<div class="id" style="display:none;"></div>		
     	  </div>
     	</div>
 	  </div>	  
@@ -74,7 +86,7 @@
     <script src="src/app.min.js"></script>
 	
 	<script src="js/main.js"></script>		
-	<script src="js/teacher_kcb.js"></script>
+	<script src="js/accnt_detail.js"></script>
 
 	<script>
 		// 中文参数，解决乱码。location.search就无效

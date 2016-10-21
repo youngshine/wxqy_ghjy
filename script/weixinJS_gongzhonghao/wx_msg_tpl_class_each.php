@@ -1,6 +1,6 @@
 <?php
 // 根号教育班级上课－发送模版消息 token 微信上墙－现场大屏幕气氛 
-// 推送给整个班级classID
+// 推送给某个学生的精彩照片集合
 header("Content-type: text/html; charset=utf-8");
 
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
@@ -18,7 +18,7 @@ $access_token = $jssdk->getAccessToken();
 // 新浪云kvdb保存token
 $ret = file_get_contents("http://xyzs.sinaapp.com/wx/kvdb.php");
 $ret = json_decode($ret); 
-$access_token = $ret->access_token;
+$access_token = $ret->access_token; // kvdb ends
 
 define("ACCESS_TOKEN",$access_token );
 
@@ -44,8 +44,8 @@ function httpPost($data,$access_token){
 	return $tmpInfo;
 }
 
-// 本次作业
-$ID = $_REQUEST['classhomeworkID']; // unique
+// 当前这次推送id
+$ID = $_REQUEST['classeachID']; // unique
 $wxID = addslashes($_REQUEST['wxID']);
 $studentName = addslashes($_REQUEST['studentName']);
 $schoolsub = addslashes($_REQUEST['schoolsub']);
@@ -58,16 +58,16 @@ $className = addslashes($_REQUEST['className']);
 //$courseDate = $_REQUEST['date'];
 //$created = $_REQUEST['created'];
 
-$url = 'http://www.xzpt.org/wx_ghjy/homework_tplmsg.php?ID='.$ID;
+$url = 'http://www.xzpt.org/wx_ghjy/classeseach_tplmsg.php?ID='.$ID;
 
 // 教学课后评价提醒模版，评价页面在公众号wx_ghjy/course_assess.html
 $data = '{
        "touser":"' . $wxID . '",
-       "template_id":"r7fUlf30XWHl-5XkIbJs43wlEQxUY0SSvlI33J_JxaE",
-       "url":"' . $url . '", 
+       "template_id":"BHzWvJk_qMlkmYJ9tiXp5xkKhfjLdsg4Gk0KN5ZWSgY",
+       "url":"' . $url . '",           
        "data":{
                "first": {
-                   "value":"'.$msg.'",
+                   "value":"你好，家长，请查阅［'.$studentName.'］今日在校情况。",
                    "color":"#173177"
                },
                "keyword1": {
@@ -75,11 +75,11 @@ $data = '{
                    "color":"#173177"
                },
                "keyword2": {
-                   "value":"'.$classDate.'作业",
+                   "value":"'.$classDate.'",
                    "color":"#173177"
                },
                "remark":{
-                   "value": "点击详情查看作业内容，请按时完成作业。\n［'.$schoolsub.'］",
+                   "value": "'.$msg.'\n点击详情查看照片集。\n［'.$schoolsub.'］",
                    "color":"#173177"
                }
        }

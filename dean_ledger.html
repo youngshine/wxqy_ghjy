@@ -82,40 +82,65 @@
 
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-          <div class="app-title">大小班级</div>
+          <div class="app-title">日常收支汇总</div>
       </div>
       <div class="app-content">
-		  
-		    <input class="app-input no-icon-android" type="search" placeholder="查找..." readOnly=true>
-		
   		<div class="list">
       	  <div class="listItem">
-      	    <div>
-      	    	<span class="title"></span>
+      	    <div class="title">
+      	    	<span class="month"></span>
+				<span class="balance" style="float:right;color:red;"></span>
       	    </div>
     		<div class="subtitle">
-				<span class="timely_list"></span>
-				<span class="teacher" style="float:right;"></span>
+				<span class="amt_in"></span>
+				<span class="amt_out" style="float:right;"></span>
       		</div>
   			<!-- 隐藏id -->
-    			<div class="id" style="display:none;"></div>		
+    		<div class="id" style="display:none;"></div>		
       	  </div>
       	</div>
     </div>
-	<!-- 我的大小班中报读学生（不一定是归属自己的学生 -->
-    <div class="app-page" data-page="attendee">
+	
+	<!-- 当月明细 -->
+    <div class="app-page" data-page="byDate">
       <div class="app-topbar">
           <div class="app-button left" data-back data-autotitle></div>
-		  <div class="app-title">班级学生</div>
+		  <div class="app-title">日汇总</div>
       </div>
       <div class="app-content">
     	<div class="list">
     	  <div class="listItem">
-    	    <div class="title"></div>
-  			<div class="subtitle" style="color:#888;">
-				<span class="gender"></span>
-				<span class="grade"></span>
-    		</div>
+    	    <div class="title">
+    	    	<span class="date"></span>
+				<span class="balance" style="float:right;color:red;"></span>
+      	    </div>
+    		<div class="subtitle">
+				<span class="amt_in"></span>
+				<span class="amt_out" style="float:right;"></span>
+      		</div>
+			<!-- 隐藏id -->
+  			<div class="id" style="display:none;"></div>		
+    	  </div>
+    	</div>
+	  </div>	  
+    </div>
+	
+	<!-- 当天明细 -->
+    <div class="app-page" data-page="byItem">
+      <div class="app-topbar">
+          <div class="app-button left" data-back data-autotitle></div>
+		  <div class="app-title">科目明细</div>
+      </div>
+      <div class="app-content">
+    	<div class="list">
+    	  <div class="listItem">
+    	    <div class="title">
+    	    	<span class="type"></span>
+    	    </div>
+    		<div class="subtitle">
+				<span class="item"></span>
+				<span class="amt" style="float:right;"></span>
+      		</div>
 			<!-- 隐藏id -->
   			<div class="id" style="display:none;"></div>		
     	  </div>
@@ -129,7 +154,7 @@
 
 	<script src="js/main.js"></script>
 	
-	<script src="js/consult_class.js"></script>
+	<script src="js/dean_ledger.js"></script>
 	
     <script>  
 		// 中文参数，解决乱码。location.search就无效

@@ -1,5 +1,6 @@
 <?php
 // 根号教育企业号，从微信服务器下载图片保存在本地或腾讯云存储cos
+// 腾讯云cos
 
 $mediaId = $_REQUEST['mediaId'];
 //$fileName = $_REQUEST['fileName'];
@@ -54,7 +55,7 @@ function put2storage($fileContent){
 	// 配置项 start
 	$appid = '10060757'; //腾讯云存储，cos
 	$bucket_name = 'wxqy4ghjy'; //教师pad上传学习笔记
-	$dir_name = 'homework';
+	$dir_name = 'each'; //目录
 	$secretID = 'AKIDFSOllkXzLQBQASDQU6h6w3ktA4Rxl99D';
 	$secretKey = 'heUXG8vvkmpIr5vskbAYC6qp2fCBuOVW';
 	// 配置项 end

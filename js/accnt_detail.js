@@ -1,4 +1,4 @@
-// 缴费流水，每日汇总
+// 缴费流水
 App.controller('home', function (page) {
 	var $list = $(page).find('.list'),
 		$listItem = $(page).find('.listItem').remove()	
@@ -16,7 +16,7 @@ App.controller('home', function (page) {
 	function readData(callback, obj){
 		showPrompt('加载中...');		
 		$.ajax({
-	    	url: gDataUrl + 'readAccntListByDaily.php',
+	    	url: gDataUrl + 'readAccntList.php',
 			data: obj,
 			dataType: "json",
 			success: function(result){
@@ -31,14 +31,19 @@ App.controller('home', function (page) {
 		if($list.children().length != 0){
 			$list.empty(); //清除旧的列表项 if any
 		}
-
+		var grp = ''
 		items.forEach(function (item) {
-			console.log(item)
+			if(item.accntDate != grp){
+				grp = item.accntDate
+				$list.append('<label style="padding:10px;color:#888;font-size:0.8em;">' + 
+					grp + '</label>')
+			}
 			var $node = $listItem.clone(true);
-			$node.find('.accntDate').text(item.accntDate); 
 			$node.find('.accntType').text(item.accntType); 
-			$node.find('.amount').text(item.total_amount); 
-			$node.find('.amount_done').text(item.total_done);		
+			$node.find('.amount').text(item.amount);
+			$node.find('.student').text(item.studentName); 
+			$node.find('.time').text(item.accntDate);
+			$node.find('.id').text(item.accntID);			
 			$list.append($node);
 		});
 	}	

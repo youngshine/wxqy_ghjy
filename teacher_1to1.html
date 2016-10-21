@@ -69,8 +69,12 @@
 				<span class="timely"></span>
 				<span class="student" style="float:right;"></span>
     		</div>
+  			<div class="subtitle" style="color:#888;">
+				<span class="schoolsub"></span>
+    		</div>
 			<!-- 隐藏id 学生userId-->
   			<div class="userId" style="display:none;"></div>
+			<div class="teacher" style="display:none;"></div>
   			<div class="id" style="display:none;"></div>		
     	  </div>
     	</div>
@@ -89,8 +93,9 @@
 				<span class="courseDate"></span>
 				<span class="hour" style="float:right;color:#888;display:none;"></span>
 				<span class="endClass" style="float:right;color:green;display:none;">下课</span>
-				<!-- 学生微信，用于发送模版消息 classcourseID -->
+				<!-- 学生微信userId，用于发送模版消息 classcourseID -->
 				<span class="id" style="display:none;"></span>
+				<span class="userId" style="display:none;"></span>
 		    </li>
 		  </ul>
 		</div>	
@@ -102,9 +107,18 @@
 			<div class="app-title">下课</div>
 		</div>
 		<div class="app-content">
-			<div style="margin:10px;">
-				<div style="color:#888;margin-bottom:5px;">本次上课课时（以0.5为单位）</div>
+			<div style="margin:10px;color:#888;">本次上课课时数：</div>
+			<div style="margin:10px;background:#fff;">
+				<!-- 
 				<input class="app-input" type="number" placeholder=''>	
+				-->
+				<select class="app-input" id="selHour"   >
+					<option value="1.0">1个</option> 
+					<option value="1.5">1个半</option> 
+					<option value="2.0">2个</option> 
+					<option value="2.5">2个半</option> 
+					<option value="3.0">3个</option> 
+				</select>
 			</div>
 			<div style="margin:0 10px;">
 				<div class="app-button green submit">提交</div>	

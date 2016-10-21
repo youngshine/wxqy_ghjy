@@ -39,8 +39,7 @@ App.controller('home', function (page) {
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
 			$node.find('.title').text(item.title); 
-			$node.find('.weekday').text(item.weekday);
-			$node.find('.timespan').text(item.timespan);
+			$node.find('.timely_list').text(item.timely_list);
 			$node.find('.schoolsub').text(item.fullname);
 			//display:none
 			$node.find('.id').text(item.classID);			
@@ -50,7 +49,7 @@ App.controller('home', function (page) {
 
 	function handleData(list){	
 		list.find('.listItem').on({
-			click: function (e) {
+			singleTap: function (e) {
 				doShow( $(this) )
 			},	
 		})
@@ -112,7 +111,7 @@ App.controller('classcourse', function (page,request) {
 	}
 	
 	function handleData(list){
-		list.find('li').bind('click', function (e){
+		list.find('li').bind('singleTap', function (e){
 			console.log(e.target)
 			doShow($(this), request.classID);
 			/*
@@ -190,7 +189,7 @@ App.controller('classcourse', function (page,request) {
 	}
 	
 	// 点名，当天不能重复，在php后台处理beginDate_time
-	btnRollcall.on('click',function(){
+	btnRollcall.on('singleTap',function(){
 		App.pick('rollcall', {'classID':request.classID}, function (data) {
 			if(data){ 
 				console.log(data)
@@ -277,7 +276,7 @@ App.controller('rollcall', function (page,request) {
 	}
 	
 	function handleData(list){
-		list.find('li').bind('click', function (e){
+		list.find('li').bind('singleTap', function (e){
 			doSelect($(this));
 		})
 	}
@@ -324,24 +323,27 @@ App.controller('rollcall', function (page,request) {
 	}
 	
 	// 当天不能重复点名 beginDate在后台php
-	btnOk.bind('click', function () {		
+	btnOk.bind('singleTap', function () {		
 		App.dialog({
 		  title	       : '选择学生无误，点名上课？', //'删除当前公告？',
 		  okButton     : '确定',
 		  cancelButton : '取消'
 		}, function (choice) {
 			if(choice){
+				var courseNo = request.classID + '_' + (new Date()).getTime() // 班级Id + time()
+				console.log(courseNo);
 				// 先添加到数据库，不重复，成功后，再发模版消息
-				createData(selPeople,request.classID)		
+				createData(selPeople,request.classID,courseNo)		
 			}
 		});
 		// 二维数组全部学生，插入数据库，成功后再发模版消息
-		function createData(arr,classID){
+		function createData(arr,classID,courseNo){
 			$.ajax({
 				url: gDataUrl + 'createClasscourse.php',
 				data: {
 					'arrStudent': JSON.stringify(arr),
-					'classID'   : classID
+					'classID'   : classID,
+					'courseNo'  : courseNo
 				},
 				dataType: 'json',
 				success: function(result){
@@ -450,7 +452,7 @@ App.controller('attendee', function (page,request) {
 	}
 	
 	function handleData(list){
-		list.find('li').bind('click', function (e){
+		list.find('li').bind('singleTap', function (e){
 			doRollcall($(this)); //补点名
 		})
 	}
@@ -509,7 +511,7 @@ App.controller('attendee', function (page,request) {
 	}
 
 	// 下课，所有来上课的发消息，循环
-	btnEndclass.bind('click', function () {		
+	btnEndclass.bind('singleTap', function () {		
 		if(btnEndclass.text() != '下课') return
 			
 		App.dialog({

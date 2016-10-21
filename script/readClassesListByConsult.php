@@ -10,10 +10,11 @@ require_once('db/database_connection.php');
 $consult = addslashes($_REQUEST['consultID']); //userId
 
 // 可能还没有指定教师，所以left join teacher
-$sql = " SELECT a.*,b.userId,c.teacherName  
+$sql = " SELECT a.*,b.userId,c.teacherName,d.kmType   
 	From `ghjy_class` a 
 	Join `ghjy_consult` b On a.consultID=b.consultID 
 	Left Join `ghjy_teacher` c On a.teacherId=c.teacherID 
+	Join `ghjy_kclist` d On a.kclistID = d.kclistID 
 	Where b.userId = '$consult' ";
     
 $result = mysql_query($sql) 

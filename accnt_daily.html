@@ -45,7 +45,7 @@
 		.list .listItem {
 			background: #fcfcfc;
 			padding: 10px 15px;
-			border: 1px solid #ddd;
+			border-bottom: 1px solid #ddd;
 			margin:0px;
 			border-radius:0px;
 			-moz-border-radius:0px; /* Old Firefox */
@@ -61,18 +61,19 @@
 	  
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-          <div class="app-title">缴费流水单</div>
+          <div class="app-title">课程销售日报表</div>
       </div>
       <div class="app-content">
     	<div class="list">
     	  <div class="listItem">
     	    <div class="title">
-    	    	<span class="accntType"></span>
-				<span class="amount" style="float:right;"></span>
+				<span class="accntDate"></span>
+				<span class="accntType"></span>
     	    </div>
   			<div class="subtitle">
-  				<span class="student"></span>
-				<span class="time" style="float:right;"></span>
+  				销售金额：<span class="amount"></span>
+				<br>
+				缴款合计：<span class="amount_done"></span>
     		</div>
 			<!-- 隐藏id -->
   			<div class="userId" style="display:none;"></div>

@@ -10,11 +10,12 @@ require_once('db/database_connection.php');
 
 $teacher = addslashes($_REQUEST['teacher']); //userId
 
-$sql = " SELECT a.*,b.zsdName,c.teacherName,d.studentName,d.wxID      
+$sql = " SELECT a.*,b.zsdName,c.teacherName,d.studentName,d.wxID,e.fullname       
 	FROM `ghjy_student-study` a 
-	JOIN `ghjy_zsd` b on (a.zsdID=b.zsdID and a.subjectID=b.subjectID) 
-	JOIN `ghjy_teacher` c on a.teacherID=c.teacherID  
-	JOIN `ghjy_student` d on a.studentID=d.studentID  
+	JOIN `ghjy_zsd` b On (a.zsdID=b.zsdID And a.subjectID=b.subjectID) 
+	JOIN `ghjy_teacher` c On a.teacherID=c.teacherID  
+	JOIN `ghjy_student` d On a.studentID=d.studentID  
+	JOIN `ghjy_school_sub` e On d.schoolsubID=e.schoolsubID 
 	WHERE c.userId = '$teacher' ";   
 $result = mysql_query($sql) 
 	or die("Invalid query: readStudyList by teacher" . mysql_error());

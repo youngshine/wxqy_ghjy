@@ -2,13 +2,18 @@
 	// 教育企业号创建通讯录成员，并且设置标签：咨询2、教师3
 	header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 	header('Access-Control-Allow-Origin: *'); // 跨域问题
-	
+
+/*	
 	require_once "jssdk-token.php";
 	$corpid = "wx09e87ee7559bb52f";
 	$corpsecret = "t08leZ8Ry2Yu3s5t0hU6G5npkxrkXypUCN7ew8y7h0vieePm7xbEyjGK37J1c5g6";
 	$jssdk = new JSSDK($corpid, $corpsecret); 
 	$access_token = $jssdk->getAccessToken();
-	
+*/
+  	$ret = file_get_contents("http://xyzs.sinaapp.com/wx/kvdb_qy.php");
+  	$ret = json_decode($ret); 
+  	$access_token = $ret->access_token;
+		
 	// 从微信服务器下载多媒体文件到自己服务器，永久保存
 	$url = "https://qyapi.weixin.qq.com/cgi-bin/user/create?access_token=$access_token";
 
