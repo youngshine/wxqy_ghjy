@@ -10,11 +10,12 @@ require_once('db/database_connection.php');
 
 // 传递过来的是二维数组(全部学生)，循环
 $beginTime = date("Y-m-d G:i" );
+$courseNo = addslashes($_REQUEST['courseNo']); 
 $classID = $_REQUEST['classID']; 
 $arrStudent = $_REQUEST['arrStudent']; 
 $arrStudent = json_decode($arrStudent); //decode($a,true)
 
-// 同个班级classID一天不能点名2次
+// 同个班级一天不能点名2次
 $sql = "SELECT 1 FROM `ghjy_class_course` 
 	Where classID=$classID And 
 	DATE_FORMAT(beginTime,'%Y-%m-%d') = '".date('Y-m-d')."'";
@@ -22,7 +23,7 @@ $result = mysql_query($sql);
 if(mysql_num_rows($result) > 0){
 	echo json_encode(array(
 	    "success" => false,
-	    "message" => "今天重复点名上课",
+	    "message" => "今天不能再点名上课",
 	));
 	exit();
 }
@@ -31,8 +32,8 @@ if(mysql_num_rows($result) > 0){
 if(is_array($arrStudent)){ 
 	foreach($arrStudent as $rec){
 		$sql = "INSERT INTO `ghjy_class_course`
-		(classID,studentID,flag,beginTime) 
-		VALUES($rec->classID,$rec->studentID,$rec->flag,
+		(courseNo,classID,studentID,flag,beginTime) 
+		VALUES('$courseNo',$rec->classID,$rec->studentID,$rec->flag,
 		'".addslashes($beginTime)."')";
 		$result = mysql_query($sql) 
 			or die("Invalid query: createClasscourse" . mysql_error());

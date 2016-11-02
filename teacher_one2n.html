@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>根号教育平台</title>
+	<meta charset="utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">	
+	<!-- 
+	<link rel="stylesheet" href="//cdn.kik.com/app/2.0.1/app.min.css">
+		-->
+	<link rel="stylesheet" href="src/app.min.css">	
+	<style>
+		.app-topbar {background:#E82;}
+		
+		/*  msg box */
+		#m {
+			filter: alpha(opacity=30);
+			-moz-opacity: 0.3; 
+			opacity: 0.3;
+			position:absolute;
+			z-index:10000;
+			background-color:none;
+		}
+		#lo {
+			position:absolute;
+			width:150px;
+			height:90px;
+			line-height:90px;
+			background-color:#000;
+			color:#fff;
+			text-align:center;
+			z-index:9999;
+	
+			filter: alpha(opacity=70);
+			-moz-opacity: 0.7; 
+			opacity: 0.7;
+			
+			border-radius:10px;
+			-moz-border-radius:10px; /* Old Firefox */
+		} /* ends - msg box */
+		.list {
+			margin:0px 0;
+		}
+		.list .listItem {
+			background: #fcfcfc;
+			padding: 10px 15px;
+			border-bottom: 1px solid #ddd;
+			margin:0px;
+			border-radius:0px;
+			-moz-border-radius:0px; /* Old Firefox */
+		}
+	</style>
+  </head>
+
+  <body>
+	  
+    <div class="app-page" data-page="home">
+      <div class="app-topbar">
+          <div class="app-title">一对N上课</div>
+      </div>
+      <div class="app-content">
+    	<div class="list">
+    	  <div class="listItem">
+    	    <div class="title">
+    	    	<span class="timely"></span>
+				<span style="float:right;">〉</span>
+				<!-- 隐藏id 教师userId-->
+				<span class="id" style="display:none;"></span>
+				<span class="teacher" style="display:none;"></span>
+				<span class="school" style="display:none;"></span>
+    	    </div>		
+    	  </div>
+    	</div>
+	  </div>	  
+    </div>
+
+    <div class="app-page" data-page="one2ncourse">
+      <div class="app-topbar">
+        <div class="app-button left" data-back data-autotitle></div>
+        <div class="app-title">一对N课时</div>
+		<div class="right app-button addnew">＋上课</div>
+      </div>
+      <div class="app-content">
+		  <ul class="app-list">
+		    <li>
+				<span class="courseDate"></span>
+				<span class="hour" style="float:right;color:#888;display:none;"></span>
+				<span class="endClass" style="float:right;color:green;display:none;">下课</span>
+				<!-- hidden courseNo分组unique,schoolName -->
+				<span class="courseNo" style="display:none;"></span>
+				<span class="school" style="display:none;"></span>
+		    </li>
+		  </ul>
+		</div>	
+    </div>
+	
+    <div class="app-page" data-page="rollcall">
+      <div class="app-topbar">
+        <div class="app-button left" data-back data-autotitle></div>
+        <div class="app-title">选择上课学生</div>
+		<div class="right app-button ok">确定</div>
+      </div>
+      <div class="app-content">
+		  <ul class="app-list">
+		    <li>
+				<span class="name"></span>
+				<!-- 默认选中，不隐藏display:none-->
+				<span class="checked" style="float:right;">✔</span>
+				<!-- 学生微信，用于发送模版消息 -->
+				<span class="wxID" style="display:none;"></span>
+				<span class="id" style="display:none;"></span>
+		    </li>
+		  </ul>
+		</div>	
+    </div>
+
+	<div class="app-page" data-page="endclass">
+		<div class="app-topbar">
+	        <div class="app-button left" data-back data-autotitle></div>
+			<div class="app-title">一对N下课</div>
+		</div>
+		<div class="app-content">
+			<div style="margin:10px;color:#888;">本次上课课时数：</div>
+			<div style="margin:10px;background:#fff;">
+				<!-- 
+				<input class="app-input" type="number" placeholder=''>	
+				-->
+				<select class="app-input" id="selHour"   >
+					<option value="1.0">1.0</option> 
+					<option value="1.5">1.5</option> 
+					<option value="2.0">2.0</option> 
+					<option value="2.5">2.5</option> 
+					<option value="3.0">3.0</option> 
+				</select>
+			</div>
+			<div style="margin:0 10px;">
+				<div class="app-button green submit">提交</div>	
+			</div>
+		</div>	
+	</div>
+	
+	<!-- 上课学生出勤状况 -->
+    <div class="app-page" data-page="attendee">
+      <div class="app-topbar">
+        <div class="app-button left" data-back data-autotitle></div>
+        <div class="app-title">学生出勤</div>
+      </div>
+      <div class="app-content">
+  
+		  <ul class="app-list">
+		    <li>
+				<span class="studentName"></span>
+				<span class="flag" style="float:right;color:#888;"></span>
+				
+				<!-- 学生微信，用于发送模版消息 classcourseID -->
+				<span class="studentID" style="display:none;"></span>
+				<span class="wxID" style="display:none;"></span>
+				<span class="id" style="display:none;"></span>
+		    </li>
+		  </ul>
+		
+	  </div>	
+    </div>
+
+    <script src="src/zepto.js"></script>
+	<!-- 小米oppo无法点击dialog确定，解决办法
+    <script src="//cdn.kik.com/app/2/app.min.js"></script>
+	-->
+	<script src="src/app.min.js"></script>
+	
+	<script src="js/main.js"></script>		
+	<script src="js/teacher_one2n.js"></script>
+	
+	<script src="js/inputs.js"></script>
+
+	<script>
+		// 中文参数，解决乱码。location.search就无效
+		var url = decodeURI(window.location);
+		//alert(url)
+
+		//采用正则表达式获取地址栏参数
+		function getQueryString(param){
+		     var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)");
+		     //var r = window.location.search.substr(1).match(reg);
+			 url = url.substr(url.indexOf("?") + 1); //取得所有参数
+			 var r = url.match(reg);
+		     if(r!=null)return  unescape(r[2]); return null;
+		}
+	
+		// 全局变量，你的校区，微信号，姓名
+		gUserID = getQueryString("userId");
+		gUserName = getQueryString("userName")
+		gSchoolID = getQueryString("schoolID");// 扩展属性
+
+		App.load('home');
+
+	</script>
+  </body>
+</html>

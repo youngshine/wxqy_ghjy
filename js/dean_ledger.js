@@ -54,7 +54,7 @@ App.controller('home', function (page) {
 	}
 	function handleData(list){
 		list.find('.listItem').on({
-			click: function () {
+			singleTap: function () {
 				var selected = $(this)
 				var item = {	
 					"month": $(this).find('.month').text(),
@@ -127,7 +127,7 @@ App.controller('byDate', function (page,request) {
 	
 	function handleData(list){
 		list.find('.listItem').on({
-			click: function () {
+			singleTap: function () {
 				var selected = $(this)
 				var item = {	
 					"date": $(this).find('.date').text(),
@@ -181,6 +181,7 @@ App.controller('byItem', function (page,request) {
 			var $node = $listItem.clone(true);
 			$node.find('.item').text(item.ledgerItem); 
 			$node.find('.type').text(item.ledgerType);
+			$node.find('.note').text(item.note);
 			var amt = item.ledgerType=='收入' ? item.amt_in : item.amt_out
 			$node.find('.amt').text(amt);
 			//display:none

@@ -11,7 +11,7 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 require_once('db/database_connection.php');
 
 $teacher = $_REQUEST['teacher']; //userId
-
+/*
 $sql = "SELECT a.teacherID,a.timely_list,'一对一' As kcType 
 	FROM `ghjy_student-study` a 
 	Join `ghjy_teacher` b On a.teacherID=b.teacherID 
@@ -21,6 +21,15 @@ $sql = "SELECT a.teacherID,a.timely_list,'一对一' As kcType
 	FROM `ghjy_class` c 
 	Join `ghjy_teacher` d On c.teacherID=d.teacherID 
 	WHERE d.userId = '$teacher' And c.current = 1 ";	
+*/
+$sql = "SELECT a.teacherID,a.timely_list_one2n AS timely_list,'一对一' As kcType 
+	FROM `ghjy_teacher` a 
+	WHERE a.userId = '$teacher'
+	Union All 
+	SELECT c.teacherID,c.timely_list,'大小班' As kcType 
+	FROM `ghjy_class` c 
+	Join `ghjy_teacher` d On c.teacherID=d.teacherID 
+	WHERE d.userId = '$teacher' And c.current = 1 ";
 	
 $result = mysql_query($sql) or 
     die("Invalid query: readKcbByTeacher" . mysql_error());

@@ -19,12 +19,12 @@ App.controller('home', function (page,request) {
 		"schoolID"      : gSchoolID,
 		//"classjxtType": '教师'
 	}	
-	btnHist.on('click',function(e){
+	btnHist.on('singleTap',function(e){
 		App.load('hist',params)
 	})	
 	
 	// 当前教师的上课班级	企业号微信teacher是userId，不是teacherID
-	$classes.parent().on('click',function(e){
+	$classes.parent().on('singleTap',function(e){
 		App.pick('select-classes', {teacher:gUserID}, function (data) {
 			if(data){ 
 				console.log(data)
@@ -36,7 +36,7 @@ App.controller('home', function (page,request) {
 	})	
 	
 	// 添加，预览或删除，$转换为jquery对象方便操作
-	$list.on('click',function(e){
+	$list.on('singleTap',function(e){
 		e.stopPropagation(); 
 		console.log(e.target.className)
 		var el = e.target.className
@@ -90,7 +90,7 @@ App.controller('home', function (page,request) {
 	}
 		
 	// 提交保存按钮
-	btnSubmit.on('click',function(e){				
+	btnSubmit.on('singleTap',function(e){				
 		if(classID == 0){
 			toast('请选择班级'); return;		
 		}
@@ -291,7 +291,7 @@ App.controller('select-classes', function (page,request) {
 			$list.append($node);	
 		});
 		
-		$list.find('.listItem').on('click', function (e){
+		$list.find('.listItem').on('singleTap', function (e){
 			//if(e.target.className == 'group') return false // 点击分组标签
 			//this.style.color = 'blue';
 			$(this).css('color','blue')
@@ -365,7 +365,7 @@ App.controller('hist', function (page,request) {
 
 	function handleData(list, items){
 		list.find('.listItem').find('.removeItem').bind({
-			click: function(e){
+			singleTap: function(e){
 				//console.log($(this).siblings(".examId").text())
 				//toDelete( $(this).siblings(".examId").text(), items )
 				var selected = $(this).parent().parent()
@@ -383,7 +383,7 @@ App.controller('hist', function (page,request) {
 		})
 			
 		list.find('.listItem').find('img').bind({
-			click: function(e){
+			singleTap: function(e){
 				//console.log(e.target)
 				var imgs = $(this).parent().children();
 				var urls = [];

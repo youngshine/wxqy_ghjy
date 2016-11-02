@@ -325,9 +325,9 @@ App.controller('rollcall', function (page,request) {
 	// 当天不能重复点名 beginDate在后台php
 	btnOk.bind('singleTap', function () {		
 		App.dialog({
-		  title	       : '选择学生无误，点名上课？', //'删除当前公告？',
-		  okButton     : '确定',
-		  cancelButton : '取消'
+			title	       : '选择学生无误，点名上课？', //'删除当前公告？',
+			okButton     : '确定',
+			cancelButton : '取消'
 		}, function (choice) {
 			if(choice){
 				var courseNo = request.classID + '_' + (new Date()).getTime() // 班级Id + time()

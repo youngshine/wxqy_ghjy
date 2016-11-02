@@ -53,6 +53,9 @@ switch($menuitem){
 	case "teacher_1to1":
 		$url = $url . "oAuth2-teacher_1to1.php";
 		break;
+	case "teacher_one2n": //一对N
+		$url = $url . "oAuth2-teacher_one2n.php";
+		break;
 	case "teacher_kcb":
 		$url = $url . "oAuth2-teacher_kcb.php";
 		break;		
