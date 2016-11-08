@@ -1,6 +1,6 @@
 <?php
 // 根号教育班级上课－发送模版消息 token 微信上墙－现场大屏幕气氛 
-// 推送给整个班级classID
+// 推送给一对N学生studentID_list
 header("Content-type: text/html; charset=utf-8");
 
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
@@ -44,14 +44,14 @@ function httpPost($data,$access_token){
 	return $tmpInfo;
 }
 
-// 本次作业
-$ID = $_REQUEST['classhomeworkID']; // unique
+// 本次作业homeworkID
+$ID = $_REQUEST['one2nhomeworkID']; // unique，详情链接
 $wxID = addslashes($_REQUEST['wxID']);
-$studentName = addslashes($_REQUEST['studentName']);
+$student = addslashes($_REQUEST['studentName']);
 $schoolsub = addslashes($_REQUEST['schoolsub']);
-$msg = addslashes($_REQUEST['msg']);
-$classDate = date('Y-m-d');
-$className = addslashes($_REQUEST['className']);
+$msg = '本次一对N课程主要内容：\n' . addslashes($_REQUEST['keypoint']);
+$homeworkDate = date('Y-m-d');
+$homeworkName = '一对N课程'; //addslashes($_REQUEST['className']);
 //$wxID = 'oMEqkuMUKNmxtAxWGrjeOWPRFO20';
 //$student = $_REQUEST['student'];
 //$teacher = $_REQUEST['teacher'];
@@ -61,24 +61,24 @@ $className = addslashes($_REQUEST['className']);
 $tpl = 'r7fUlf30XWHl-5XkIbJs43wlEQxUY0SSvlI33J_JxaE';
 
 // 跳转到服务号，显示当前页面
-$url = 'http://www.xzpt.org/wx_ghjy/class_homework_tplmsg.php?ID='.$ID;
+$url = 'http://www.xzpt.org/wx_ghjy/one2n_homework_tplmsg.php?ID='.$ID;
 
 // 教学课后评价提醒模版，评价页面在公众号wx_ghjy/course_assess.html
 $data = '{
-       "touser":"' . $wxID . '",
+       "touser": "' . $wxID . '",
        "template_id": "' . $tpl . '",
        "url":"' . $url . '", 
        "data":{
                "first": {
-                   "value":"'.$msg.'",
-                   "color":"#173177"
+                   "value": "'.$msg.'",
+                   "color":" #173177"
                },
                "keyword1": {
-                   "value":"'.$className.'",
+                   "value":"'.$homeworkName.'",
                    "color":"#173177"
                },
                "keyword2": {
-                   "value":"'.$classDate.'作业",
+                   "value":"'.$homeworkDate.'作业",
                    "color":"#173177"
                },
                "remark":{

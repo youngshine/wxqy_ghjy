@@ -156,6 +156,7 @@ App.controller('one2ncourse', function (page,request) {
 		function doShow(selLi){
 			var item = {	
 				"courseNo"  : selLi.find('.courseNo').text(),
+				"kcTitle"  : selLi.find('.kcTitle').text(),
 				"teacherName": request.teacherName, //hidden传递参数：教师，用于模版消息
 				"schoolName": request.schoolName, //传递参数：学校，用于模版消息
 			}
@@ -167,6 +168,8 @@ App.controller('one2ncourse', function (page,request) {
 		function doEndclass(selLi){
 			var objCourse = {
 				"courseNo"  : selLi.find('.courseNo').text(),
+				"kcTitle"  : selLi.find('.kcTitle').text(),
+				"teacherName": request.teacherName, //hidden传递参数：教师，用于模版消息
 				"schoolName": request.schoolName, //传递参数：学校，用于模版消息
 			}
 			console.log(objCourse)
@@ -399,26 +402,31 @@ App.controller('rollcall', function (page,request) {
 // 2 下课界面
 App.controller('endclass', function (page,request) {
 	var me = this; console.log(request)
+	
+	var hour = 0 //本次一对多课时数
 	var btnSubmit = $(page).find('.submit')
-		//input = $(page).find('input')
 	btnSubmit.on('singleTap', function (e){
 		//input.blur(); // 关闭软键盘
 		/*var value = input.val()
 		if(value == 0 || isNaN(value)||value%0.5 !=0 ){
 			toast('课时格式错误'); return;		
 		} */
-		var hour = $(page).find("#selHour").val(); //text()
-		console.log(hour)
+		hour = $(page).find("#selHour").val(); //text()
+
 		App.dialog({
-			title	     : '本次一对N上 '+hour+'课时，下课？', //'删除当前公告？',
+			title	     : '本次一对N课程上 '+hour+'课时，下课？', //'删除当前公告？',
 			okButton     : '确定',
 			cancelButton : '取消'
 		}, function (choice) {
 			if(choice){
 				var obj = {
 					"hour": hour, //input.val(),
-					"courseNo": request.courseNo,
+					"courseNo": request.courseNo, //unique
+					"kcTitle"   : request.kcTitle,
+					"teacherName": request.teacherName,
+					"schoolName": request.schoolName,
 				}
+				console.log(obj)
 				updateData(obj)
 			}
 		});	
@@ -432,27 +440,41 @@ App.controller('endclass', function (page,request) {
 			dataType: 'json',
 			success: function(result){
 				console.log(result)
-				toast('一对多下课了！')
+				toast('一对N下课成功！')			
 				
-				// 同时发送模版消息 request: wxid,student,schoolsub 
-				wxTpl(request)
+				$.ajax({
+					url: gDataUrl + 'readOne2nCourseAttendee.php',
+					dataType: "json", 
+					data: obj,
+					success: function(result){	
+						console.log(result.data)
+						// 给出勤学生发送下课模版消息，通知接送等
+						result.data.forEach(function(person){
+							if(person.flag != 0) wxTpl(person) 
+						})
+					},
+				});
 				
-				// 返回 app.pick
+				// 返回 app.pick，更改状态
 				me.reply(obj); 
 			},
 		});
 	}
 	
-	// 一对一单个学生，从企业号发消息到服务号
+	// 一对N学生多个，从企业号发消息到服务号
 	function wxTpl(person){
 		console.log(person);
 		var obj = {
-			wxID       : person.wxID, // 发消息学生家长
-			studentName: person.studentName,
-			zsdName:     person.zsdName,
-			teacherName: person.teacherName,
-			schoolsub  : person.schoolsub, //学生所在分校区，发消息抬头用
-			courseDate : new Date(), // 用于判断今天补点名、不重复点名
+			//courseDate  : new Date(), // 用于判断今天补点名、不重复点名
+			msg     : '今天的一对N课程下课了，如有接送请安排。\n同时，请对本次上课教师进行评价。',
+			wxID    : person.wxID, // 发消息学生家长微信
+			student : person.studentName,
+			teacher : request.teacherName,
+			school  : request.schoolName, //校区，发消息抬头
+			studentID: person.studentID, // 学生id，评价链接用
+			courseNo: request.courseNo, //courseNo+studentID作为评价唯一链接
+			kcTitle : request.kcTitle, //课程
+			hour    : hour 
 		}
 		console.log(obj)
 		$.ajax({

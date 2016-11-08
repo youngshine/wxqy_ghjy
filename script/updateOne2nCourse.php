@@ -10,11 +10,11 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 require_once('db/database_connection.php');
 
 $one2ncourseID = $_REQUEST['one2ncourseID'];
-$beginTime = date('Y-m-d G:i ');
+$now = date('Y-m-d G:i:s');
 $flag = 2; //补签到点名 2-迟到
 
 $query = "UPDATE `ghjy_one2n_course` 
-	SET flag = $flag,beginTime = '$beginTime'    
+	SET flag = $flag,beginTime = '$now'    
 	WHERE one2ncourseID = $one2ncourseID ";
 $result = mysql_query($query);
 	

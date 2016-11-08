@@ -10,12 +10,12 @@ header('Access-Control-Allow-Origin: *'); // 跨域问题
 
 require_once('db/database_connection.php');
 
-$teacherID = $_REQUEST['teacherID'];
-$timely = $_REQUEST['timely'];
+$teacher = $_REQUEST['teacher'];
+$timely = ''; //$_REQUEST['timely'];
 // 不定参数，用数组？？
 //$accntID = $_REQUEST['accntID'];
 
-$one2nstudent = new One2nStudent($teacherID,$timely);
+$one2nstudent = new One2nStudent($teacher,$timely);
 $data = $one2nstudent->getList();
 
 echo json_encode(array(
@@ -27,24 +27,25 @@ echo json_encode(array(
 
 class One2nStudent {
   private $timely;
-  private $teacherID;
+  private $teacher;
   
   //private $query_result; //查询结果集
 
-  public function __construct($teacherID,$timely) {
-	  $this->teacherID = $teacherID;
+  public function __construct($teacher,$timely) {
+	  $this->teacher = $teacher;
 	  $this->timely = $timely;
   }
 	
   public function getList() {	  
 	  // require_once('db_cfg.php');  
 	  //var_dump($this->accntID); 
-	  $query = "SELECT a.*,b.studentName,b.wxID,b.gender,c.title As kcTitle    
+	  $query = "SELECT a.*,b.studentName,b.wxID,b.gender,b.schoolsubID,
+	  	c.userId,c.teacherName,d.fullname AS schoolsub     
 		  From `ghjy_one2n_student` a 
-	  	  Join `ghjy_student` b On a.studentID=b.studentID  
-		  Join `ghjy_accnt_detail` c On a.accntdetailID=c.accntdetailID 
-		  Where a.teacherID=$this->teacherID 
-		  	And a.timely_list Like '%$this->timely%'";  
+	  	  Join `ghjy_student` b On a.studentID=b.studentID 
+		  Join `ghjy_teacher` c On a.teacherID=c.teacherID  
+		  Join `ghjy_school_sub` d On b.schoolsubID=d.schoolsubID   
+		  Where c.userId='$this->teacher' ";  
 	  $result = mysql_query($query);
 
 	  mysql_close($conn); 

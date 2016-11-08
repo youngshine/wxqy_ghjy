@@ -10,7 +10,7 @@ require_once('db/database_connection.php');
 
 $now = date('Y-m-d G:i:s');
 $hour = $_REQUEST['hour'];
-$courseNo = addslashes( $_REQUEST['courseNo'] );
+$courseNo = addslashes( $_REQUEST['courseNo'] ); //unique
 
 $sql = "UPDATE `ghjy_one2n_course` 
 	SET hour = $hour, endTime = '$now'    

@@ -1,5 +1,5 @@
 <?php
-// 根号平台服务号：模版消息--一对一下课，
+// 根号平台服务号：模版消息一对多下课，
 // 没有通过教师APP???，直接在企业号下课
 //根号教育上门家教－发送模版消息 token 微信上墙－现场大屏幕气氛 https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxe7253a6972bd2d4b&secret=c5c604c56402baac2c7ccd98b35ef2f2 
 
@@ -46,32 +46,41 @@ function httpPost($data,$access_token){
 	return $tmpInfo;
 }
 
-$courseID = $_REQUEST['courseID'];
-$wxID = addslashes($_REQUEST['wxID']);
-//$wxID = 'oMEqkuMUKNmxtAxWGrjeOWPRFO20';
-$student = $_REQUEST['studentName'];
-$teacher = $_REQUEST['teacherName'];
-$zsd = addslashes($_REQUEST['zsdName']);
-$courseDate = $_REQUEST['courseDate'];
-//$created = $_REQUEST['created'];
-$schoolsub = addslashes($_REQUEST['schoolsub']);
+$wxID = $_REQUEST['wxID'];
+$student = $_REQUEST['student'];
+$teacher = $_REQUEST['teacher'];
+$school = $_REQUEST['school'];
+$kcTitle = $_REQUEST['kcTitle'];
+//$msg = $_REQUEST['msg'];
+$hour = $_REQUEST['hour'];
+$endTime = date('Y-m-d G:i:s'); //取得时分 y-m-d G:i ？？
+
+$msg = '本次一对N课程于'.date('G:i:s') . '下课了，消耗'.$hour.'课时。';
+
+// 家长评价链接，ghjy_one2n_course表唯一courseNo+studentID
+$courseNo = $_REQUEST['courseNo'];
+$studentID = $_REQUEST['studentID'];
+$urlAssess = 'http://www.xzpt.org/wx_ghjy/one2n_course_assess.html?courseNo='.$courseNo .'&studentID='.$studentID.'&teacher='.$teacher.'&courseDate='.date('Y-m-d');
+
+//$tpl = "U3r7H5ukufFjdG0lND4ewJCeW-UWMKMzfqR6iunydDQ"; //课程完成
+$tpl = 'w-jfUn6P5GzQvNcUAguC2_v66XK_1WSiemBvUjZDzyc'; //课后评价
 
 // 教学课后评价提醒模版，评价页面在公众号wx_ghjy/course_assess.html
 $data = '{
-       "touser":"' . $wxID . '",
-       "template_id":"w-jfUn6P5GzQvNcUAguC2_v66XK_1WSiemBvUjZDzyc",
-       "url":"http://www.xzpt.org/wx_ghjy/course_assess.html?courseDate='.$courseDate .'&wxID='.$wxID.'&courseID='.$courseID.'&teacher='.$teacher.'",            
+       "touser": "' . $wxID . '",
+       "template_id": "' . $tpl . '",
+       "url": "' . $urlAssess . '",           
        "data":{
                "first": {
-                   "value":"今天一对一教学已经下课，请对上课教师进行评价。",
-                   "color":"#173177"
+                   "value": "'.$msg.'",
+                   "color": "#173177"
                },
                "keyword1": {
                    "value":"'.$student.'",
                    "color":"#173177"
                },
                "keyword2": {
-                   "value":"' . $zsd . '",
+                   "value":"' . $kcTitle . '",
                    "color":"#173177"
                },
                "keyword3": {
@@ -79,13 +88,11 @@ $data = '{
                    "color":"#173177"
                },
                "remark":{
-                   "value": "点击详情进入评价界面。\n［'.$schoolsub.'］",
+                   "value": "点击详情对上课教师进行评价，感谢您的支持。\n'.$school.'",
                    "color":"#173177"
                }
        }
    }';
-
-
 
 
 echo httpPost($data);

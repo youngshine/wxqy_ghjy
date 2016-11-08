@@ -50,6 +50,8 @@ $kcTitle = $_REQUEST['kcTitle'];
 $msg = $_REQUEST['msg'];
 $courseDate = date('Y-m-d'); //取得时分 y-m-d G:i ？？
 
+$tpl = "pPB0OAsqTPazHjq31iM07UBs7MxnV4RQLQIxDB4t4Ss";
+
 // 教学课后评价提醒模版，评价页面在公众号wx_ghjy/course_assess.html
 $data = '{
        "touser":"' . $wxID . '",

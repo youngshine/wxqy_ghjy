@@ -41,7 +41,7 @@ switch($menuitem){
 	case "teacher_class":
 		$url = $url . "oAuth2-teacher_class.php";
 		break;
-	case "teacher_class_homework": //大小通的家校通
+	case "teacher_class_homework": //大小通的作业
 		$url = $url . "oAuth2-teacher_class_homework.php";
 		break;
 	case "teacher_class_each": //幼儿个人精彩照片推送
@@ -56,7 +56,10 @@ switch($menuitem){
 	case "teacher_one2n": //一对N
 		$url = $url . "oAuth2-teacher_one2n.php";
 		break;
-	case "teacher_kcb":
+	case "teacher_one2n_homework": //一对多作业
+		$url = $url . "oAuth2-teacher_one2n_homework.php";
+		break;
+	case "teacher_kcb": //教师课程表：大小班，一对N
 		$url = $url . "oAuth2-teacher_kcb.php";
 		break;		
 	case "consult_class":
