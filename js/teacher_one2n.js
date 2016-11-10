@@ -52,7 +52,7 @@ App.controller('home', function (page) {
 				if(time.indexOf(weekday)>=0){
 					if(time.substr(0,2) != grp){
 						grp = time.substr(0,2)
-						$list.append('<label style="padding:10px;color:#888;">' + grp + '</label>')
+						$list.append('<label style="margin:10px;color:#888;">' + grp + '</label>')
 					}
 					
 					var $node = $listItem.clone(true);
@@ -254,7 +254,7 @@ App.controller('rollcall', function (page,request) {
 	function readData(callback,obj){
 		showPrompt('读取一对N学生...'); // 
 		$.ajax({
-			url: gDataUrl + 'readOne2nStudent.php',
+			url: gDataUrl + 'readOne2nStudentByRollcall.php',
 			dataType: "json", 
 			data: obj,
 			//timeout: 6000,
@@ -363,7 +363,20 @@ App.controller('rollcall', function (page,request) {
 						// 发模版消息
 						selPeople.forEach(function(person){
 							// 来上课的，一个个发模版消息，通知家长
-							if(person.flag==1) wxTpl(person) 
+							if(person.flag==1){
+								var objWx = {
+									//courseDate  : new Date(), // 用于判断今天补点名、不重复点名
+									msg     : '今天的一对N课程上课开始。',
+									kcTitle : person.kcTitle, //课程
+									// schoolsub: person.schoolsub,
+									wxID    : person.wxID, // 发消息学生家长微信
+									student : person.studentName,
+									teacher : request.teacherName,
+									school  : request.schoolName, //校区，发消息抬头
+								}
+								console.log(objWx)
+								wxTpl(objWx) 
+							} 
 						})
 						
 						// 返回，参数当前课时编号 app.pick
@@ -374,17 +387,7 @@ App.controller('rollcall', function (page,request) {
 		}
 		
 		// 从企业号切换到服务号，整个数组selPeople群发不行，循环发
-		function wxTpl(person){
-			console.log(person);
-			var obj = {
-				//courseDate  : new Date(), // 用于判断今天补点名、不重复点名
-				msg     : '今天的一对N课程上课开始。',
-				kcTitle : person.kcTitle, //课程
-				wxID    : person.wxID, // 发消息学生家长微信
-				student : person.studentName,
-				teacher : request.teacherName,
-				school  : request.schoolName, //校区，发消息抬头
-			}
+		function wxTpl(obj){
 			console.log(obj)
 			$.ajax({
 			    url: gDataUrl + 'weixinJS_gongzhonghao/wx_msg_tpl_one2n_begin.php',
