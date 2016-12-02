@@ -68,6 +68,7 @@ App.controller('home', function (page) {
 			var $node = $listItem.clone(true);
 			$node.find('.title').text(item.schoolName); 
 			$node.find('.addr').text(item.addr);
+			$node.find('.schoolID').text(item.schoolID);	
 			//display:none
 			$node.find('.id').text(item.schoolID);			
 			$list.append($node);

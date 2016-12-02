@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>根号教育平台</title>
+	<meta charset="utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">	
+	<!-- 
+	<link rel="stylesheet" href="//cdn.kik.com/app/2.0.1/app.min.css">
+		-->
+	<link rel="stylesheet" href="src/app.min.css">	
+	<style>
+		.app-topbar {background:#E82;}
+		
+		/*  msg box */
+		#m {
+			filter: alpha(opacity=30);
+			-moz-opacity: 0.3; 
+			opacity: 0.3;
+			position:absolute;
+			z-index:10000;
+			background-color:none;
+		}
+		#lo {
+			position:absolute;
+			width:150px;
+			height:90px;
+			line-height:90px;
+			background-color:#000;
+			color:#fff;
+			text-align:center;
+			z-index:9999;
+	
+			filter: alpha(opacity=70);
+			-moz-opacity: 0.7; 
+			opacity: 0.7;
+			
+			border-radius:10px;
+			-moz-border-radius:10px; /* Old Firefox */
+		} /* ends - msg box */
+		.list {
+			margin:5px 0;
+		}
+		.list .listItem {
+			background: #fcfcfc;
+			padding: 10px 15px;
+			border: 0px solid #fff;
+			margin:5px;
+			border-radius:10px;
+			-moz-border-radius:10px; /* Old Firefox */
+		}
+	</style>
+  </head>
+
+  <body>
+	  
+    <div class="app-page" data-page="home">
+      <div class="app-topbar">
+          <div class="app-title">明天班级上课通知</div>
+      </div>
+      <div class="app-content">
+    	<div class="list">
+    	  <div class="listItem">
+    	    <div class="">
+  				<span class="title"></span>
+				<span class="check" style="float:right;color:green;">通知</span>
+    	    </div>
+  			<div class="subtitle" style="color:#888;">
+				<span class="schoolsub"></span>
+				
+    		</div>
+  			<div class="subtitle" style="color:#888;">
+				<span class="timely_list"></span>
+				<span class="teacher" style="float:right;"></span>
+    		</div>
+			<!-- 隐藏id 教师企业userid -->
+  			<div class="userId" style="display:none;"></div>
+  			<div class="id" style="display:none;"></div>		
+    	  </div>
+    	</div>
+	  </div>	  
+    </div>	
+
+    <script src="src/zepto.js"></script>
+	<!-- 小米oppo无法点击dialog确定，解决办法
+		<script src="//cdn.kik.com/app/2/app.min.js"></script>
+    
+	-->
+	<script src="src/app.min.js"></script>
+	
+	<script src="js/main.js"></script>		
+	<script src="js/consult_class_notify.js"></script>
+
+	<script>
+		// 中文参数，解决乱码。location.search就无效
+		var url = decodeURI(window.location);
+		//alert(url)
+
+		//采用正则表达式获取地址栏参数
+		function getQueryString(param){
+		     var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)");
+		     //var r = window.location.search.substr(1).match(reg);
+			 url = url.substr(url.indexOf("?") + 1); //取得所有参数
+			 var r = url.match(reg);
+		     if(r!=null)return  unescape(r[2]); return null;
+		}
+	
+		// 全局变量，你的校区，微信号，姓名
+		gUserID = getQueryString("userId");
+		gUserName = getQueryString("userName")
+		gSchoolID = getQueryString("schoolID");// 扩展属性
+
+		App.load('home');
+
+	</script>
+  </body>
+</html>

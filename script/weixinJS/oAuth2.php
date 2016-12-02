@@ -37,7 +37,11 @@ switch($menuitem){
 		break;
 	case "dean_class_jxt":
 		$url = $url . "oAuth2-dean_class_jxt.php";
-		break;					
+		break;	
+	case "dean_homework":
+		$url = $url . "oAuth2-dean_homework.php";
+		break;	
+					
 	case "teacher_class":
 		$url = $url . "oAuth2-teacher_class.php";
 		break;
@@ -80,6 +84,10 @@ switch($menuitem){
 	case "consult_class_jxt":
 		$url = $url . "oAuth2-consult_class_jxt.php";
 		break;	
+	case "consult_class_notify":
+		$url = $url . "oAuth2-consult_class_notify.php";
+		break;
+	
 	case "accnt_daily":
 		$url = $url . "oAuth2-accnt_daily.php";
 		break;

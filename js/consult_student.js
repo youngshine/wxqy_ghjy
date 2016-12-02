@@ -43,8 +43,8 @@ App.controller('home', function (page) {
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
 			$node.find('.name').text(item.studentName); 
-			$node.find('.gender').text('［'+item.gender+'•');
-			$node.find('.grade').text(item.grade+'］');
+			//$node.find('.gender').text('［'+item.gender+'•');
+			$node.find('.grade').text('［'+item.grade+'］');
 			$node.find('.phone').text(item.phone);
 			//display:none
 			$node.find('.created').text(item.created.substr(0,10));
@@ -145,8 +145,7 @@ App.controller('orders', function (page,request) {
 		items.forEach(function (item) {
 			var $node = $listItem.clone(true);
 			$node.find('.title').text(item.title); 
-			$node.find('.weekday').text(item.weekday);
-			$node.find('.timespan').text(item.timespan);
+			$node.find('.timely_list').text(item.timely_list);
 			$node.find('.teacher').text(item.teacherName);
 			//display:none
 			$node.find('.id').text(item.classID);			
@@ -175,7 +174,7 @@ App.controller('orders', function (page,request) {
 	function doOne2one(obj){
 		//showPrompt('加载一对一...');		
 		$.ajax({
-	    	url: gDataUrl + 'readOne2oneListByStudent.php',
+	    	url: gDataUrl + 'readOne2nListByStudent.php',
 			data: obj,
 			dataType: "json",
 			success: function(result){
@@ -183,9 +182,8 @@ App.controller('orders', function (page,request) {
 				console.log(result.data)
 				result.data.forEach(function (item) {
 					var $node = $listItem.clone(true);
-					$node.find('.title').text(item.zsdName); 
-					$node.find('.weekday').text(item.teach_weekday);
-					$node.find('.timespan').text(item.teach_timespan);
+					$node.find('.title').text(item.kcTitle); 
+					$node.find('.timely_list').text(item.timely_list);
 					$node.find('.teacher').text(item.teacherName);
 					//display:none
 					//$node.find('.id').text(item.classID);			
