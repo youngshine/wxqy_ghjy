@@ -13,8 +13,8 @@ $schoolID = $_REQUEST['schoolID']; //企业号自定义schoolID
 $sql = " SELECT ledgerDate,sum(amt_in) AS amt_in,sum(amt_out) AS amt_out 
 	From `ghjy_ledger` 
 	WHERE schoolID = $schoolID 
-	Group By substr(ledgerDate,0,7) 
-	Order By ledgerDate ";	 
+	Group By month(ledgerDate)
+	Order By ledgerDate Desc";	 
 $result = mysql_query($sql) 
 	or die("Invalid query: readLedgerList " . mysql_error());
 

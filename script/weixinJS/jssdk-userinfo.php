@@ -31,7 +31,12 @@ class JSSDK {
   
   // 网页认证oAuth2 code，返回userId
   private function getUserId() {
-	$accessToken = $this->getAccessToken();
+	//$accessToken = $this->getAccessToken();
+  	// 新浪云kvdb高速缓存access_token
+  	$ret = file_get_contents("http://xyzs.sinaapp.com/wx/kvdb_qy.php");
+  	$ret = json_decode($ret); 
+  	//$access_token = $ret->access_token;
+	$accessToken = $ret->access_token;
 	//$code = $this->code;
 	// 应用agentid统一用0（有全部成员）？？？
 	$url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=$accessToken&code=$this->code";

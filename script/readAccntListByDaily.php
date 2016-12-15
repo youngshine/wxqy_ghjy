@@ -17,13 +17,12 @@ $sql = " SELECT accntDate,sum(amount) AS total_amount,
 	Group By accntDate 
 	Order by accntDate Desc";
 */
-$sql = " SELECT accntType,accntDate,sum(amount) AS total_amount,
-	(SELECT sum(af.amount) From `ghjy_accnt_fee` af 
-		WHERE af.accntID=a.accntID ) AS total_done      
+$sql = " SELECT a.accntType,a.accntDate,sum(b.amount) AS total_done, 0 AS total_amount       
 	From `ghjy_accnt` a  
-	Where schoolID=$schoolID 
-	Group By accntDate,accntType 
-	Order by accntDate Desc,accntType";
+	Join `ghjy_accnt_fee` b On a.accntID=b.accntID
+	Where a.schoolID=$schoolID 
+	Group By a.accntDate,a.accntType 
+	Order by a.accntDate Desc,a.accntType ";
 	    
 $result = mysql_query($sql) 
 	or die("Invalid query: readAccntList group by daily" . mysql_error());
